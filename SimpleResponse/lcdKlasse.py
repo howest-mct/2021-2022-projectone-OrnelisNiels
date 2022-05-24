@@ -63,6 +63,9 @@ class lcdKlasse():
         print('test')
         self.send_instruction(0b00000001)
 
+    def set_cursor(self, value):
+        self.send_instruction(0b10000000 | value)
+
     def reset_cursor(self):
         self.send_instruction(0b00000010)
 
