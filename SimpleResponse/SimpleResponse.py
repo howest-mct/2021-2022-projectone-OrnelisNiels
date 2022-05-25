@@ -9,6 +9,9 @@ import time
 
 from subprocess import check_output
 
+global resul
+global test
+
 # lcd object
 rs = 21
 e = 20
@@ -16,20 +19,31 @@ lcdObject = lcdKlasse(rs, e, None, True)
 test = 0
 GPIO.setmode(GPIO.BCM)
 
+status = 0
+
 
 # Knop
 def callback(knop):
     print("test")
 
 
-knop = Button(25)
-knop.on_press(callback)
+def callback_knop(pin):
+    global status
+    if knop.pressed:
+        lcdObject.reset_lcd()
+        status += 1
+        if status >= 2:
+            status = 0
+        print("Status: " + str(status))
+
+
+knop = Button(27)
+knop.on_press(callback_knop)
 
 # IP inlezen en decoderen
 ips = check_output(['hostname', '--all-ip-addresses'])
 ip = ips.decode()
 adressen = ip.split()
-print(adressen)
 
 
 # Joystick
@@ -48,7 +62,6 @@ ldr = SpiClass(0, 2)
 Led1 = RGB(5, 6, 13)
 Led2 = RGB(22, 23, 24)
 Led3 = RGB(12, 16, 19)
-
 try:
     lcdObject.setup()
     lcdObject.init_LCD()
@@ -59,16 +72,7 @@ try:
     Led2.RGB_set(100, 0, 100)
     Led3.RGB_set(100, 100, 0)
     while True:
-        # woord = input("Geef een woord: ")
-        # # tekst()
-        # # cursor().
-        # # send_character(65)
-        # lcdObject.send_message(woord)
-        lcdObject.reset_cursor()
-        lcdObject.eerste_rij()
-        lcdObject.send_message(adressen[0])
-        lcdObject.tweede_rij()
-        lcdObject.send_message(adressen[1])
+        tijd = time.strftime("%H:%M:%S")
         # time.sleep(1)
 
         # Joystick waardes inlezen
@@ -78,7 +82,6 @@ try:
 
         # ldr uitlezen
         resultaat = ldr.readChannel(2)
-        print(resultaat)
         if(resultaat < minimum):
             minimum = resultaat
         elif(resultaat > maximum):
@@ -118,10 +121,26 @@ try:
                 resul = 10
             print(f"De temp is {resul:.2f} ° Celcius")
             begintijd = time.time()
+
+        if status == 0:
+            lcdObject.reset_cursor()
+            lcdObject.eerste_rij()
+            lcdObject.set_cursor(4)
+            lcdObject.send_message(tijd)
+            lcdObject.tweede_rij()
+            lcdObject.send_message(f"{resul:.2f}ßC")
+            lcdObject.set_cursor(0x4A)
+            lcdObject.send_message(str(round(test, 2))+"%")
+        elif status == 1:
+            lcdObject.reset_cursor()
+            lcdObject.eerste_rij()
+            lcdObject.send_message(adressen[0])
+            lcdObject.tweede_rij()
+            lcdObject.send_message(adressen[1])
 except Exception as ex:
     print(ex)
 finally:
-    # lcdObject.reset_lcd()
+    lcdObject.reset_lcd()
     print('\n Script is ten einde, cleanup is klaar')
     # lcdObject.reset_cursor()
     GPIO.cleanup()
