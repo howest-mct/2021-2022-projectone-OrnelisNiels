@@ -11,17 +11,6 @@ class DataRepository:
         return gegevens
 
     @staticmethod
-    def read_status_lampen():
-        sql = "SELECT * from lampen"
-        return Database.get_rows(sql)
-
-    @staticmethod
-    def read_status_lamp_by_id(id):
-        sql = "SELECT * from lampen WHERE id = %s"
-        params = [id]
-        return Database.get_one_row(sql, params)
-
-    @staticmethod
     def update_status_lamp(id, status):
         sql = "UPDATE lampen SET status = %s WHERE id = %s"
         params = [status, id]
@@ -32,3 +21,21 @@ class DataRepository:
         sql = "UPDATE lampen SET status = %s"
         params = [status]
         return Database.execute_sql(sql, params)
+
+    @staticmethod
+    def read_device():
+        sql = "SELECT * from device"
+        return Database.get_rows(sql)
+
+    @staticmethod
+    def read_device_by_id(id):
+        sql = "SELECT * from device WHERE id = %s"
+        params = [id]
+        return Database.get_one_row(sql, params)
+
+    @staticmethod
+    def create_historiek(Device_deviceid, actie_actieid, datum, waarde, commentaar):
+        sql = 'INSERT INTO historiek (Device_deviceid,actie_actieid,bericht_berichtid,datum,waarde,commentaar) VALUES(%s,%s,NULL,%s,%s,%s)'
+        params = [Device_deviceid, actie_actieid, datum, waarde, commentaar]
+        result = Database.execute_sql(sql, params)
+        return result
