@@ -64,6 +64,7 @@ sensor_file_name = '/sys/bus/w1/devices/28-01883800007d/w1_slave'
 
 # Ldr
 ldr = SpiClass(0, 2)
+hysterese = 0
 
 # Rgb leds
 Led1 = RGB(5, 6, 13)
@@ -152,15 +153,20 @@ try:
                 tijd = cur_time
             lcdObject.set_cursor(0x49)
             lcdObject.send_message(f"{resul:.2f}ßC")
-            lcdObject.set_cursor(0x40)
-            lcdObject.send_message(f"{licht:.2f}%")
-            if licht < 100:
-                lcdObject.set_cursor(0x46)
-                lcdObject.send_message("  ")
+            # licht op lcd
+            hysterese = licht - hysterese
+            if abs(hysterese) > 1.5:
+                lcdObject.set_cursor(0x40)
+                lcdObject.send_message(f"{licht:.2f}%")
+                if licht < 100:
+                    lcdObject.set_cursor(0x46)
+                    lcdObject.send_message("  ")
 
-            if licht < 10:
-                lcdObject.set_cursor(0x45)
-                lcdObject.send_message("  ")
+                if licht < 10:
+                    lcdObject.set_cursor(0x45)
+                    lcdObject.send_message("  ")
+                hysterese = licht
+            print(abs(hysterese))
         elif status == 1:
             # lcdObject.reset_cursor()
             lcdObject.eerste_rij()
