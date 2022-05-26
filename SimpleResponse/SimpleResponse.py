@@ -1,3 +1,4 @@
+from numpy import diff
 from lcdKlasse import lcdKlasse
 from klasseKnop import Button
 from spiKlasse import SpiClass
@@ -10,15 +11,15 @@ import time
 from subprocess import check_output
 
 global resul
-global test
+global licht
 
 # lcd object
 rs = 21
 e = 20
 lcdObject = lcdKlasse(rs, e, None, True)
-test = 0
+licht = 0
 GPIO.setmode(GPIO.BCM)
-
+reset = False
 status = 0
 
 
@@ -29,14 +30,19 @@ def callback(knop):
 
 def callback_knop(pin):
     global status
-    if knop.pressed:
-        lcdObject.reset_lcd()
-        status += 1
-        if status >= 2:
-            status = 0
-        print("Status: " + str(status))
+    global reset
+    global tijd
+    global lcdObject
+    print("test")
+    status += 1
+    if status >= 2:
+        status = 0
+        tijd = "gggggggg"
+    reset = True
+    print("Status: " + str(status))
 
 
+status = 0
 knop = Button(27)
 knop.on_press(callback_knop)
 
@@ -44,6 +50,7 @@ knop.on_press(callback_knop)
 ips = check_output(['hostname', '--all-ip-addresses'])
 ip = ips.decode()
 adressen = ip.split()
+print(adressen)
 
 
 # Joystick
@@ -71,9 +78,12 @@ try:
     Led1.RGB_set(0, 100, 100)
     Led2.RGB_set(100, 0, 100)
     Led3.RGB_set(100, 100, 0)
+
+    # controle variabelen
+    tijd = "gggggggg"
+    ldrWaarde = "gggggg"
     while True:
-        tijd = time.strftime("%H:%M:%S")
-        # time.sleep(1)
+        cur_time = time.strftime("%H:%M:%S")
 
         # Joystick waardes inlezen
         xWaarde = joystickX.readChannel(0)
@@ -87,8 +97,8 @@ try:
         elif(resultaat > maximum):
             maximum = resultaat
         if(maximum != minimum):
-            test = 100-(100*((resultaat-minimum)/(maximum-minimum)))
-        print("Ldr waarde: ", str(round(test, 2)), " %")
+            licht = 100-(100*((resultaat-minimum)/(maximum-minimum)))
+        print("Ldr waarde: ", str(round(licht, 2)), " %")
 
         # One wire uitlezen
         if start == True:
@@ -122,22 +132,42 @@ try:
             print(f"De temp is {resul:.2f} ° Celcius")
             begintijd = time.time()
 
+        print(difference)
+
+        if reset == True:
+            print("testje")
+            lcdObject.reset_lcd()
+            reset = False
+
         if status == 0:
-            lcdObject.reset_cursor()
-            lcdObject.eerste_rij()
-            lcdObject.set_cursor(4)
-            lcdObject.send_message(tijd)
-            lcdObject.tweede_rij()
+            # lcdObject.reset_cursor()
+            # lcdObject.send_message(a)
+            if tijd != cur_time:
+                positie = 0
+                for (a, b) in zip(cur_time, tijd):
+                    if a != b:
+                        lcdObject.set_cursor(4+positie)
+                        lcdObject.send_message(a)
+                    positie += 1
+                tijd = cur_time
+            lcdObject.set_cursor(0x49)
             lcdObject.send_message(f"{resul:.2f}ßC")
-            lcdObject.set_cursor(0x4A)
-            lcdObject.send_message(str(round(test, 2))+"%")
+            lcdObject.set_cursor(0x40)
+            lcdObject.send_message(f"{licht:.2f}%")
+            if licht < 100:
+                lcdObject.set_cursor(0x46)
+                lcdObject.send_message("  ")
+
+            if licht < 10:
+                lcdObject.set_cursor(0x45)
+                lcdObject.send_message("  ")
         elif status == 1:
-            lcdObject.reset_cursor()
+            # lcdObject.reset_cursor()
             lcdObject.eerste_rij()
             lcdObject.send_message(adressen[0])
             lcdObject.tweede_rij()
             lcdObject.send_message(adressen[1])
-except Exception as ex:
+except KeyboardInterrupt as ex:
     print(ex)
 finally:
     lcdObject.reset_lcd()
