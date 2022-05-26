@@ -5,8 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SimpleResponse</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="style/screen.css"
+    />
+
+    <script
+      src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+      integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script src="script/datahandler.js"></script> -->
+    <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
-    <h1>SimpleResponse</h1>
+    <h1 class="center">SimpleResponse</h1>
+
+    <div class="center">
+      <button class="c-btn js-btn" knop-id="1">Temperatuur uitlezen</button>
+      <div class="js-temp"></div>
+      <br />
+      <button class="c-btn js-btn" knop-id="2">LDR uitlezen</button>
+      <div class="js-ldr"></div>
+      <br />
+    </div>
   </body>
 </html>
