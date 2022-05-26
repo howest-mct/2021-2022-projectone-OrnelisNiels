@@ -56,8 +56,10 @@ class lcdKlasse():
 
     def init_LCD(self):
         self.send_instruction(0b00111000)
-        self.send_instruction(0b00001111)
-        self.send_instruction(0b00000001)
+        # self.send_instruction(0b00001111)
+        # self.send_instruction(0b00000001)
+        # cursor en streepje uitzetten
+        self.send_instruction(0b00001100)
 
     def reset_lcd(self):
         print('test')
