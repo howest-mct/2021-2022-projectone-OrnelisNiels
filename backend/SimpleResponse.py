@@ -1,3 +1,4 @@
+from h11 import Data
 from helpers.lcdKlasse import lcdKlasse
 from helpers.klasseKnop import Button
 from helpers.spiKlasse import SpiClass
@@ -80,14 +81,42 @@ def toon_sensorwaarde(data):
 def bericht_ontvangen(data):
     global berichtid, inhoud, status, reset, bericht
     inhoud = str(data['berichtinhoud'])
+    id = int(data['id'])
     print(inhoud)
-    DataRepository.create_bericht(inhoud, 1)
+    DataRepository.create_bericht(inhoud, id)
     bericht = DataRepository.read_id_laatste_bericht()
     berichtid = int(bericht[0]['max(berichtid)'])
     DataRepository.create_historiek_bij_bericht(
         10, berichtid, datum, "bericht ontvangen")
     status = 3
     reset = True
+
+
+@socketio.on('F2B_maak_gebruiker')
+def maak_gebruiker(data):
+    gebruiker = str(data['gebruikersnaam'])
+    controle = DataRepository.read_user_by_naam(gebruiker)
+    if(controle):
+        print("Error: Gebruiker bestaat al!")
+        emit('B2F_toon_error', {
+            'error': "Error: Gebruiker bestaat al!"})
+    else:
+        DataRepository.create_user(gebruiker)
+        emit('B2F_toon_succes', {
+            'message': "Gebruiker toegevoegd. Dag ", "gebruiker": gebruiker})
+
+
+@socketio.on('F2B_login')
+def log_in(data):
+    gebruiker = str(data['gebruikersnaam'])
+    controle = DataRepository.read_user_by_naam(gebruiker)
+    id = int(controle['gebruikerid'])
+    if(controle):
+        emit('B2F_log_in_succes', {
+            'id': id})
+    else:
+        emit('B2F_log_in_error', {
+            'message': "Gebruiker bestaat niet, gelieve een gebruiker aan te maken."})
 
 
 # lcd object

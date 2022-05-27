@@ -3,9 +3,40 @@ const socketio = io(`http://${lanIP}`);
 
 let htmlInloggen, htmlRegistreren;
 
+const listenToInloggen = function () {
+  htmlInloggen.addEventListener('click', function () {
+    const htmlGebruiker = document.querySelector('.js-gebruiker');
+    console.log(htmlGebruiker.value);
+    bestaandeGebruiker = htmlGebruiker.value;
+    socketio.emit('F2B_login', { gebruikersnaam: bestaandeGebruiker });
+  });
+
+  socketio.on('B2F_log_in_succes', function (jsonObject) {
+    console.log(jsonObject.id);
+    html = `<a href="home.html?id=${jsonObject.id}" class="c-btn__link js-login">Login</a>`;
+    htmlInloggen.innerHTML = html;
+  });
+};
+
 const listenToRegistreren = function () {
   htmlRegistreren.addEventListener('click', function () {
-    console.log(this);
+    const htmlNieuweGebruiker = document.querySelector('.js-nieuweGebruiker');
+    console.log(htmlNieuweGebruiker.value);
+    gebruiker = htmlNieuweGebruiker.value;
+    socketio.emit('F2B_maak_gebruiker', { gebruikersnaam: gebruiker });
+  });
+  socketio.on('B2F_toon_error', function (jsonObject) {
+    console.log(jsonObject.error);
+    const htmlMessage = document.querySelector('.js-message');
+    html = `<p>${jsonObject.error}</p>`;
+    htmlMessage.innerHTML = html;
+  });
+
+  socketio.on('B2F_toon_succes', function (jsonObject) {
+    console.log(jsonObject.message);
+    const htmlMessage = document.querySelector('.js-message');
+    html = `<p>${jsonObject.message}${jsonObject.gebruiker}!</p>`;
+    htmlMessage.innerHTML = html;
   });
 };
 
@@ -27,9 +58,12 @@ const listenToUI = function () {
         });
       } else if (id == 3) {
         const bericht = document.querySelector('.js-bericht');
+        let urlParams = new URLSearchParams(window.location.search);
+        let idGebruiker = urlParams.get('id');
         socketio.emit('F2B_verstuur_bericht', {
           knopid: id,
           berichtinhoud: bericht.value,
+          id: idGebruiker,
         });
       }
     });
@@ -60,14 +94,21 @@ const init = function () {
   console.info('DOM geladen');
   htmlRegistreren = document.querySelector('.js-registreren');
   htmlInloggen = document.querySelector('.js-login');
+  let urlParams = new URLSearchParams(window.location.search);
+  let idGebruiker = urlParams.get('id');
   if (htmlRegistreren) {
     console.log('Registreren');
     listenToRegistreren();
   } else if (htmlInloggen) {
     console.log('Inloggen');
+    listenToInloggen();
   } else {
-    listenToUI();
-    listenToSocket();
+    if (idGebruiker) {
+      listenToUI();
+      listenToSocket();
+    } else {
+      window.location.href = 'index.html';
+    }
   }
 };
 

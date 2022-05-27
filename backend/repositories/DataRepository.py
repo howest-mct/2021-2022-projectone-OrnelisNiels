@@ -65,3 +65,16 @@ class DataRepository:
     def read_id_laatste_bericht():
         sql = "SELECT max(berichtid) from bericht"
         return Database.get_rows(sql)
+
+    @staticmethod
+    def create_user(naam):
+        sql = 'INSERT INTO gebruiker (naam) VALUES(%s)'
+        params = [naam]
+        result = Database.execute_sql(sql, params)
+        return result
+
+    @staticmethod
+    def read_user_by_naam(naam):
+        sql = "SELECT * FROM gebruiker WHERE naam = %s"
+        params = [naam]
+        return Database.get_one_row(sql, params)
