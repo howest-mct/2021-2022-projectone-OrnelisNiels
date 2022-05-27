@@ -1,6 +1,14 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socketio = io(`http://${lanIP}`);
 
+let htmlInloggen, htmlRegistreren;
+
+const listenToRegistreren = function () {
+  htmlRegistreren.addEventListener('click', function () {
+    console.log(this);
+  });
+};
+
 const listenToUI = function () {
   const knoppen = document.querySelectorAll('.js-btn');
   for (const knop of knoppen) {
@@ -50,8 +58,17 @@ const listenToSocket = function () {
 
 const init = function () {
   console.info('DOM geladen');
-  listenToUI();
-  listenToSocket();
+  htmlRegistreren = document.querySelector('.js-registreren');
+  htmlInloggen = document.querySelector('.js-login');
+  if (htmlRegistreren) {
+    console.log('Registreren');
+    listenToRegistreren();
+  } else if (htmlInloggen) {
+    console.log('Inloggen');
+  } else {
+    listenToUI();
+    listenToSocket();
+  }
 };
 
 document.addEventListener('DOMContentLoaded', init);

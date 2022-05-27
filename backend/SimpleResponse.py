@@ -1,5 +1,3 @@
-from h11 import Data
-from numpy import diff
 from helpers.lcdKlasse import lcdKlasse
 from helpers.klasseKnop import Button
 from helpers.spiKlasse import SpiClass
@@ -79,11 +77,8 @@ def toon_sensorwaarde(data):
 
 
 @socketio.on('F2B_verstuur_bericht')
-def bericht(data):
-    global berichtid
-    global inhoud
-    global status
-    global bericht
+def bericht_ontvangen(data):
+    global berichtid, inhoud, status, reset, bericht
     inhoud = str(data['berichtinhoud'])
     print(inhoud)
     DataRepository.create_bericht(inhoud, 1)
@@ -92,9 +87,10 @@ def bericht(data):
     DataRepository.create_historiek_bij_bericht(
         10, berichtid, datum, "bericht ontvangen")
     status = 3
+    reset = True
 
 
-    # lcd object
+# lcd object
 rs = 21
 e = 20
 lcdObject = lcdKlasse(rs, e, None, True)
@@ -108,18 +104,25 @@ berichtid = 0
 
 def callback(knop):
     print("test")
+    global status, reset
+    if status == 3:
+        status += 1
+        lcdObject.send_instruction(0b00001111)
+        reset = True
+    elif status == 4:
+        status = 3
+        lcdObject.send_instruction(0b00001100)
+        reset = True
 
 
 def callback_knop(pin):
-    global status
-    global reset
-    global tijd
-    global lcdObject
+    global status, reset, tijd, lcdObject
     print("test")
     status += 1
     if status >= 2:
         status = 0
         tijd = "gggggggg"
+        lcdObject.send_instruction(0b00001100)
     reset = True
     print("Status: " + str(status))
 
@@ -166,6 +169,10 @@ def start_thread():
     print("**** Starting THREAD ****")
     thread = threading.Thread(target=programma, args=(), daemon=True)
     thread.start()
+
+
+# def globale():
+#     global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum
 
 
 def start_chrome_kiosk():
@@ -226,7 +233,7 @@ def programma():
         # Joystick waardes inlezen
         xWaarde = joystickX.readChannel(0)
         yWaarde = joystickY.readChannel(1)
-        print(str(xWaarde) + " " + str(yWaarde))
+        # print(str(xWaarde) + " " + str(yWaarde))
 
         # ldr uitlezen
         resultaat = ldr.readChannel(2)
@@ -236,7 +243,7 @@ def programma():
             maximum = resultaat
         if(maximum != minimum):
             licht = 100-(100*((resultaat-minimum)/(maximum-minimum)))
-        print("Ldr waarde: ", str(round(licht, 2)), " %")
+        # print("Ldr waarde: ", str(round(licht, 2)), " %")
 
         # One wire uitlezen
         if start == True:
@@ -320,7 +327,7 @@ def programma():
                     lcdObject.set_cursor(0x45)
                     lcdObject.send_message("  ")
                 hysterese = licht
-            print(abs(hysterese))
+            # print(abs(hysterese))
         elif status == 1:
             # lcdObject.reset_cursor()
             lcdObject.eerste_rij()
@@ -328,7 +335,15 @@ def programma():
             lcdObject.tweede_rij()
             lcdObject.send_message(adressen[1])
         elif status == 3:
+            lcdObject.eerste_rij()
             lcdObject.send_message(inhoud)
+        elif status == 4:
+            lcdObject.tweede_rij()
+            lcdObject.set_cursor(0x40)
+            lcdObject.send_message("Nee")
+            lcdObject.set_cursor(0x49)
+            lcdObject.send_message("Ja")
+        print(status)
 
 
 if __name__ == '__main__':
