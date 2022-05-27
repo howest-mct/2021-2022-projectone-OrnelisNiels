@@ -17,6 +17,12 @@ const listenToUI = function () {
         socketio.emit('F2B_toon_sensorwaarde', {
           knopid: id,
         });
+      } else if (id == 3) {
+        const bericht = document.querySelector('.js-bericht');
+        socketio.emit('F2B_verstuur_bericht', {
+          knopid: id,
+          berichtinhoud: bericht.value,
+        });
       }
     });
   }

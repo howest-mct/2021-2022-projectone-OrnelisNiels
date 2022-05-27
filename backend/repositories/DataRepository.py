@@ -39,3 +39,29 @@ class DataRepository:
         params = [Device_deviceid, actie_actieid, datum, waarde, commentaar]
         result = Database.execute_sql(sql, params)
         return result
+
+    @staticmethod
+    def create_historiek_bij_bericht(actie_actieid, bericht_berichtid, datum, commentaar):
+        sql = 'INSERT INTO historiek (Device_deviceid,actie_actieid,bericht_berichtid,datum,waarde,commentaar) VALUES(NULL,%s,%s,%s,NULL,%s)'
+        params = [actie_actieid, bericht_berichtid, datum, commentaar]
+        result = Database.execute_sql(sql, params)
+        return result
+
+    @staticmethod
+    def create_bericht(berichtinhoud, gebruiker_gebruikerid):
+        sql = 'INSERT INTO bericht (berichtinhoud, gebruiker_gebruikerid) VALUES(%s,%s)'
+        params = [berichtinhoud, gebruiker_gebruikerid]
+        result = Database.execute_sql(sql, params)
+        return result
+
+    @staticmethod
+    def create_user(naam):
+        sql = 'INSERT INTO bericht (naam) VALUES(%s)'
+        params = [naam]
+        result = Database.execute_sql(sql, params)
+        return result
+
+    @staticmethod
+    def read_id_laatste_bericht():
+        sql = "SELECT max(berichtid) from bericht"
+        return Database.get_rows(sql)

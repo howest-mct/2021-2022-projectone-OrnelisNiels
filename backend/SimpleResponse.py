@@ -55,7 +55,7 @@ def initial_connection():
 
 
 @socketio.on('F2B_toon_sensorwaarde')
-def switch_light(data):
+def toon_sensorwaarde(data):
     # Ophalen van de data
     id = data['knopid']
     print(id)
@@ -77,6 +77,23 @@ def switch_light(data):
         emit('B2F_licht_uitlezen', {
             'licht': round(licht, 2)})
 
+
+@socketio.on('F2B_verstuur_bericht')
+def bericht(data):
+    global berichtid
+    global inhoud
+    global status
+    global bericht
+    inhoud = str(data['berichtinhoud'])
+    print(inhoud)
+    DataRepository.create_bericht(inhoud, 1)
+    bericht = DataRepository.read_id_laatste_bericht()
+    berichtid = int(bericht[0]['max(berichtid)'])
+    DataRepository.create_historiek_bij_bericht(
+        10, berichtid, datum, "bericht ontvangen")
+    status = 3
+
+
     # lcd object
 rs = 21
 e = 20
@@ -85,9 +102,10 @@ licht = 0
 GPIO.setmode(GPIO.BCM)
 reset = False
 status = 0
-
-
+berichtid = 0
 # Joystickknop
+
+
 def callback(knop):
     print("test")
 
@@ -141,9 +159,9 @@ maximum = 0
 #  controle variabelen
 tijd = "gggggggg"
 ldrWaarde = "gggggg"
-
-
 # fullstack
+
+
 def start_thread():
     print("**** Starting THREAD ****")
     thread = threading.Thread(target=programma, args=(), daemon=True)
@@ -197,7 +215,7 @@ def setup():
 
 
 def programma():
-    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht
+    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -239,11 +257,11 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            DataRepository.create_historiek(
-                1, 1, datum, round(resul, 2), "Temp inlezen")
+            # DataRepository.create_historiek(
+            #     1, 1, datum, round(resul, 2), "Temp inlezen")
 
-            DataRepository.create_historiek(
-                2, 2, datum, round(licht, 2), "Ldr inlezen")
+            # DataRepository.create_historiek(
+            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
 
         eindtijd = time.time()
         difference = int(eindtijd)-(begintijd)
@@ -264,10 +282,10 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            DataRepository.create_historiek(
-                1, 1, datum, round(resul, 2), "Temp inlezen")
-            DataRepository.create_historiek(
-                2, 2, datum, round(licht, 2), "Ldr inlezen")
+            # DataRepository.create_historiek(
+            #     1, 1, datum, round(resul, 2), "Temp inlezen")
+            # DataRepository.create_historiek(
+            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
 
         print(difference)
 
@@ -309,6 +327,8 @@ def programma():
             lcdObject.send_message(adressen[0])
             lcdObject.tweede_rij()
             lcdObject.send_message(adressen[1])
+        elif status == 3:
+            lcdObject.send_message(inhoud)
 
 
 if __name__ == '__main__':

@@ -11,11 +11,18 @@ html {
 body {
   transition: all 0.14s ease-in;
 }
-
 .c-btn{
-  font-size: 20px
+  font-size: 24px
 }
 .center {
   padding-top: 15px;
   text-align: center;
+  font-size: 20px;
+}
+
+.c-bericht{
+  font-size: 30px;
+}
+.size{
+  font-size: 36px;
 }

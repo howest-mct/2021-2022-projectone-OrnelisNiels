@@ -22,8 +22,7 @@
     <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
-    <h1 class="center">SimpleResponse</h1>
-
+    <h1 class="center size">SimpleResponse</h1>
     <div class="center">
       <button class="c-btn js-btn" knop-id="1">Temperatuur uitlezen</button>
       <div class="js-temp"></div>
@@ -31,6 +30,22 @@
       <button class="c-btn js-btn" knop-id="2">LDR uitlezen</button>
       <div class="js-ldr"></div>
       <br />
+      <form action="" method="POST">
+        <label class="c-bericht" for="vn">Bericht</label>
+        <br />
+        <br />
+        <input
+          class="c-bericht js-bericht"
+          type="text"
+          name="voornaam"
+          id="vn"
+          maxlength="128"
+          required
+        />
+        <br />
+        <br />
+        <button class="c-btn js-btn" knop-id="3">Versturen</button>
+      </form>
     </div>
   </body>
 </html>
