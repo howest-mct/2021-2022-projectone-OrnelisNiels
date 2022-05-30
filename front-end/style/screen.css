@@ -451,7 +451,7 @@ a:focus {
 
 .c-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -528,6 +528,12 @@ textarea button {
 .c-nav {
     font-size: 14px;
     line-height: 24px;
+}
+
+.c-header__test{
+    position:absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .c-nav__link {

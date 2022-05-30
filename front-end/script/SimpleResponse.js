@@ -1,7 +1,13 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socketio = io(`http://${lanIP}`);
 
-let htmlInloggen, htmlRegistreren, htmlHome, htmlHistoriek;
+let htmlInloggen,
+  htmlRegistreren,
+  htmlHome,
+  htmlHistoriek,
+  htmlNavHome,
+  htmlNavMessage,
+  htmlNavHistoriek;
 
 const listenToInloggen = function () {
   htmlInloggen.addEventListener('click', function () {
@@ -90,12 +96,27 @@ const listenToSocket = function () {
   });
 };
 
+const gebruiker = function () {
+  console.log('test');
+  let urlParams = new URLSearchParams(window.location.search);
+  let idGebruiker = urlParams.get('id');
+  nieuweHome = `<a href="home.html?id=${idGebruiker}" class="c-nav__link js-nav">Home</a>`;
+  nieweMessage = `<a href="bericht.html?id=${idGebruiker}" class="c-nav__link js-nav">Bericht</a>`;
+  nieuweHistoriek = `<a href="historiek.html?id=${idGebruiker}" class="c-nav__link js-nav">Historiek</a>`;
+  htmlNavHome.innerHTML = nieuweHome;
+  htmlNavMessage.innerHTML = nieweMessage;
+  htmlNavHistoriek.innerHTML = nieuweHistoriek;
+};
+
 const init = function () {
   console.info('DOM geladen');
   htmlRegistreren = document.querySelector('.js-registreren');
   htmlInloggen = document.querySelector('.js-login');
   htmlHome = document.querySelector('.js-home');
   htmlHistoriek = document.querySelector('.js-historiek');
+  htmlNavHome = document.querySelector('.js-navHome');
+  htmlNavMessage = document.querySelector('.js-navMessage');
+  htmlNavHistoriek = document.querySelector('.js-navHistoriek');
   let urlParams = new URLSearchParams(window.location.search);
   let idGebruiker = urlParams.get('id');
   if (htmlRegistreren) {
@@ -110,6 +131,7 @@ const init = function () {
         console.log('Home');
         listenToUI();
         listenToSocket();
+        gebruiker();
       } else if (htmlHistoriek) {
         console.log('Historiek');
       }
