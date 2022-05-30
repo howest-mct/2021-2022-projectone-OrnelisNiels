@@ -1,3 +1,4 @@
+from itertools import cycle
 from h11 import Data
 from helpers.lcdKlasse import lcdKlasse
 from helpers.klasseKnop import Button
@@ -77,7 +78,33 @@ def toon_sensorwaarde(data):
             'licht': round(licht, 2)})
 
 
-@socketio.on('F2B_verstuur_bericht')
+@socketio.on('F2B_verander_kleur')
+def verander_kleur(data):
+    global cyclus, test
+    kleur = data['kleur']
+    # print(kleur)
+    if cyclus == True:
+        stop_rainbow()
+        cyclus = False
+    if kleur == "rood":
+        Led1.RGB_set(0, 100, 100)
+        Led2.RGB_set(0, 100, 100)
+        Led3.RGB_set(0, 100, 100)
+    elif kleur == "groen":
+        Led1.RGB_set(100, 0, 100)
+        Led2.RGB_set(100, 0, 100)
+        Led3.RGB_set(100, 0, 100)
+    elif kleur == "blauw":
+        Led1.RGB_set(100, 100, 0)
+        Led2.RGB_set(100, 100, 0)
+        Led3.RGB_set(100, 100, 0)
+    elif kleur == "cycle":
+        cyclus = True
+        print("start_rainbow")
+        start_rainbow()
+
+
+@ socketio.on('F2B_verstuur_bericht')
 def bericht_ontvangen(data):
     global berichtid, inhoud, status, reset, bericht
     inhoud = str(data['berichtinhoud'])
@@ -92,7 +119,7 @@ def bericht_ontvangen(data):
     reset = True
 
 
-@socketio.on('F2B_maak_gebruiker')
+@ socketio.on('F2B_maak_gebruiker')
 def maak_gebruiker(data):
     gebruiker = str(data['gebruikersnaam'])
     controle = DataRepository.read_user_by_naam(gebruiker)
@@ -106,7 +133,7 @@ def maak_gebruiker(data):
             'message': "Gebruiker toegevoegd. Dag ", "gebruiker": gebruiker})
 
 
-@socketio.on('F2B_login')
+@ socketio.on('F2B_login')
 def log_in(data):
     gebruiker = str(data['gebruikersnaam'])
     controle = DataRepository.read_user_by_naam(gebruiker)
@@ -128,6 +155,8 @@ GPIO.setmode(GPIO.BCM)
 reset = False
 status = 0
 berichtid = 0
+
+cyclus = False
 # Joystickknop
 
 
@@ -193,11 +222,73 @@ tijd = "gggggggg"
 ldrWaarde = "gggggg"
 # fullstack
 
+rainbowTask = None
+
+
+class RainbowTask:
+
+    def __init__(self):
+        self._running = True
+
+    def terminate(self):
+        self._running = False
+
+    def run(self):
+        rood = 0
+        groen = 100
+        blauw = 100
+        while self._running:
+            if rood == 0:
+                while rood != 100 and cyclus == True:
+                    time.sleep(0.2)
+                    rood += 1
+                    groen -= 1
+                    Led1.RGB_set(rood, groen, blauw)
+                    Led2.RGB_set(rood, groen, blauw)
+                    Led3.RGB_set(rood, groen, blauw)
+                time.sleep(2)
+            elif groen == 0:
+                while groen != 100 and cyclus == True:
+                    time.sleep(0.2)
+                    blauw -= 1
+                    groen += 1
+                    Led1.RGB_set(rood, groen, blauw)
+                    Led2.RGB_set(rood, groen, blauw)
+                    Led3.RGB_set(rood, groen, blauw)
+                time.sleep(2)
+            elif blauw == 0:
+                while blauw != 100 and cyclus == True:
+                    time.sleep(0.2)
+                    rood -= 1
+                    blauw += 1
+                    Led1.RGB_set(rood, groen, blauw)
+                    Led2.RGB_set(rood, groen, blauw)
+                    Led3.RGB_set(rood, groen, blauw)
+                time.sleep(2)
+        # if cyclus == True:
+        # stop_rainbow()
+        # cyclus = False
+
 
 def start_thread():
     print("**** Starting THREAD ****")
     thread = threading.Thread(target=programma, args=(), daemon=True)
     thread.start()
+
+
+def start_rainbow():
+    global rainbowTask
+    print("**** Starting THREAD ****")
+    rainbowTask = RainbowTask()
+    thread = threading.Thread(target=rainbowTask.run, args=(), daemon=True)
+    thread.start()
+
+
+def stop_rainbow():
+    global rainbowTask
+    print("**** Stop THREAD ****")
+    # thread = threading.Thread(target=rainbow, args=(), daemon=True)
+    rainbowTask.terminate()
 
 
 # def globale():
@@ -245,9 +336,9 @@ def setup():
     lcdObject.setup()
     lcdObject.init_LCD()
 
-    Led1.RGB_set(0, 100, 100)
-    Led2.RGB_set(100, 0, 100)
-    Led3.RGB_set(100, 100, 0)
+    # Led1.RGB_set(0, 100, 100)
+    # Led2.RGB_set(100, 0, 100)
+    # Led3.RGB_set(100, 100, 0)
 
 
 def programma():
@@ -323,7 +414,7 @@ def programma():
             # DataRepository.create_historiek(
             #     2, 2, datum, round(licht, 2), "Ldr inlezen")
 
-        print(difference)
+        # print(difference)
 
         if reset == True:
             print("testje")
@@ -372,7 +463,7 @@ def programma():
             lcdObject.send_message("Nee")
             lcdObject.set_cursor(0x49)
             lcdObject.send_message("Ja")
-        print(status)
+        # print(status)
 
 
 if __name__ == '__main__':

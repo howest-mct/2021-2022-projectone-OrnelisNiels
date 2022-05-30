@@ -24,19 +24,62 @@
     <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
-    <div class="c-header">
-      <h1 class="center size">SimpleResponse</h1>
-    </div>
-    <div class="center js-historiek">
-      <button class="c-btn__link js-btn" knop-id="1">
-        Temperatuur uitlezen
-      </button>
-      <div class="js-temp"></div>
-      <br />
-      <button class="c-btn__link js-btn" knop-id="2">LDR uitlezen</button>
-      <div class="js-ldr"></div>
-      <br />
-      </form>
+    <header class="o-row o-row--border o-row--primary">
+      <div class="o-container u-max-width-xl">
+        <div class="c-header">
+          <div class="c-header__logo">
+            <h1 class="c-logo">
+              <div class="c-title">SimpleResponse</div>
+            </h1>
+          </div>
+          <div class="c-header__nav">
+            <div class="c-header__test">
+              <nav class="c-nav">
+              <ul class="o-list c-nav__list">
+                <li class="c-nav__item">
+                  <a href="home.html" class="c-nav__link js-navHome">Home</a>
+                </li>
+                <li class="c-nav__item">
+                  <a href="bericht.html" class="c-nav__link js-navMessage">Bericht</a>
+                </li>
+                <li class="c-nav__item">
+                  <a href="historiek.html" class="c-nav__link js-navHistoriek">Historiek</a>
+                </li>
+              </ul>
+            </nav>
+            </div>
+          </div>
+          <p class="c-header__link">
+            <a href="index.html" class="c-btn__link c-link-cta--white">Log out</a>
+          </p>
+        </div>
+      </div>
+    </header>
+    </section>
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="o-layout__item u-1-of-2-bp3">
+              <form action="" method="POST">
+              <h2><label class="c-bericht c-lead c-lead--lg" for="vn">Bericht</label></h2>
+            </div>
+            <div class="o-layout__item u-1-of-2-bp3">
+              <input
+                class="c-lead c-lead--lg c-bericht js-bericht"
+                type="text"
+                name="voornaam"
+                id="vn"
+                maxlength="128"
+                required
+              />
+              <button class="c-btn__link js-send">Versturen</button>
+              </form>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
     </div>
   </body>
 </html>

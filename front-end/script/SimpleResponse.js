@@ -71,6 +71,26 @@ const listenToUI = function () {
           berichtinhoud: bericht.value,
           id: idGebruiker,
         });
+      } else if (id == 4) {
+        socketio.emit('F2B_verander_kleur', {
+          knopid: id,
+          kleur: 'rood',
+        });
+      } else if (id == 5) {
+        socketio.emit('F2B_verander_kleur', {
+          knopid: id,
+          kleur: 'groen',
+        });
+      } else if (id == 6) {
+        socketio.emit('F2B_verander_kleur', {
+          knopid: id,
+          kleur: 'blauw',
+        });
+      } else if (id == 7) {
+        socketio.emit('F2B_verander_kleur', {
+          knopid: id,
+          kleur: 'cycle',
+        });
       }
     });
   }
@@ -96,6 +116,20 @@ const listenToSocket = function () {
   });
 };
 
+const listenToSocketBericht = function () {
+  const verstuurKnop = document.querySelector('.js-send');
+  verstuurKnop.addEventListener('click', function () {
+    const bericht = document.querySelector('.js-bericht');
+    let urlParams = new URLSearchParams(window.location.search);
+    let idGebruiker = urlParams.get('id');
+    if (bericht.value != '')
+      socketio.emit('F2B_verstuur_bericht', {
+        berichtinhoud: bericht.value,
+        id: idGebruiker,
+      });
+  });
+};
+
 const gebruiker = function () {
   console.log('test');
   let urlParams = new URLSearchParams(window.location.search);
@@ -106,6 +140,7 @@ const gebruiker = function () {
   htmlNavHome.innerHTML = nieuweHome;
   htmlNavMessage.innerHTML = nieweMessage;
   htmlNavHistoriek.innerHTML = nieuweHistoriek;
+  console.log(idGebruiker);
 };
 
 const init = function () {
@@ -114,6 +149,7 @@ const init = function () {
   htmlInloggen = document.querySelector('.js-login');
   htmlHome = document.querySelector('.js-home');
   htmlHistoriek = document.querySelector('.js-historiek');
+  htmlBericht = document.querySelector('.js-bericht');
   htmlNavHome = document.querySelector('.js-navHome');
   htmlNavMessage = document.querySelector('.js-navMessage');
   htmlNavHistoriek = document.querySelector('.js-navHistoriek');
@@ -134,6 +170,11 @@ const init = function () {
         gebruiker();
       } else if (htmlHistoriek) {
         console.log('Historiek');
+        gebruiker();
+      } else if (htmlBericht) {
+        console.log('Bericht');
+        listenToSocketBericht();
+        gebruiker();
       }
     } else {
       window.location.href = 'index.html';
