@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SimpleResponse | Message</title>
+
+    <link rel="icon" href="Favicon2.png" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen"
+      href="style/screen.css"
+    />
+
+    <script
+      src="https://cdn.socket.io/4.4.1/socket.io.min.js"
+      integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <script src="script/datahandler.js"></script> -->
+    <script src="script/SimpleResponse.js"></script>
+  </head>
+  <body>
+    <div class="c-header">
+      <h1 class="center size">SimpleResponse</h1>
+    </div>
+    <div class="center js-historiek">
+      <button class="c-btn__link js-btn" knop-id="1">
+        Temperatuur uitlezen
+      </button>
+      <div class="js-temp"></div>
+      <br />
+      <button class="c-btn__link js-btn" knop-id="2">LDR uitlezen</button>
+      <div class="js-ldr"></div>
+      <br />
+      </form>
+    </div>
+  </body>
+</html>

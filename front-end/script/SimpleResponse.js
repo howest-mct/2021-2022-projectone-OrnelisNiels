@@ -1,7 +1,7 @@
 const lanIP = `${window.location.hostname}:5000`;
 const socketio = io(`http://${lanIP}`);
 
-let htmlInloggen, htmlRegistreren;
+let htmlInloggen, htmlRegistreren, htmlHome, htmlHistoriek;
 
 const listenToInloggen = function () {
   htmlInloggen.addEventListener('click', function () {
@@ -94,6 +94,8 @@ const init = function () {
   console.info('DOM geladen');
   htmlRegistreren = document.querySelector('.js-registreren');
   htmlInloggen = document.querySelector('.js-login');
+  htmlHome = document.querySelector('.js-home');
+  htmlHistoriek = document.querySelector('.js-historiek');
   let urlParams = new URLSearchParams(window.location.search);
   let idGebruiker = urlParams.get('id');
   if (htmlRegistreren) {
@@ -104,8 +106,13 @@ const init = function () {
     listenToInloggen();
   } else {
     if (idGebruiker) {
-      listenToUI();
-      listenToSocket();
+      if (htmlHome) {
+        console.log('Home');
+        listenToUI();
+        listenToSocket();
+      } else if (htmlHistoriek) {
+        console.log('Historiek');
+      }
     } else {
       window.location.href = 'index.html';
     }
