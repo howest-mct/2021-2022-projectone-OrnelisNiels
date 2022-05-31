@@ -62,15 +62,15 @@ const listenToUI = function () {
         socketio.emit('F2B_toon_sensorwaarde', {
           knopid: id,
         });
-      } else if (id == 3) {
-        const bericht = document.querySelector('.js-bericht');
-        let urlParams = new URLSearchParams(window.location.search);
-        let idGebruiker = urlParams.get('id');
-        socketio.emit('F2B_verstuur_bericht', {
-          knopid: id,
-          berichtinhoud: bericht.value,
-          id: idGebruiker,
-        });
+        // } else if (id == 3) {
+        //   const bericht = document.querySelector('.js-bericht');
+        //   let urlParams = new URLSearchParams(window.location.search);
+        //   let idGebruiker = urlParams.get('id');
+        //   socketio.emit('F2B_verstuur_bericht', {
+        //     knopid: id,
+        //     berichtinhoud: bericht.value,
+        //     id: idGebruiker,
+        //   });
       } else if (id == 4) {
         socketio.emit('F2B_verander_led', {
           knopid: id,
@@ -98,6 +98,16 @@ const listenToUI = function () {
         });
       } else if (id == 9) {
         socketio.emit('F2B_verander_led', {
+          knopid: id,
+          actie: 'uit',
+        });
+      } else if (id == 10) {
+        socketio.emit('F2B_verander_ventilator', {
+          knopid: id,
+          actie: 'aan',
+        });
+      } else if (id == 11) {
+        socketio.emit('F2B_verander_ventilator', {
           knopid: id,
           actie: 'uit',
         });

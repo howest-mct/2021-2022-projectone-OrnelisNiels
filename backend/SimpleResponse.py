@@ -22,6 +22,7 @@ from repositories.DataRepository import DataRepository
 
 from selenium import webdriver
 
+
 # Code voor Flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'geheim!'
@@ -114,6 +115,17 @@ def verander_kleur(data):
         Led1.RGB_set(100, 100, 100)
         Led2.RGB_set(100, 100, 100)
         Led3.RGB_set(100, 100, 100)
+
+
+@socketio.on('F2B_verander_ventilator')
+def verander_kleur(data):
+    global motorpwm
+    actie = data['actie']
+    print(actie)
+    if actie == "aan":
+        motorpwm.ChangeDutyCycle(100)
+    elif actie == "uit":
+        motorpwm.ChangeDutyCycle(0)
 
 
 @ socketio.on('F2B_verstuur_bericht')
@@ -374,12 +386,18 @@ def vorige_kleur():
 
 
 def setup():
+    global motorpwm
     lcdObject.setup()
     lcdObject.init_LCD()
 
     Led1.RGB_set(100, 100, 100)
     Led2.RGB_set(100, 100, 100)
     Led3.RGB_set(100, 100, 100)
+    motor = 25
+    GPIO.setup(motor, GPIO.OUT)
+    motorpwm = GPIO.PWM(motor, 1000)
+    motorpwm.start(0)
+    motorpwm.ChangeDutyCycle(0)
 
 
 def programma():
