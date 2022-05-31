@@ -78,35 +78,47 @@ def toon_sensorwaarde(data):
             'licht': round(licht, 2)})
 
 
-@socketio.on('F2B_verander_kleur')
+@socketio.on('F2B_verander_led')
 def verander_kleur(data):
-    global cyclus, test
-    kleur = data['kleur']
+    global cyclus, prevColor
+    actie = data['actie']
     # print(kleur)
     if cyclus == True:
         stop_rainbow()
         cyclus = False
-    if kleur == "rood":
+    if actie == "rood":
         Led1.RGB_set(0, 100, 100)
         Led2.RGB_set(0, 100, 100)
         Led3.RGB_set(0, 100, 100)
-    elif kleur == "groen":
+        prevColor = "rood"
+    elif actie == "groen":
         Led1.RGB_set(100, 0, 100)
         Led2.RGB_set(100, 0, 100)
         Led3.RGB_set(100, 0, 100)
-    elif kleur == "blauw":
+        prevColor = "groen"
+    elif actie == "blauw":
         Led1.RGB_set(100, 100, 0)
         Led2.RGB_set(100, 100, 0)
         Led3.RGB_set(100, 100, 0)
-    elif kleur == "cycle":
+        prevColor = "blauw"
+    elif actie == "cycle":
         cyclus = True
+        prevColor = "cycle"
         print("start_rainbow")
         start_rainbow()
+    elif actie == "aan":
+        print("aan")
+        print(prevColor)
+        vorige_kleur()
+    elif actie == "uit":
+        Led1.RGB_set(100, 100, 100)
+        Led2.RGB_set(100, 100, 100)
+        Led3.RGB_set(100, 100, 100)
 
 
 @ socketio.on('F2B_verstuur_bericht')
 def bericht_ontvangen(data):
-    global berichtid, inhoud, status, reset, bericht
+    global berichtid, inhoud, status, reset, bericht, melding
     inhoud = str(data['berichtinhoud'])
     id = int(data['id'])
     print(inhoud)
@@ -116,6 +128,7 @@ def bericht_ontvangen(data):
     DataRepository.create_historiek_bij_bericht(
         10, berichtid, datum, "bericht ontvangen")
     status = 3
+    melding = True
     reset = True
 
 
@@ -157,11 +170,12 @@ status = 0
 berichtid = 0
 
 cyclus = False
+prevColor = ""
 # Joystickknop
 
 
 def callback(knop):
-    print("test")
+    print("joystick")
     global status, reset
     if status == 3:
         status += 1
@@ -223,6 +237,8 @@ ldrWaarde = "gggggg"
 # fullstack
 
 rainbowTask = None
+
+melding = False
 
 
 class RainbowTask:
@@ -332,17 +348,42 @@ def start_chrome_thread():
     chromeThread.start()
 
 
+def vorige_kleur():
+    global cyclus, prevColor
+    print("karl")
+    print(prevColor)
+    if prevColor == "rood":
+        Led1.RGB_set(0, 100, 100)
+        Led2.RGB_set(0, 100, 100)
+    elif prevColor == "groen":
+        Led1.RGB_set(100, 0, 100)
+        Led2.RGB_set(100, 0, 100)
+        Led3.RGB_set(100, 0, 100)
+    elif prevColor == "blauw":
+        Led1.RGB_set(100, 100, 0)
+        Led2.RGB_set(100, 100, 0)
+        Led3.RGB_set(100, 100, 0)
+    elif prevColor == "cycle":
+        cyclus = True
+        print("start_rainbow")
+        start_rainbow()
+    elif prevColor == "":
+        Led1.RGB_set(0, 0, 0)
+        Led2.RGB_set(0, 0, 0)
+        Led3.RGB_set(0, 0, 0)
+
+
 def setup():
     lcdObject.setup()
     lcdObject.init_LCD()
 
-    # Led1.RGB_set(0, 100, 100)
-    # Led2.RGB_set(100, 0, 100)
-    # Led3.RGB_set(100, 100, 0)
+    Led1.RGB_set(100, 100, 100)
+    Led2.RGB_set(100, 100, 100)
+    Led3.RGB_set(100, 100, 100)
 
 
 def programma():
-    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum
+    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -417,7 +458,7 @@ def programma():
         # print(difference)
 
         if reset == True:
-            print("testje")
+            print("reset")
             lcdObject.reset_lcd()
             reset = False
 
@@ -457,6 +498,37 @@ def programma():
         elif status == 3:
             lcdObject.eerste_rij()
             lcdObject.send_message(inhoud)
+            if melding == True:
+                Led1.RGB_set(0, 100, 100)
+                Led2.RGB_set(0, 100, 100)
+                Led3.RGB_set(0, 100, 100)
+                time.sleep(0.2)
+                Led1.RGB_set(100, 100, 100)
+                Led2.RGB_set(100, 100, 100)
+                Led3.RGB_set(100, 100, 100)
+                time.sleep(0.2)
+                Led1.RGB_set(0, 100, 100)
+                Led2.RGB_set(0, 100, 100)
+                Led3.RGB_set(0, 100, 100)
+                time.sleep(0.2)
+                Led1.RGB_set(100, 100, 100)
+                Led2.RGB_set(100, 100, 100)
+                Led3.RGB_set(100, 100, 100)
+                time.sleep(0.2)
+                Led1.RGB_set(0, 100, 100)
+                Led2.RGB_set(0, 100, 100)
+                Led3.RGB_set(0, 100, 100)
+                time.sleep(0.2)
+                Led1.RGB_set(100, 100, 100)
+                Led2.RGB_set(100, 100, 100)
+                Led3.RGB_set(100, 100, 100)
+                time.sleep(0.2)
+                Led1.RGB_set(100, 100, 100)
+                Led2.RGB_set(100, 100, 100)
+                Led3.RGB_set(100, 100, 100)
+                time.sleep(1)
+                vorige_kleur()
+                melding = False
         elif status == 4:
             lcdObject.tweede_rij()
             lcdObject.set_cursor(0x40)

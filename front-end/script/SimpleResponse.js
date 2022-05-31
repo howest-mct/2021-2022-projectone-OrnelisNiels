@@ -72,24 +72,34 @@ const listenToUI = function () {
           id: idGebruiker,
         });
       } else if (id == 4) {
-        socketio.emit('F2B_verander_kleur', {
+        socketio.emit('F2B_verander_led', {
           knopid: id,
-          kleur: 'rood',
+          actie: 'rood',
         });
       } else if (id == 5) {
-        socketio.emit('F2B_verander_kleur', {
+        socketio.emit('F2B_verander_led', {
           knopid: id,
-          kleur: 'groen',
+          actie: 'groen',
         });
       } else if (id == 6) {
-        socketio.emit('F2B_verander_kleur', {
+        socketio.emit('F2B_verander_led', {
           knopid: id,
-          kleur: 'blauw',
+          actie: 'blauw',
         });
       } else if (id == 7) {
-        socketio.emit('F2B_verander_kleur', {
+        socketio.emit('F2B_verander_led', {
           knopid: id,
-          kleur: 'cycle',
+          actie: 'cycle',
+        });
+      } else if (id == 8) {
+        socketio.emit('F2B_verander_led', {
+          knopid: id,
+          actie: 'aan',
+        });
+      } else if (id == 9) {
+        socketio.emit('F2B_verander_led', {
+          knopid: id,
+          actie: 'uit',
         });
       }
     });
