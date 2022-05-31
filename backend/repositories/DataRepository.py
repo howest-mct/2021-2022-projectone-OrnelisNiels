@@ -83,3 +83,9 @@ class DataRepository:
     def read_historiek_temp():
         sql = "SELECT * from historiek WHERE actie_actieid = 1"
         return Database.get_rows(sql)
+
+    @staticmethod
+    def read_berichten_by_id(id):
+        sql = "SELECT * FROM bericht WHERE gebruiker_gebruikerid in (%s,9)"
+        params = [id]
+        return Database.get_rows(sql, params)

@@ -54,6 +54,16 @@ def get_historiek():
             return jsonify(message="error"), 404
 
 
+@app.route('/api/v1/berichten/<id>/')
+def get_berichten_by_id(id):
+    if request.method == "GET":
+        data = DataRepository.read_berichten_by_id(id)
+        if data is not None:
+            return jsonify(berichten=data), 200
+        else:
+            return jsonify(message="error"), 404
+
+
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
@@ -145,12 +155,14 @@ def bericht_ontvangen(data):
     global berichtid, inhoud, status, reset, bericht, melding
     inhoud = str(data['berichtinhoud'])
     id = int(data['id'])
-    print(inhoud)
     DataRepository.create_bericht(inhoud, id)
     bericht = DataRepository.read_id_laatste_bericht()
     berichtid = int(bericht[0]['max(berichtid)'])
     DataRepository.create_historiek_bij_bericht(
         10, berichtid, datum, "bericht ontvangen")
+    berichten = DataRepository.read_berichten_by_id(id)
+    print(berichten)
+    emit('B2F_toon_berichten', {'berichten': berichten})
     status = 3
     melding = True
     reset = True
@@ -379,6 +391,7 @@ def vorige_kleur():
     if prevColor == "rood":
         Led1.RGB_set(0, 100, 100)
         Led2.RGB_set(0, 100, 100)
+        Led3.RGB_set(0, 100, 100)
     elif prevColor == "groen":
         Led1.RGB_set(100, 0, 100)
         Led2.RGB_set(100, 0, 100)

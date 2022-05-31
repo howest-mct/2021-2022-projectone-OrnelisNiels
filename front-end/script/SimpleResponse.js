@@ -9,6 +9,123 @@ let htmlInloggen,
   htmlNavMessage,
   htmlNavHistoriek;
 
+//#region ***  Callback-Visualisation - show___         ***********
+const showData = function (jsonObject) {
+  try {
+    console.log(jsonObject);
+    let converted_labels = [];
+    let converted_data = [];
+    for (let data of jsonObject.historiek) {
+      converted_labels.push(data.datum);
+      converted_data.push(data.waarde);
+    }
+    drawChart(converted_labels, converted_data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const showBerichten = function (jsonObject) {
+  try {
+    const htmlBerichtDisplay = document.querySelector('.js-berichten');
+
+    console.log(jsonObject.berichten);
+    let html = '';
+    for (let bericht of jsonObject.berichten) {
+      if (bericht.gebruiker_gebruikerid != 9) {
+        html += `<div class="container">
+            <p class="c-bericht js-berichten">${bericht.berichtinhoud}</p>
+            <span class="time-right js-tijd">11:00</span>
+            </div>`;
+      }
+      // else {
+      //   html = `<div class="container darker">
+      //         <p class="c-bericht__darker js-berichten">${bericht.berichtinhoud}</p>
+      //         <span class="time-left">karl</span>
+      //       </div>`;
+      // }
+    }
+    htmlBerichtDisplay.innerHTML = html;
+  } catch (error) {
+    console.error(error);
+  }
+};
+const showError = function (err) {
+  console.error(err);
+};
+
+const drawChart = function (labels, data) {
+  let options = {
+    title: {
+      text: 'Temperatuur',
+      align: 'center',
+      style: {
+        fontSize: '16px',
+        color: '#161B20',
+      },
+    },
+    chart: {
+      id: 'myChart',
+      type: 'line',
+    },
+    stroke: {
+      curve: 'straight',
+    },
+    grid: {
+      borderColor: '#f1f1f1',
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    series: [
+      {
+        name: 'Temp sensor',
+        data: data,
+      },
+    ],
+    labels: labels,
+    noData: {
+      text: 'Loading...',
+    },
+  };
+  let chart = new ApexCharts(document.querySelector('.js-chart'), options);
+  chart.render();
+};
+
+//#endregion
+
+//#region ***  Callback-No Visualisation - callback___  ***********
+
+//#endregion
+
+//#region ***  Data Access - get___                     ***********
+const getBerichten = function () {
+  let urlParams = new URLSearchParams(window.location.search);
+  let idGebruiker = urlParams.get('id');
+  const url = `http://192.168.168.169:5000/api/v1/berichten/${idGebruiker}/`;
+  handleData(url, showBerichten, showError);
+};
+
+const getData = function () {
+  const url = `http://192.168.168.169:5000/api/v1/historiek/`;
+  handleData(url, showData, showError);
+};
+
+const gebruiker = function () {
+  console.log('test');
+  let urlParams = new URLSearchParams(window.location.search);
+  let idGebruiker = urlParams.get('id');
+  nieuweHome = `<a href="home.html?id=${idGebruiker}" class="c-nav__link js-nav">Home</a>`;
+  nieweMessage = `<a href="bericht.html?id=${idGebruiker}" class="c-nav__link js-nav">Bericht</a>`;
+  nieuweHistoriek = `<a href="historiek.html?id=${idGebruiker}" class="c-nav__link js-nav">Historiek</a>`;
+  htmlNavHome.innerHTML = nieuweHome;
+  htmlNavMessage.innerHTML = nieweMessage;
+  htmlNavHistoriek.innerHTML = nieuweHistoriek;
+  console.log(idGebruiker);
+};
+//#endregion
+
+//#region ***  Event Listeners - listenTo___            ***********
 const listenToSocketHistoriek = function () {
   socketio.on('B2F_refresh_chart', function () {
     getData();
@@ -159,79 +276,9 @@ const listenToSocketBericht = function () {
       });
   });
 };
+//#endregion
 
-const gebruiker = function () {
-  console.log('test');
-  let urlParams = new URLSearchParams(window.location.search);
-  let idGebruiker = urlParams.get('id');
-  nieuweHome = `<a href="home.html?id=${idGebruiker}" class="c-nav__link js-nav">Home</a>`;
-  nieweMessage = `<a href="bericht.html?id=${idGebruiker}" class="c-nav__link js-nav">Bericht</a>`;
-  nieuweHistoriek = `<a href="historiek.html?id=${idGebruiker}" class="c-nav__link js-nav">Historiek</a>`;
-  htmlNavHome.innerHTML = nieuweHome;
-  htmlNavMessage.innerHTML = nieweMessage;
-  htmlNavHistoriek.innerHTML = nieuweHistoriek;
-  console.log(idGebruiker);
-};
-
-const drawChart = function (labels, data) {
-  let options = {
-    title: {
-      text: 'Temperatuur',
-      align: 'center',
-      style: {
-        fontSize: '16px',
-        color: '#161B20',
-      },
-    },
-    chart: {
-      id: 'myChart',
-      type: 'line',
-    },
-    stroke: {
-      curve: 'straight',
-    },
-    grid: {
-      borderColor: '#f1f1f1',
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    series: [
-      {
-        name: 'Temp sensor',
-        data: data,
-      },
-    ],
-    labels: labels,
-    noData: {
-      text: 'Loading...',
-    },
-  };
-  let chart = new ApexCharts(document.querySelector('.js-chart'), options);
-  chart.render();
-};
-const showData = function (jsonObject) {
-  try {
-    console.log(jsonObject);
-    let converted_labels = [];
-    let converted_data = [];
-    for (let data of jsonObject.historiek) {
-      converted_labels.push(data.datum);
-      converted_data.push(data.waarde);
-    }
-    drawChart(converted_labels, converted_data);
-  } catch (error) {
-    console.error(error);
-  }
-};
-const showError = function (err) {
-  console.error(err);
-};
-const getData = function () {
-  const url = `http://192.168.168.169:5000/api/v1/historiek/`;
-  handleData(url, showData, showError);
-};
-
+//#region ***  Init / DOMContentLoaded                  ***********
 const init = function () {
   console.info('DOM geladen');
   htmlRegistreren = document.querySelector('.js-registreren');
@@ -265,6 +312,7 @@ const init = function () {
       } else if (htmlBericht) {
         console.log('Bericht');
         listenToSocketBericht();
+        getBerichten();
         gebruiker();
       }
     } else {
@@ -274,3 +322,4 @@ const init = function () {
 };
 
 document.addEventListener('DOMContentLoaded', init);
+//#endregion

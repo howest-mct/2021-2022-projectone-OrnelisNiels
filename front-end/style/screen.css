@@ -26,6 +26,34 @@ body{
   margin:0;
 }
 
+.container {
+    /* border: 3px solid #f1f1f1; */
+    background-color: #161B20;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+
+.darker {
+    background-color: #f1f1f1;
+}
+
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.time-right {
+    float: right;
+    color: #F4A950;
+}
+
+.time-left {
+    float: left;
+    color: #161B20;
+}
 *,
 *:before,
 *:after {
@@ -493,11 +521,21 @@ a:focus {
     Website main logo
 */
 
+.c-titel {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
 .c-bericht {
   font-size: 30px;
   margin-bottom: 15px;
+  color: #F4A950
 }
-
+.c-bericht__darker{
+    font-size: 30px;
+    margin-bottom: 15px;
+    color: black
+}
 input,
 textarea button {
   color: #161B20;

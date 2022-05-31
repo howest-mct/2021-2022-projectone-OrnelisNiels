@@ -20,7 +20,7 @@
       integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
       crossorigin="anonymous"
     ></script>
-    <!-- <script src="script/datahandler.js"></script> -->
+    <script src="script/datahandler.js"></script>
     <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
@@ -60,13 +60,34 @@
       <div class="o-container u-max-width-lg">
         <article class="o-section">
           <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
-            <div class="o-layout__item u-1-of-2-bp3">
-              <form action="" method="POST">
-              <h2><label class="c-bericht c-lead c-lead--lg" for="vn">Bericht</label></h2>
+          </div>
+          <h2 class="c-titel c-lead c-lead--lg">Berichten</h2>
+            <div class="js-berichten">
+
             </div>
-            <div class="o-layout__item u-1-of-2-bp3">
+            <!-- <div class="container">
+            <p class="c-bericht "></p>
+            <span class="time-right js-tijd">11:00</span>
+            </div>
+
+            <div class="container darker">
+              <p class="c-bericht__darker js-berichten">Hey! I'm fine. Thanks for asking!</p>
+              <span class="time-left">11:01</span>
+            </div> -->
+
+            <!-- <div class="container">
+              <p class="c-bericht js-berichten">Sweet! So, what do you wanna do today?</p>
+              <span class="time-right">11:02</span>
+            </div>
+
+            <div class="container darker">
+              <p class="c-bericht__darker js-berichten">Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+              <span class="time-left">11:05</span>
+            </div> -->
+            <div class="container">
+              <form action="" method="POST">
               <input
-                class="c-lead c-lead--lg c-bericht js-bericht"
+                class="c-lead c-lead--lg c-titel js-bericht"
                 type="text"
                 name="voornaam"
                 id="vn"
@@ -78,8 +99,6 @@
             </div>
           </div>
         </article>
-      </div>
     </section>
-    </div>
   </body>
 </html>
