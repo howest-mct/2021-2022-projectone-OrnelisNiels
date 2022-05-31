@@ -75,6 +75,18 @@ def initial_connection():
     emit('B2F_licht_uitlezen', {'licht': round(licht, 2)})
 
 
+@socketio.on('F2B_gebruiker')
+def initial_connection(data):
+    id = data['gebruiker']
+    controle = DataRepository.read_gebruikers_by_id(id)
+    print("karl")
+    print(controle)
+    if controle:
+        emit('B2F_bestaande_gebruiker', {'message': "bestaand"})
+    else:
+        emit('B2F_bestaande_gebruiker', {'message': "niet-bestaand"})
+
+
 @socketio.on('F2B_toon_sensorwaarde')
 def toon_sensorwaarde(data):
     # Ophalen van de data
@@ -155,17 +167,22 @@ def bericht_ontvangen(data):
     global berichtid, inhoud, status, reset, bericht, melding
     inhoud = str(data['berichtinhoud'])
     id = int(data['id'])
-    DataRepository.create_bericht(inhoud, id)
-    bericht = DataRepository.read_id_laatste_bericht()
-    berichtid = int(bericht[0]['max(berichtid)'])
-    DataRepository.create_historiek_bij_bericht(
-        10, berichtid, datum, "bericht ontvangen")
-    berichten = DataRepository.read_berichten_by_id(id)
-    print(berichten)
-    emit('B2F_toon_berichten', {'berichten': berichten})
-    status = 3
-    melding = True
-    reset = True
+    controleGebruiker = DataRepository.read_gebruikers_by_id(id)
+    if controleGebruiker:
+        print("controle geslaagd")
+        DataRepository.create_bericht(inhoud, id)
+        bericht = DataRepository.read_id_laatste_bericht()
+        berichtid = int(bericht[0]['max(berichtid)'])
+        DataRepository.create_historiek_bij_bericht(
+            10, berichtid, datum, "bericht ontvangen")
+        berichten = DataRepository.read_berichten_by_id(id)
+        print(berichten)
+        emit('B2F_toon_berichten', {'berichten': berichten})
+        status = 3
+        melding = True
+        reset = True
+    else:
+        print("Controle niet geslaagd")
 
 
 @ socketio.on('F2B_maak_gebruiker')
@@ -466,12 +483,12 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            DataRepository.create_historiek(
-                1, 1, datum, round(resul, 2), "Temp inlezen")
+            # DataRepository.create_historiek(
+            #     1, 1, datum, round(resul, 2), "Temp inlezen")
 
-            DataRepository.create_historiek(
-                2, 2, datum, round(licht, 2), "Ldr inlezen")
-            socketio.emit('B2F_refresh_chart')
+            # DataRepository.create_historiek(
+            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
+            # socketio.emit('B2F_refresh_chart')
 
         eindtijd = time.time()
         difference = int(eindtijd)-(begintijd)
@@ -492,12 +509,12 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            DataRepository.create_historiek(
-                1, 1, datum, round(resul, 2), "Temp inlezen")
-            DataRepository.create_historiek(
-                2, 2, datum, round(licht, 2), "Ldr inlezen")
-            print("emit")
-            socketio.emit('B2F_refresh_chart')
+            # DataRepository.create_historiek(
+            #     1, 1, datum, round(resul, 2), "Temp inlezen")
+            # DataRepository.create_historiek(
+            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
+            # print("emit")
+            # socketio.emit('B2F_refresh_chart')
 
         # print(difference)
 

@@ -89,3 +89,9 @@ class DataRepository:
         sql = "SELECT * FROM bericht WHERE gebruiker_gebruikerid in (%s,9)"
         params = [id]
         return Database.get_rows(sql, params)
+
+    @staticmethod
+    def read_gebruikers_by_id(id):
+        sql = "SELECT * FROM gebruiker WHERE gebruikerid = %s"
+        params = [id]
+        return Database.get_rows(sql, params)

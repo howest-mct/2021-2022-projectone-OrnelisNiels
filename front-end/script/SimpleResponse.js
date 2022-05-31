@@ -115,13 +115,24 @@ const gebruiker = function () {
   console.log('test');
   let urlParams = new URLSearchParams(window.location.search);
   let idGebruiker = urlParams.get('id');
-  nieuweHome = `<a href="home.html?id=${idGebruiker}" class="c-nav__link js-nav">Home</a>`;
-  nieweMessage = `<a href="bericht.html?id=${idGebruiker}" class="c-nav__link js-nav">Bericht</a>`;
-  nieuweHistoriek = `<a href="historiek.html?id=${idGebruiker}" class="c-nav__link js-nav">Historiek</a>`;
-  htmlNavHome.innerHTML = nieuweHome;
-  htmlNavMessage.innerHTML = nieweMessage;
-  htmlNavHistoriek.innerHTML = nieuweHistoriek;
-  console.log(idGebruiker);
+  socketio.emit('F2B_gebruiker', {
+    gebruiker: idGebruiker,
+  });
+
+  socketio.on('B2F_bestaande_gebruiker', function (jsonObject) {
+    console.log(jsonObject.message);
+    if (jsonObject.message == 'bestaand') {
+      nieuweHome = `<a href="home.html?id=${idGebruiker}" class="c-nav__link js-nav">Home</a>`;
+      nieweMessage = `<a href="bericht.html?id=${idGebruiker}" class="c-nav__link js-nav">Bericht</a>`;
+      nieuweHistoriek = `<a href="historiek.html?id=${idGebruiker}" class="c-nav__link js-nav">Historiek</a>`;
+      htmlNavHome.innerHTML = nieuweHome;
+      htmlNavMessage.innerHTML = nieweMessage;
+      htmlNavHistoriek.innerHTML = nieuweHistoriek;
+      console.log(idGebruiker);
+    } else if (jsonObject.message == 'niet-bestaand') {
+      window.location.href = 'index.html';
+    }
+  });
 };
 //#endregion
 
