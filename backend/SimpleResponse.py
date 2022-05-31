@@ -123,9 +123,11 @@ def verander_kleur(data):
     actie = data['actie']
     print(actie)
     if actie == "aan":
+        motorpwm.start(0)
         motorpwm.ChangeDutyCycle(100)
     elif actie == "uit":
         motorpwm.ChangeDutyCycle(0)
+        motorpwm.stop()
 
 
 @ socketio.on('F2B_verstuur_bericht')
@@ -396,8 +398,6 @@ def setup():
     motor = 25
     GPIO.setup(motor, GPIO.OUT)
     motorpwm = GPIO.PWM(motor, 1000)
-    motorpwm.start(0)
-    motorpwm.ChangeDutyCycle(0)
 
 
 def programma():
@@ -567,6 +567,7 @@ if __name__ == '__main__':
         print(ex)
     finally:
         lcdObject.reset_lcd()
+        motorpwm.stop()
         print('\n Script is ten einde, cleanup is klaar')
         # lcdObject.reset_cursor()
         GPIO.cleanup()
