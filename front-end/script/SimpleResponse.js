@@ -9,6 +9,12 @@ let htmlInloggen,
   htmlNavMessage,
   htmlNavHistoriek;
 
+const listenToSocketHistoriek = function () {
+  socketio.on('B2F_refresh_chart', function () {
+    getData();
+  });
+};
+
 const listenToInloggen = function () {
   htmlInloggen.addEventListener('click', function () {
     const htmlGebruiker = document.querySelector('.js-gebruiker');
@@ -134,6 +140,10 @@ const listenToSocket = function () {
     html = `<p>${jsonObject.licht} %</p>`;
     htmlLdr.innerHTML = html;
   });
+
+  socketio.on('B2F_historiek_data', function (jsonObject) {
+    console.log(jsonObject);
+  });
 };
 
 const listenToSocketBericht = function () {
@@ -161,6 +171,65 @@ const gebruiker = function () {
   htmlNavMessage.innerHTML = nieweMessage;
   htmlNavHistoriek.innerHTML = nieuweHistoriek;
   console.log(idGebruiker);
+};
+
+const drawChart = function (labels, data) {
+  let options = {
+    title: {
+      text: 'Temperatuur',
+      align: 'center',
+      style: {
+        fontSize: '16px',
+        color: '#161B20',
+      },
+    },
+    chart: {
+      id: 'myChart',
+      type: 'line',
+    },
+    stroke: {
+      curve: 'straight',
+    },
+    grid: {
+      borderColor: '#f1f1f1',
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    series: [
+      {
+        name: 'Temp sensor',
+        data: data,
+      },
+    ],
+    labels: labels,
+    noData: {
+      text: 'Loading...',
+    },
+  };
+  let chart = new ApexCharts(document.querySelector('.js-chart'), options);
+  chart.render();
+};
+const showData = function (jsonObject) {
+  try {
+    console.log(jsonObject);
+    let converted_labels = [];
+    let converted_data = [];
+    for (let data of jsonObject.historiek) {
+      converted_labels.push(data.datum);
+      converted_data.push(data.waarde);
+    }
+    drawChart(converted_labels, converted_data);
+  } catch (error) {
+    console.error(error);
+  }
+};
+const showError = function (err) {
+  console.error(err);
+};
+const getData = function () {
+  const url = `http://192.168.168.169:5000/api/v1/historiek/`;
+  handleData(url, showData, showError);
 };
 
 const init = function () {
@@ -191,6 +260,8 @@ const init = function () {
       } else if (htmlHistoriek) {
         console.log('Historiek');
         gebruiker();
+        getData();
+        listenToSocketHistoriek();
       } else if (htmlBericht) {
         console.log('Bericht');
         listenToSocketBericht();

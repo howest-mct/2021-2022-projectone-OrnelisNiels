@@ -17,7 +17,7 @@ import threading
 
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, send
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from repositories.DataRepository import DataRepository
 
 from selenium import webdriver
@@ -42,6 +42,16 @@ def error_handler(e):
 @app.route('/')
 def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
+
+
+@app.route('/api/v1/historiek/')
+def get_historiek():
+    if request.method == "GET":
+        data = DataRepository.read_historiek_temp()
+        if data is not None:
+            return jsonify(historiek=data), 200
+        else:
+            return jsonify(message="error"), 404
 
 
 @socketio.on('connect')
@@ -443,11 +453,12 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            # DataRepository.create_historiek(
-            #     1, 1, datum, round(resul, 2), "Temp inlezen")
+            DataRepository.create_historiek(
+                1, 1, datum, round(resul, 2), "Temp inlezen")
 
-            # DataRepository.create_historiek(
-            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
+            DataRepository.create_historiek(
+                2, 2, datum, round(licht, 2), "Ldr inlezen")
+            socketio.emit('B2F_refresh_chart')
 
         eindtijd = time.time()
         difference = int(eindtijd)-(begintijd)
@@ -468,10 +479,12 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            # DataRepository.create_historiek(
-            #     1, 1, datum, round(resul, 2), "Temp inlezen")
-            # DataRepository.create_historiek(
-            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
+            DataRepository.create_historiek(
+                1, 1, datum, round(resul, 2), "Temp inlezen")
+            DataRepository.create_historiek(
+                2, 2, datum, round(licht, 2), "Ldr inlezen")
+            print("emit")
+            socketio.emit('B2F_refresh_chart')
 
         # print(difference)
 

@@ -78,3 +78,8 @@ class DataRepository:
         sql = "SELECT * FROM gebruiker WHERE naam = %s"
         params = [naam]
         return Database.get_one_row(sql, params)
+
+    @staticmethod
+    def read_historiek_temp():
+        sql = "SELECT * from historiek WHERE actie_actieid = 1"
+        return Database.get_rows(sql)
