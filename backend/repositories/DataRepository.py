@@ -48,9 +48,9 @@ class DataRepository:
         return result
 
     @staticmethod
-    def create_bericht(berichtinhoud, gebruiker_gebruikerid):
-        sql = 'INSERT INTO bericht (berichtinhoud, gebruiker_gebruikerid) VALUES(%s,%s)'
-        params = [berichtinhoud, gebruiker_gebruikerid]
+    def create_bericht(berichtinhoud, gebruiker_gebruikerid, ontvanger):
+        sql = 'INSERT INTO bericht (berichtinhoud, gebruiker_gebruikerid,ontvanger) VALUES(%s,%s,%s)'
+        params = [berichtinhoud, gebruiker_gebruikerid, ontvanger]
         result = Database.execute_sql(sql, params)
         return result
 
@@ -85,9 +85,9 @@ class DataRepository:
         return Database.get_rows(sql)
 
     @staticmethod
-    def read_berichten_by_id(id):
-        sql = "SELECT * FROM bericht WHERE gebruiker_gebruikerid in (%s,9)"
-        params = [id]
+    def read_berichten_by_id(id, ontvanger, id2, ontvanger2):
+        sql = "SELECT * FROM bericht WHERE gebruiker_gebruikerid in (%s,%s) and ontvanger in (%s,%s)"
+        params = [id, ontvanger, id2, ontvanger2]
         return Database.get_rows(sql, params)
 
     @staticmethod

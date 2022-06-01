@@ -57,7 +57,7 @@ def get_historiek():
 @app.route('/api/v1/berichten/<id>/')
 def get_berichten_by_id(id):
     if request.method == "GET":
-        data = DataRepository.read_berichten_by_id(id)
+        data = DataRepository.read_berichten_by_id(id, 9, id, 9)
         if data is not None:
             return jsonify(berichten=data), 200
         else:
@@ -170,12 +170,12 @@ def bericht_ontvangen(data):
     controleGebruiker = DataRepository.read_gebruikers_by_id(id)
     if controleGebruiker:
         print("controle geslaagd")
-        DataRepository.create_bericht(inhoud, id)
+        DataRepository.create_bericht(inhoud, id, 9)
         bericht = DataRepository.read_id_laatste_bericht()
         berichtid = int(bericht[0]['max(berichtid)'])
         DataRepository.create_historiek_bij_bericht(
             10, berichtid, datum, "bericht ontvangen")
-        berichten = DataRepository.read_berichten_by_id(id)
+        berichten = DataRepository.read_berichten_by_id(id, 9, id, 9)
         print(berichten)
         emit('B2F_toon_berichten', {'berichten': berichten})
         status = 3

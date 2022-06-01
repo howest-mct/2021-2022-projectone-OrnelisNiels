@@ -37,13 +37,12 @@ const showBerichten = function (jsonObject) {
             <p class="c-bericht js-berichten">${bericht.berichtinhoud}</p>
             <span class="time-right js-tijd">11:00</span>
             </div>`;
+      } else {
+        html += `<div class="container darker">
+              <p class="c-bericht__darker js-berichten">${bericht.berichtinhoud}</p>
+              <span class="time-left">karl</span>
+            </div>`;
       }
-      // else {
-      //   html = `<div class="container darker">
-      //         <p class="c-bericht__darker js-berichten">${bericht.berichtinhoud}</p>
-      //         <span class="time-left">karl</span>
-      //       </div>`;
-      // }
     }
     htmlBerichtDisplay.innerHTML = html;
   } catch (error) {
@@ -153,7 +152,7 @@ const listenToInloggen = function () {
 
   socketio.on('B2F_log_in_succes', function (jsonObject) {
     console.log(jsonObject.id);
-    html = `<a href="home.html?id=${jsonObject.id}" class="c-btn__link js-login">Login</a>`;
+    html = `<a href="home.html?id=${jsonObject.id}" class="js-login">Login</a>`;
     htmlInloggen.innerHTML = html;
   });
 };
