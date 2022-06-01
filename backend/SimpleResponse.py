@@ -79,8 +79,6 @@ def initial_connection():
 def initial_connection(data):
     id = data['gebruiker']
     controle = DataRepository.read_gebruikers_by_id(id)
-    print("karl")
-    print(controle)
     if controle:
         emit('B2F_bestaande_gebruiker', {'message': "bestaand"})
     else:
@@ -162,7 +160,7 @@ def verander_kleur(data):
         motorpwm.stop()
 
 
-@ socketio.on('F2B_verstuur_bericht')
+@socketio.on('F2B_verstuur_bericht')
 def bericht_ontvangen(data):
     global berichtid, inhoud, status, reset, bericht, melding
     inhoud = str(data['berichtinhoud'])
@@ -483,12 +481,12 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            # DataRepository.create_historiek(
-            #     1, 1, datum, round(resul, 2), "Temp inlezen")
+            DataRepository.create_historiek(
+                1, 1, datum, round(resul, 2), "Temp inlezen")
 
-            # DataRepository.create_historiek(
-            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
-            # socketio.emit('B2F_refresh_chart')
+            DataRepository.create_historiek(
+                2, 2, datum, round(licht, 2), "Ldr inlezen")
+            socketio.emit('B2F_refresh_chart')
 
         eindtijd = time.time()
         difference = int(eindtijd)-(begintijd)
@@ -509,12 +507,12 @@ def programma():
                           'temperatuur': round(resul, 2)})
             socketio.emit('B2F_licht_uitlezen', {
                           'licht': round(licht, 2)})
-            # DataRepository.create_historiek(
-            #     1, 1, datum, round(resul, 2), "Temp inlezen")
-            # DataRepository.create_historiek(
-            #     2, 2, datum, round(licht, 2), "Ldr inlezen")
-            # print("emit")
-            # socketio.emit('B2F_refresh_chart')
+            DataRepository.create_historiek(
+                1, 1, datum, round(resul, 2), "Temp inlezen")
+            DataRepository.create_historiek(
+                2, 2, datum, round(licht, 2), "Ldr inlezen")
+            print("emit")
+            socketio.emit('B2F_refresh_chart')
 
         # print(difference)
 

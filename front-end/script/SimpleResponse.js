@@ -161,8 +161,8 @@ const listenToRegistreren = function () {
   htmlRegistreren.addEventListener('click', function () {
     const htmlNieuweGebruiker = document.querySelector('.js-nieuweGebruiker');
     console.log(htmlNieuweGebruiker.value);
-    gebruiker = htmlNieuweGebruiker.value;
-    socketio.emit('F2B_maak_gebruiker', { gebruikersnaam: gebruiker });
+    let gebruikersnaam = htmlNieuweGebruiker.value;
+    socketio.emit('F2B_maak_gebruiker', { gebruikersnaam: gebruikersnaam });
   });
   socketio.on('B2F_toon_error', function (jsonObject) {
     console.log(jsonObject.error);

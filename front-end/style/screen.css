@@ -521,10 +521,43 @@ a:focus {
     Website main logo
 */
 
+.c-chatbox{
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    border-radius: 1%;
+    padding: 24px;
+}
+
+.c-chat{
+    max-width: 1108px;
+    max-height:535px;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: hidden;
+    word-break: break-all;
+    line-height: 30px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
 .c-titel {
     font-size: 30px;
     margin-bottom: 15px;
 }
+
+.c-chat::-webkit-scrollbar {
+    margin-left: 2px;
+    width: 10px;
+}
+
+.c-chat::-webkit-scrollbar-thumb {
+    background-color: #F4A950;
+    border-radius: 5px;
+}
+
+/* .c-padding__left{
+
+} */
 
 .c-bericht {
   font-size: 30px;
