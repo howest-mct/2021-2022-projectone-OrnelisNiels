@@ -101,12 +101,12 @@ const drawChart = function (labels, data) {
 const getBerichten = function () {
   let urlParams = new URLSearchParams(window.location.search);
   let idGebruiker = urlParams.get('id');
-  const url = `http://192.168.168.169:5000/api/v1/berichten/${idGebruiker}/`;
+  const url = `http://${lanIP}/api/v1/berichten/${idGebruiker}/`;
   handleData(url, showBerichten, showError);
 };
 
 const getData = function () {
-  const url = `http://192.168.168.169:5000/api/v1/historiek/`;
+  const url = `http://${lanIP}/api/v1/historiek/`;
   handleData(url, showData, showError);
 };
 

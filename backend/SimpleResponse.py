@@ -138,13 +138,18 @@ def verander_kleur(data):
         print("start_rainbow")
         start_rainbow()
     elif actie == "aan":
+        DataRepository.create_historiek(4, 4, datum, actie, "Leds aan")
         print("aan")
         print(prevColor)
         vorige_kleur()
     elif actie == "uit":
+        DataRepository.create_historiek(4, 5, datum, actie, "Leds uit")
         Led1.RGB_set(100, 100, 100)
         Led2.RGB_set(100, 100, 100)
         Led3.RGB_set(100, 100, 100)
+    if actie != "aan" or "uit":
+        DataRepository.create_historiek(
+            4, 6, datum, actie, "Ledkleur veranderen")
 
 
 @socketio.on('F2B_verander_ventilator')
@@ -153,9 +158,14 @@ def verander_kleur(data):
     actie = data['actie']
     print(actie)
     if actie == "aan":
+        DataRepository.create_historiek(
+            9, 7, datum, actie, "Ventilator aan")
         motorpwm.start(0)
         motorpwm.ChangeDutyCycle(100)
+
     elif actie == "uit":
+        DataRepository.create_historiek(
+            9, 8, datum, actie, "Ventilator uit")
         motorpwm.ChangeDutyCycle(0)
         motorpwm.stop()
 
