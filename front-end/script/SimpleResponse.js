@@ -66,6 +66,7 @@ const drawChart = function (labels, data) {
     chart: {
       id: 'myChart',
       type: 'line',
+      height: '550px',
     },
     stroke: {
       curve: 'straight',
@@ -149,11 +150,19 @@ const listenToInloggen = function () {
     bestaandeGebruiker = htmlGebruiker.value;
     socketio.emit('F2B_login', { gebruikersnaam: bestaandeGebruiker });
   });
+  const htmlGebruiker = document.querySelector('.js-gebruiker');
+  htmlGebruiker.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+      console.log('test');
+      console.log(htmlGebruiker.value);
+      bestaandeGebruiker = htmlGebruiker.value;
+      socketio.emit('F2B_login', { gebruikersnaam: bestaandeGebruiker });
+    }
+  });
 
   socketio.on('B2F_log_in_succes', function (jsonObject) {
     console.log(jsonObject.id);
-    html = `<a href="home.html?id=${jsonObject.id}" class="js-login">Login</a>`;
-    htmlInloggen.innerHTML = html;
+    window.location.href = `home.html?id=${jsonObject.id}`;
   });
 };
 

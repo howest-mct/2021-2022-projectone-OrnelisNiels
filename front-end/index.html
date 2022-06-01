@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SimpleResponse | Login</title>
+    <title>SimpleResponse | Historiek</title>
 
     <link rel="icon" href="Favicon2.png" />
 
@@ -14,28 +14,43 @@
       media="screen"
       href="style/screen.css"
     />
-      <script
+
+    <script
       src="https://cdn.socket.io/4.4.1/socket.io.min.js"
       integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
       crossorigin="anonymous"
     ></script>
-    <!-- <script src="script/datahandler.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="script/datahandler.js"></script>
     <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
-    <form action="action_page.php" method="post">
-      <div class="center imgcontainer">
-        <img src="Favicon2.png" alt="Logo" class="logo" />
-      </div>
-      <div class="center form">
-        <input class="c-bericht js-gebruiker"type="text" placeholder="Gebruikersnaam" name="uname" />
-        <br />
-        <br />
-        <a class="js-login">Login</a>
-        <h2>OF</h2>
-        <a href="registreren.html" class="">Registreren</a>
-      </div>
-      </div>
-    </form>
+    <!-- <h2>SimpleResponse Login</h2> -->
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+          </div>
+          <div class="c-loginbox">
+            <div class="c-login">
+              <div>
+                <div class="imgcontainer">
+                  <img src="Favicon2.png" alt="Logo" class="logo" />
+                </div>
+                <div class="containertje">
+                  <label for="uname"><b>Gebruikersnaam</b></label>
+                  <input type="text" placeholder="Gebruikersnaam" name="uname" class="js-gebruiker"required />
+                  <div class="c-formbtn center js-login">
+                      <p class="c-reset">Login</p>
+                  </div>
+                  <div class="c-formbtn center">
+                    <p class="c-reset">Registreren</p>
+                </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </article>
+    </section>
   </body>
 </html>
