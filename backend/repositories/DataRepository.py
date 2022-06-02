@@ -95,3 +95,9 @@ class DataRepository:
         sql = "SELECT * FROM gebruiker WHERE gebruikerid = %s"
         params = [id]
         return Database.get_rows(sql, params)
+
+    @staticmethod
+    def read_berichtdatum_historiek(id, ontvanger, id2, ontvanger2):
+        sql = "SELECT * FROM bericht c JOIN historiek h ON c.berichtid = h.bericht_berichtid JOIN gebruiker g ON c.gebruiker_gebruikerid = gebruikerid WHERE c.gebruiker_gebruikerid in(%s,%s) and c.ontvanger in(%s,%s)"
+        params = [id, ontvanger, id2, ontvanger2]
+        return Database.get_rows(sql, params)

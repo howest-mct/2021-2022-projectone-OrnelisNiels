@@ -123,8 +123,16 @@ body{
     float: right;
     color: #F4A950;
 }
+.time-right__dark {
+    float: right;
+    color: #161B20;
+}
 
 .time-left {
+    float: left;
+    color: #F4A950;
+}
+.time-left__dark {
     float: left;
     color: #161B20;
 }
@@ -612,6 +620,10 @@ a:focus {
     padding-right: 5px;
 }
 
+.c-verstuur{
+    display:none
+}
+
 .c-loginbox {
     margin-top: 10%;
     box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
@@ -648,7 +660,7 @@ a:focus {
 }
 
 .c-chat::-webkit-scrollbar-thumb {
-    background-color: #F4A950;
+    background-color:   #161B20;
     border-radius: 5px;
 }
 

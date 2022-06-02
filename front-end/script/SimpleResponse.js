@@ -34,13 +34,15 @@ const showBerichten = function (jsonObject) {
     for (let bericht of jsonObject.berichten) {
       if (bericht.gebruiker_gebruikerid != 9) {
         html += `<div class="container">
+          <span class="time-left">${bericht.naam}</span>
             <p class="c-bericht js-berichten">${bericht.berichtinhoud}</p>
-            <span class="time-right js-tijd">11:00</span>
+            <span class="time-right js-tijd">${bericht.datum}</span>
             </div>`;
       } else {
         html += `<div class="container darker">
+              <span class="time-left__dark">${bericht.naam}</span>
               <p class="c-bericht__darker js-berichten">${bericht.berichtinhoud}</p>
-              <span class="time-left">karl</span>
+              <span class="time-right__dark js-tijd">${bericht.datum}</span>
             </div>`;
       }
     }
@@ -137,6 +139,7 @@ const gebruiker = function () {
 //#endregion
 
 //#region ***  Event Listeners - listenTo___            ***********
+
 const listenToSocketHistoriek = function () {
   socketio.on('B2F_refresh_chart', function () {
     getData();
