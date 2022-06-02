@@ -7,9 +7,22 @@ let htmlInloggen,
   htmlHistoriek,
   htmlNavHome,
   htmlNavMessage,
-  htmlNavHistoriek;
+  htmlNavHistoriek,
+  htmlNavHomeMobile,
+  htmlNavMessageMobile,
+  htmlNavHistoriekMobile;
 
 //#region ***  Callback-Visualisation - show___         ***********
+function toggleNav() {
+  let toggleTrigger = document.querySelectorAll('.js-toggle-nav');
+  for (let i = 0; i < toggleTrigger.length; i++) {
+    toggleTrigger[i].addEventListener('click', function () {
+      console.log('test');
+      document.querySelector('body').classList.toggle('has-mobile-nav');
+    });
+  }
+}
+
 const showData = function (jsonObject) {
   try {
     console.log(jsonObject);
@@ -130,6 +143,9 @@ const gebruiker = function () {
       htmlNavHome.innerHTML = nieuweHome;
       htmlNavMessage.innerHTML = nieweMessage;
       htmlNavHistoriek.innerHTML = nieuweHistoriek;
+      htmlNavHomeMobile.innerHTML = nieuweHome;
+      htmlNavMessageMobile.innerHTML = nieweMessage;
+      htmlNavHistoriekMobile.innerHTML = nieuweHistoriek;
       console.log(idGebruiker);
     } else if (jsonObject.message == 'niet-bestaand') {
       window.location.href = 'index.html';
@@ -326,6 +342,9 @@ const init = function () {
   htmlNavHome = document.querySelector('.js-navHome');
   htmlNavMessage = document.querySelector('.js-navMessage');
   htmlNavHistoriek = document.querySelector('.js-navHistoriek');
+  htmlNavHomeMobile = document.querySelector('.js-navHomeMobile');
+  htmlNavMessageMobile = document.querySelector('.js-navMessageMobile');
+  htmlNavHistoriekMobile = document.querySelector('.js-navHistoriekMobile');
   let urlParams = new URLSearchParams(window.location.search);
   let idGebruiker = urlParams.get('id');
   if (htmlRegistreren) {
@@ -341,16 +360,19 @@ const init = function () {
         listenToUI();
         listenToSocket();
         gebruiker();
+        toggleNav();
       } else if (htmlHistoriek) {
         console.log('Historiek');
         gebruiker();
         getData();
         listenToSocketHistoriek();
+        toggleNav();
       } else if (htmlBericht) {
         console.log('Bericht');
         listenToSocketBericht();
         getBerichten();
         gebruiker();
+        toggleNav();
       }
     } else {
       window.location.href = 'index.html';

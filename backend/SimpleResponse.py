@@ -177,6 +177,7 @@ def bericht_ontvangen(data):
     inhoud = str(data['berichtinhoud'])
     id = int(data['id'])
     controleGebruiker = DataRepository.read_gebruikers_by_id(id)
+    print("test")
     if controleGebruiker:
         print("controle geslaagd")
         DataRepository.create_bericht(inhoud, id, 9)
@@ -186,7 +187,8 @@ def bericht_ontvangen(data):
             10, berichtid, datum, "bericht ontvangen")
         berichten = DataRepository.read_berichten_by_id(id, 9, id, 9)
         # print(berichten)
-        historiekdatum = DataRepository.read_berichtdatum_historiek(id)
+        historiekdatum = DataRepository.read_berichtdatum_historiek(
+            id, 9, id, 9)
         print(historiekdatum)
         # emit('B2F_toon_berichten', {
         #  'berichten': berichten, "datum": historiekdatum})
@@ -206,11 +208,15 @@ def maak_gebruiker(data):
         emit('B2F_toon_error', {
             'error': "Error: Gebruiker bestaat al!"})
     else:
-        DataRepository.create_user(gebruiker)
-        user = DataRepository.read_user_by_naam(gebruiker)
-        id = int(user['gebruikerid'])
-        emit('B2F_toon_succes', {
-            'message': "Gebruiker toegevoegd. Dag ", "gebruiker": gebruiker, "id": id})
+        if gebruiker != "":
+            DataRepository.create_user(gebruiker)
+            user = DataRepository.read_user_by_naam(gebruiker)
+            id = int(user['gebruikerid'])
+            emit('B2F_toon_succes', {
+                'message': "Gebruiker toegevoegd. Dag ", "gebruiker": gebruiker, "id": id})
+        else:
+            emit('B2F_toon_error', {
+                'error': "Error: Gebruiker moet een naam hebben en mag niet leeg zijn!"})
 
 
 @ socketio.on('F2B_login')
