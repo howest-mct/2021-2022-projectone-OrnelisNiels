@@ -23,22 +23,33 @@
     <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
-    <form method="post">
-      <div class="center imgcontainer">
-        <img src="Favicon2.png" alt="Logo" class="logo" />
-      </div>
-
-      <br />
-      <br />
-      <div class="center form">
-        <input class="c-bericht js-nieuweGebruiker"type="text" placeholder="Gebruikersnaam" name="uname" required />
-        <br />
-        <br />
-        <a class="c-btn__link js-registreren">Registreren</a>
-        <p class="js-message"></p>
-        <a href="index.html" class="c-nav__link js-navHome">Terug</a>
-      </div>
-      </div>
-    </form>
+    <!-- <h2>SimpleResponse Login</h2> -->
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+          </div>
+          <div class="c-loginbox">
+            <div class="c-login">
+              <div>
+                <div class="containertje">
+                  <div class="imgcontainer">
+                    <img src="Favicon2.png" alt="Logo" class="logo" />
+                  </div>
+                  <div class="center">
+                    <h2 class="c-loginTitle">Registratie</h2>
+                </div>
+                <p class="js-message"></p>
+                  <label for="uname"><b>Gebruikersnaam</b></label>
+                  <input type="text" placeholder="Gebruikersnaam" name="uname" class="js-nieuweGebruiker"required />
+                  <div class="c-formbtn center js-registreren">
+                    <p class="c-reset">Registreren</p>
+                </div>
+                </div>
+            </div>
+            </div>
+          </div>
+        </article>
+    </section>
   </body>
 </html>

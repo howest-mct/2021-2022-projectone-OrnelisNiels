@@ -164,6 +164,11 @@ const listenToInloggen = function () {
     console.log(jsonObject.id);
     window.location.href = `home.html?id=${jsonObject.id}`;
   });
+
+  const htmlRegistratie = document.querySelector('.js-registratie');
+  htmlRegistratie.addEventListener('click', function () {
+    window.location.href = `registreren.html`;
+  });
 };
 
 const listenToRegistreren = function () {
@@ -173,6 +178,19 @@ const listenToRegistreren = function () {
     let gebruikersnaam = htmlNieuweGebruiker.value;
     socketio.emit('F2B_maak_gebruiker', { gebruikersnaam: gebruikersnaam });
   });
+
+  const htmlNieuweGebruiker = document.querySelector('.js-nieuweGebruiker');
+  htmlNieuweGebruiker.addEventListener('keypress', function (event) {
+    if (event.key === 'Enter') {
+      console.log('test');
+      console.log(htmlNieuweGebruiker.value);
+      nieuweGebruiker = htmlNieuweGebruiker.value;
+      socketio.emit('F2B_maak_gebruiker', {
+        gebruikersnaam: nieuweGebruiker,
+      });
+    }
+  });
+
   socketio.on('B2F_toon_error', function (jsonObject) {
     console.log(jsonObject.error);
     const htmlMessage = document.querySelector('.js-message');
@@ -181,10 +199,7 @@ const listenToRegistreren = function () {
   });
 
   socketio.on('B2F_toon_succes', function (jsonObject) {
-    console.log(jsonObject.message);
-    const htmlMessage = document.querySelector('.js-message');
-    html = `<p>${jsonObject.message}${jsonObject.gebruiker}!</p>`;
-    htmlMessage.innerHTML = html;
+    window.location.href = `home.html?id=${jsonObject.id}`;
   });
 };
 
@@ -251,7 +266,7 @@ const listenToUI = function () {
       } else if (id == 11) {
         socketio.emit('F2B_verander_ventilator', {
           knopid: id,
-          actie: 'uit',
+          actie: 'uitt',
         });
       }
     });

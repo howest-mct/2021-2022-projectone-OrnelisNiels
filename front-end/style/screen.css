@@ -549,7 +549,6 @@ a:focus {
     ---
     Main header of the website
 */
-
 .c-header {
     display: flex;
     justify-content: space-around;
@@ -557,7 +556,7 @@ a:focus {
 }
 
 .c-header__nav,
-.c-btn__link {
+.c-remove {
     display: none;
 }
 .c-header__link{
@@ -625,13 +624,17 @@ a:focus {
     background-color: #161B20;
     border-radius: 1%;
     max-width: 1108px;
-    max-height: 535px;
+    max-height: 650px;
     display: flex;
-    flex-direction: column-reverse;
-    overflow: hidden;
+    flex-direction: column;
     word-break: break-all;
     line-height: 30px;
 
+}
+.c-loginTitle{
+    padding: 35px 0px 15px 0px;
+    color: #F4A950;
+    font-size: 32px;
 }
 
 .c-titel {
@@ -793,6 +796,7 @@ textarea button {
   font-size: 24px;
   color: #161B20;
   padding: 4px;
+  margin-bottom: 15px;
 }
 
 .c-btn__link {

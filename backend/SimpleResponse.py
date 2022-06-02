@@ -163,7 +163,7 @@ def verander_kleur(data):
         motorpwm.start(0)
         motorpwm.ChangeDutyCycle(100)
 
-    elif actie == "uit":
+    elif actie == "uitt":
         DataRepository.create_historiek(
             9, 8, datum, actie, "Ventilator uit")
         motorpwm.ChangeDutyCycle(0)
@@ -203,8 +203,10 @@ def maak_gebruiker(data):
             'error': "Error: Gebruiker bestaat al!"})
     else:
         DataRepository.create_user(gebruiker)
+        user = DataRepository.read_user_by_naam(gebruiker)
+        id = int(user['gebruikerid'])
         emit('B2F_toon_succes', {
-            'message': "Gebruiker toegevoegd. Dag ", "gebruiker": gebruiker})
+            'message': "Gebruiker toegevoegd. Dag ", "gebruiker": gebruiker, "id": id})
 
 
 @ socketio.on('F2B_login')
