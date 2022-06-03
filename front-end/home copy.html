@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SimpleResponse | Historiek</title>
+    <title>SimpleResponse | Home</title>
 
     <link rel="icon" href="Favicon2.png" />
 
@@ -20,12 +20,12 @@
       integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
       crossorigin="anonymous"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="script/datahandler.js"></script>
     <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
-    <header class="o-row o-row--border o-row--primary">
+    <div class="c-page">
+      <header class="o-row o-row--border o-row--primary">
       <div class="o-container u-max-width-xl">
         <div class="c-header">
           <div class="c-header__logo">
@@ -51,7 +51,7 @@
             </div>
           </div>
           <p class="c-header__link">
-            <a href="index.html" class="c-btn__link c-remove  c-link-cta--white">Log out</a>
+            <a href="index.html" class="c-btn__link c-remove c-link-cta--white">Log out</a>
           </p>
           <div class="c-header__mobile-nav-trigger">
             <button class="o-button-reset c-nav-trigger js-toggle-nav">
@@ -59,25 +59,84 @@
                     <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
                 </svg>
             </button>
-         </div>
+          </div>
         </div>
       </div>
     </header>
     </section>
-    <section class="o-row o-row--lg js-historiek">
+    <div class="c-color">
+      <section class="o-row o-row--lg js-home">
       <div class="o-container u-max-width-lg">
         <article class="o-section">
-          <div class="o-layout1 o-layout--gutter-lg1 o-layout--gutter o-layout--align-center1">
-            <div class="o-layout__item1 u-1-of-2-bp3">
-              <h2 class="c-titel  c-lead c-lead--lg">Historiek</h2>
+          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="o-layout__item u-1-of-2-bp3">
+              <h2 class="c-lead c-lead--lg">Temperatuur uitlezen</h2>
+            </div>
+            <div class="o-layout__item u-1-of-2-bp3">
+              <div class="c-lead c-lead--lg js-temp"></div>
+              <button class="c-btn__link js-btn" knop-id="1">Temperatuur uitlezen</button>
             </div>
           </div>
-          <div id="chart" class="js-chart"></div>
+        </article>
+      </div>
+    </section>
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="o-layout__item u-1-of-2-bp3">
+              <h2 class="c-lead c-lead--lg">LDR uitlezen</h2>
+            </div>
+            <div class="o-layout__item u-1-of-2-bp3">
+              <div class="c-lead c-lead--lg js-ldr"></div>
+              <button class="c-btn__link js-btn" knop-id="2">LDR uitlezen</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="o-layout__item u-1-of-2-bp3">
+              <h2 class="c-lead c-lead--lg">Ledstatus</h2>
+              <p class="js-readKleur"></p>
+            </div>
+            <div class="o-layout__item u-1-of-2-bp3">
+              <div class="c-lead c-lead--lg js-ldr"></div>
+             <button class="c-btn__link js-btn" knop-id="4">Rood</button>
+             <button class="c-btn__link js-btn" knop-id="5">Groen</button>
+             <button class="c-btn__link js-btn" knop-id="6">Blauw</button>
+             <button class="c-btn__link js-btn" knop-id="7">RGB loop</button>
+             <button class="c-btn__link js-btn" knop-id="8">Aan</button>
+             <button class="c-btn__link js-btn" knop-id="9">Uit</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="o-layout__item u-1-of-2-bp3">
+              <h2 class="c-lead c-lead--lg">Ventilator</h2>
+              <p class="js-readKleur"></p>
+            </div>
+            <div class="o-layout__item u-1-of-2-bp3">
+              <div class="c-lead c-lead--lg js-ldr"></div>
+             <button class="c-btn__link js-btn" knop-id="10">Aan</button>
+             <button class="c-btn__link js-btn" knop-id="11">Uit</button>
+            </div>
+          </div>
         </article>
       </div>
     </section>
     </div>
-     <aside class="c-mobile-nav">
+    </div>
+
+    <aside class="c-mobile-nav">
         <div class="c-mobile-nav__bg"></div>
         <div class="c-mobile-nav__body">
             <div class="c-mobile-nav__header">

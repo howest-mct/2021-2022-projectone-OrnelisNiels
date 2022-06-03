@@ -274,7 +274,7 @@ a:focus {
 
 @media (min-width: 992px) {
     .o-row--lg {
-            padding-top: 96px;
+            /* padding-top: 96px; */
             padding-bottom: 24px;
         }
     .o-row--xl {
@@ -345,7 +345,16 @@ a:focus {
 .o-layout {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 
+}
+
+.o-layout1 {
+    display: flow-root;
+
+}
+.o-layout--margin{
+    padding-top: 50px;
 }
 
     .o-layout__item {
@@ -375,7 +384,22 @@ a:focus {
 }
 
 .o-layout--gutter-lg > .o-layout__item {
-    padding: 0 24px;
+    padding: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-radius: 15px;
+    background-color: white;
+    margin-right: 100px;
+    align-items: baseline;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    flex-wrap: wrap;
+    height: 140px;
+    margin-top: 24px;
+}
+
+.o-layout--gutter-lg1>.o-layout__item1 {
+    padding: 24px;
 }
 
 .o-layout--gutter-xl {
@@ -440,6 +464,11 @@ a:focus {
 }
 
 .o-layout--align-center {
+    align-items:center;
+    margin-left: 7.5%;
+}
+
+.o-layout--align-center1{
     align-items: center;
 }
 
@@ -526,6 +555,7 @@ a:focus {
     ---
     Main header of the website
 */
+
 .c-header {
     display: flex;
     justify-content: space-around;
@@ -1103,14 +1133,45 @@ textarea button {
 }
 
 .c-lead--lg {
-    font-size: 20px;
-    line-height: 32px;
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 700;
+    
+}
+
+.c-lead--center{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-bottom: 1px solid #F4A950;
+    width: 100%;
 }
 
 .c-lead--xl {
     font-size: 32px;
     line-height: 40px;
     color: #0D121A
+}
+
+.c-lead--custom {
+    font-size: 26px;
+    line-height: 40px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    /* border-bottom: 1px solid #F4A950; */
+    /* width: 100%; */
+
+}
+
+.c-lead--left {
+    /* border-left: 2px solid #F4A950; */
+    height: 100%;
+    color:#161B20;
+    /* padding-left: 15px; */
+    
+
 }
 
 @media (min-width: 375px) {
@@ -1401,11 +1462,14 @@ textarea button {
 }
 
 @media (min-width: 992px) {
+    .u-1-bp3 {
+            flex-basis: calc(100% /1) !important;
+        }
     .u-1-of-2-bp3 {
         flex-basis: calc(100% / 2) !important;
     }
     .u-1-of-3-bp3 {
-        flex-basis: calc(100% / 3) !important;
+        flex-basis: calc(100% /2.5) !important;
     }
     .u-2-of-3-bp3 {
         flex-basis: calc(100% / 3 * 2) !important;
