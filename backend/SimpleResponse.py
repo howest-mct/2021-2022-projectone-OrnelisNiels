@@ -1,4 +1,5 @@
 from itertools import cycle
+from pickle import TRUE
 from h11 import Data
 from helpers.lcdKlasse import lcdKlasse
 from helpers.klasseKnop import Button
@@ -154,21 +155,34 @@ def verander_kleur(data):
 
 
 @socketio.on('F2B_verander_ventilator')
-def verander_kleur(data):
-    global motorpwm
+def verander_ventilator(data):
+    global motorpwm, gewensteTemp, draaien, controleVentilator
+    print(data)
     actie = data['actie']
-    print(actie)
     if actie == "aan":
+        controleVentilator = "manueel"
+        print("karl" + controleVentilator)
+        draaien = True
         DataRepository.create_historiek(
             9, 7, datum, actie, "Ventilator aan")
         motorpwm.start(0)
         motorpwm.ChangeDutyCycle(100)
 
     elif actie == "uitt":
+        controleVentilator = "manueel"
+        draaien = False
         DataRepository.create_historiek(
             9, 8, datum, actie, "Ventilator uit")
         motorpwm.ChangeDutyCycle(0)
         motorpwm.stop()
+
+
+@socketio.on('F2B_verander_ventilatorAuto')
+def verander_ventilatorAuto(data):
+    print(data)
+    global gewensteTemp, draaien, controleVentilator
+    gewensteTemp = float(data['temp'])
+    controleVentilator = ""
 
 
 @socketio.on('F2B_verstuur_bericht')
@@ -312,6 +326,10 @@ ldrWaarde = "gggggg"
 rainbowTask = None
 
 melding = False
+
+gewensteTemp = 0
+draaien = False
+controleVentilator = ""
 
 
 class RainbowTask:
@@ -461,7 +479,7 @@ def setup():
 
 
 def programma():
-    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding
+    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -535,8 +553,20 @@ def programma():
                 2, 2, datum, round(licht, 2), "Ldr inlezen")
             print("emit")
             socketio.emit('B2F_refresh_chart')
-
-        # print(difference)
+        if controleVentilator == "manueel":
+            if draaien == True:
+                motorpwm.start(0)
+                motorpwm.ChangeDutyCycle(100)
+            elif draaien == False:
+                motorpwm.ChangeDutyCycle(0)
+                motorpwm.stop(0)
+        elif controleVentilator == "":
+            if resul > gewensteTemp:
+                motorpwm.start(0)
+                motorpwm.ChangeDutyCycle(100)
+            elif resul < gewensteTemp:
+                motorpwm.ChangeDutyCycle(0)
+                motorpwm.stop(0)
 
         if reset == True:
             print("reset")

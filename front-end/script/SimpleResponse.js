@@ -171,7 +171,7 @@ const listenToInloggen = function () {
   });
   const htmlGebruiker = document.querySelector('.js-gebruiker');
   htmlGebruiker.addEventListener('keypress', function (event) {
-    if (event.key === 'Enter') {
+    if (event.key == 'Enter') {
       console.log('test');
       console.log(htmlGebruiker.value);
       bestaandeGebruiker = htmlGebruiker.value;
@@ -200,7 +200,7 @@ const listenToRegistreren = function () {
 
   const htmlNieuweGebruiker = document.querySelector('.js-nieuweGebruiker');
   htmlNieuweGebruiker.addEventListener('keypress', function (event) {
-    if (event.key === 'Enter') {
+    if (event.key == 'Enter') {
       console.log('test');
       console.log(htmlNieuweGebruiker.value);
       nieuweGebruiker = htmlNieuweGebruiker.value;
@@ -279,17 +279,53 @@ const listenToUI = function () {
         });
       } else if (id == 10) {
         socketio.emit('F2B_verander_ventilator', {
-          knopid: id,
           actie: 'aan',
+          knopid: id,
         });
       } else if (id == 11) {
         socketio.emit('F2B_verander_ventilator', {
-          knopid: id,
           actie: 'uitt',
+          knopid: id,
         });
       }
     });
   }
+  const gewensteTemp = document.querySelector('.js-gewensteTemp');
+  const gewensteTempKnop = document.querySelector('.js-sendTemp');
+  let htmlTemp = '';
+  const errorMelding = document.querySelector('.js-errorMelding');
+  gewensteTempKnop.addEventListener('click', function () {
+    let gewensteTempWaarde = gewensteTemp.value;
+    if (gewensteTempWaarde > 100 || gewensteTempWaarde < 0) {
+      htmlTemp = 'Error, geef waarde tussen 0 & 100';
+      console.log(htmlTemp);
+    } else {
+      console.log(gewensteTempWaarde);
+      socketio.emit('F2B_verander_ventilatorAuto', {
+        actie: 'auto',
+        temp: gewensteTempWaarde,
+      });
+      htmlTemp = `Huidige setpoint: <b>${gewensteTempWaarde} °C</b>`;
+    }
+    errorMelding.innerHTML = htmlTemp;
+  });
+  gewensteTemp.addEventListener('keypress', function (event) {
+    htmlTemp = 'Huidige setpoint: <b> °C';
+    let gewensteTempWaarde = gewensteTemp.value;
+    if (event.key == 'Enter') {
+      if (gewensteTempWaarde > 100 || gewensteTempWaarde < 0) {
+        htmlTemp = 'Error, geef waarde tussen 0 & 100';
+      } else {
+        console.log(gewensteTempWaarde);
+        socketio.emit('F2B_verander_ventilatorAuto', {
+          actie: 'auto',
+          temp: gewensteTempWaarde,
+        });
+        htmlTemp = `Huidige setpoint: <b>${gewensteTempWaarde} °C</b>`;
+      }
+    }
+    errorMelding.innerHTML = htmlTemp;
+  });
 };
 
 const listenToSocket = function () {

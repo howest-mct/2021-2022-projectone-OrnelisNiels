@@ -395,7 +395,7 @@ a:focus {
     box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
     flex-wrap: wrap;
     height: 140px;
-    margin-top: 24px;
+    margin-top:10px
 }
 
 .o-layout--gutter-lg1>.o-layout__item1 {
@@ -706,6 +706,45 @@ input[type='text'] {
     border-radius: 15px;
     font-size: 24px;
 }
+
+.c-gewensteTemp input[type='text']{
+    width:50%;
+}
+.c-tempBtn{
+    border-radius: 10px;
+    min-width: 50px;
+    margin: 0;
+    display: inline;
+    height: 64px;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+    height: 55px;
+
+}
+.c-errorMelding{
+    padding:0;
+    margin-right: 100px;
+}
+.c-textBorder {
+    border-bottom: 2px solid #F4A950;
+    padding-bottom: 3px;
+}
+.c-textBorder {
+    border-bottom: 2px solid #F4A950;
+    padding-bottom: 3px;
+    border-radius: 2px;
+}
+.c-textBorderJa {
+    border-bottom: 2px solid rgb(46, 180, 46);
+    padding-bottom: 3px;
+    border-radius: 2px;
+}
+.c-textBorderNee {
+    border-bottom: 2px solid rgb(255, 50, 50);
+    padding-bottom: 3px;
+    border-radius: 2px;
+}
 @media (min-width: 992px) {
 
     .c-loginbox {
@@ -787,6 +826,18 @@ input[type='text'] {
             border-radius: 15px;
             font-size: 24px;
         }
+        input[type='number'].c-gewensteTemp {
+            margin: 0px 20px 0px 100px;
+            width: 50%;
+            height: 55px;
+            font-size: 18px;
+            border: 1px solid #161B20;
+            border-radius: 15px;
+        }
+        .c-gewensteTempForm {
+            width: 50%;
+        }
+
 }
 
 .c-titel {
@@ -804,6 +855,13 @@ input[type='text'] {
     border-radius: 5px;
 }
 
+.c-vertical{
+    border-right: 3px solid #161B20;
+    height: 90px;
+    position: absolute;
+    left: 50%;
+    
+}
 
 /* .c-padding__left{
 
@@ -1116,6 +1174,99 @@ textarea button {
     border-color: #F47550;
 }
 
+/* Temp */
+.c-btn__link__temp {
+    text-decoration: none;
+    background-color: white;
+    font-size: 20px;
+    color: #161B20;
+    line-height: 15px;
+    /* margin-bottom: 15px; */
+}
+
+.c-btn__link__temp {
+    text-decoration: none;
+    color: #161B20
+}
+
+.c-btn__link__temp,
+.c-btn__link__temp:visited,
+.c-btn__link__temp:active {
+    color: #161B20
+}
+
+.c-btn__link__temp:hover,
+.c-btn__link__temp:focus {
+    color: #F4A950;
+    background-color: #161B20;
+}
+
+.c-btn__link__temp:active {
+    background-color: #161B20;
+}
+
+/* Aan */
+.c-btn__link__aan {
+    text-decoration: none;
+    background-color: white;
+    font-size: 20px;
+    color: #161B20;
+    line-height: 15px;
+    /* margin-bottom: 15px; */
+}
+
+.c-btn__link__aan {
+    text-decoration: none;
+    color: #161B20
+}
+
+.c-btn__link__aan,
+.c-btn__link__aan:visited,
+.c-btn__link__aan:active {
+    color: #161B20
+}
+
+.c-btn__link__aan:hover,
+.c-btn__link__aan:focus {
+    color: rgb(46, 180, 46);
+    background-color: #161B20;
+}
+
+.c-btn__link__aan:active {
+    background-color: #161B20;
+}
+
+/* Uit */
+
+.c-btn__link__uit {
+    text-decoration: none;
+    background-color: white;
+    font-size: 20px;
+    color: #161B20;
+    line-height: 15px;
+    /* margin-bottom: 15px; */
+}
+
+.c-btn__link__uit {
+    text-decoration: none;
+    color: #161B20
+}
+
+.c-btn__link__uit,
+.c-btn__link__uit:visited,
+.c-btn__link__uit:active {
+    color: #161B20
+}
+
+.c-btn__link__uit:hover,
+.c-btn__link__uit:focus {
+    color: rgb(255, 50, 50);
+    background-color: #161B20;
+}
+
+.c-btn__link__uit:active {
+    background-color: #161B20;
+}
 
 /*
     Component: Lead
@@ -1501,6 +1652,7 @@ textarea button {
 }
 
 @media (min-width: 1200px) {
+    
     .u-1-of-2-bp4 {
         flex-basis: calc(100% / 2) !important;
     }
