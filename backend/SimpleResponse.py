@@ -465,9 +465,11 @@ def start_chrome_thread():
 
 
 def vorige_kleur():
-    global cyclus, prevColor
+    global cyclus, prevColor, globalStatled
     print("karl")
     print(prevColor)
+    globalStatled = 1
+    socketio.emit('B2F_verander_status_leds', {'status': 1})
     if prevColor == "rood":
         Led1.RGB_set(0, 100, 100)
         Led2.RGB_set(0, 100, 100)
