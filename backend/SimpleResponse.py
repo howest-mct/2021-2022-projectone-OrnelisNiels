@@ -69,7 +69,7 @@ def get_berichten_by_id(id):
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
-    global var, gewensteTemp, globalStat
+    global var, gewensteTemp, globalStat, globalStatled
     # # Send to the client!
     # vraag de status op van de lampen uit de DB
     status = DataRepository.read_device()
@@ -78,6 +78,7 @@ def initial_connection():
     emit('B2F_licht_uitlezen', {'licht': round(licht, 2)})
     emit('B2F_verander_tempHtml', {'gewTemp': var})
     emit('B2F_verander_status_vent', {'status': globalStat})
+    emit('B2F_verander_status_leds', {'status': globalStatled})
 
 
 @socketio.on('F2B_gebruiker')
@@ -116,38 +117,49 @@ def toon_sensorwaarde(data):
 
 @socketio.on('F2B_verander_led')
 def verander_kleur(data):
-    global cyclus, prevColor
+    global cyclus, prevColor, globalStatled
     actie = data['actie']
     # print(kleur)
     if cyclus == True:
         stop_rainbow()
         cyclus = False
     if actie == "rood":
+        socketio.emit('B2F_verander_status_leds', {'status': 1})
+        globalStatled = 1
         Led1.RGB_set(0, 100, 100)
         Led2.RGB_set(0, 100, 100)
         Led3.RGB_set(0, 100, 100)
         prevColor = "rood"
     elif actie == "groen":
+        socketio.emit('B2F_verander_status_leds', {'status': 1})
         Led1.RGB_set(100, 0, 100)
         Led2.RGB_set(100, 0, 100)
         Led3.RGB_set(100, 0, 100)
         prevColor = "groen"
     elif actie == "blauw":
+        socketio.emit('B2F_verander_status_leds', {'status': 1})
+        globalStatled = 1
         Led1.RGB_set(100, 100, 0)
         Led2.RGB_set(100, 100, 0)
         Led3.RGB_set(100, 100, 0)
         prevColor = "blauw"
     elif actie == "cycle":
+        socketio.emit('B2F_verander_status_leds', {'status': 1})
+        globalStatled = 1
         cyclus = True
         prevColor = "cycle"
         print("start_rainbow")
         start_rainbow()
     elif actie == "aan":
+        socketio.emit('B2F_verander_status_leds', {'status': 1})
+        globalStatled = 1
         DataRepository.create_historiek(4, 4, datum, actie, "Leds aan")
         print("aan")
         print(prevColor)
         vorige_kleur()
     elif actie == "uit":
+        socketio.emit('B2F_verander_status_leds', {'status': 0})
+        globalStatled = 0
         DataRepository.create_historiek(4, 5, datum, actie, "Leds uit")
         Led1.RGB_set(100, 100, 100)
         Led2.RGB_set(100, 100, 100)
@@ -566,6 +578,7 @@ def programma():
                 2, 2, datum, round(licht, 2), "Ldr inlezen")
             print("emit")
             socketio.emit('B2F_refresh_chart')
+            lcdObject.init_LCD()
 
         # Ventilator besturen
         if controleVentilator == "manueel":
@@ -594,7 +607,7 @@ def programma():
                     globalStat = 1
                 motorpwm.start(0)
                 motorpwm.ChangeDutyCycle(100)
-            elif resul < gewensteTemp:
+            elif resul <= gewensteTemp:
                 stat = 0
                 if vorigeStat != stat:
                     socketio.emit('B2F_verander_status_vent', {'status': 0})

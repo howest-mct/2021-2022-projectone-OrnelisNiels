@@ -5,6 +5,11 @@
 /*------------------------------------*\
   #GENERIC
 \*------------------------------------*/
+/* TEST */
+
+
+
+
 
 /*
     Generic: Page
@@ -354,7 +359,7 @@ a:focus {
 
 }
 .o-layout--margin{
-    padding-top: 50px;
+    padding-top: 0px;
 }
 
     .o-layout__item {
@@ -757,6 +762,18 @@ input[type='text'] {
 
 }
 
+.c-statusLeds {
+    height: 12px;
+    width: 12px;
+    background-color: rgb(255, 50, 50);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.c-statusLedsGroen {
+    background-color: rgb(46, 180, 46);
+
+}
 @media (min-width: 992px) {
 
     .c-loginbox {
@@ -1194,6 +1211,7 @@ textarea button {
     font-size: 20px;
     color: #161B20;
     line-height: 15px;
+    
     /* margin-bottom: 15px; */
 }
 
@@ -1210,8 +1228,8 @@ textarea button {
 
 .c-btn__link__temp:hover,
 .c-btn__link__temp:focus {
-    color: #F4A950;
-    background-color: #161B20;
+    color: white;
+    background: linear-gradient(45deg, #F4A950 30%, #F47550 70%);
 }
 
 .c-btn__link__temp:active {

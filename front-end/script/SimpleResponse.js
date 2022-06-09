@@ -385,6 +385,17 @@ const listenToSocket = function () {
       errorMelding.innerHTML = htmlTemp;
     }
   });
+  socketio.on('B2F_verander_status_leds', function (jsonObject) {
+    console.log('karl' + jsonObject);
+    if (jsonObject.status == 1) {
+      const element = document.querySelector('.js-statusLeds');
+      console.log(element);
+      element.classList.add('c-statusLedsGroen');
+    } else {
+      const element = document.querySelector('.js-statusLeds');
+      element.classList.remove('c-statusLedsGroen');
+    }
+  });
 };
 
 const listenToSocketBericht = function () {
