@@ -282,18 +282,20 @@ const listenToUI = function () {
           actie: 'aan',
           knopid: id,
         });
+        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
       } else if (id == 11) {
         socketio.emit('F2B_verander_ventilator', {
           actie: 'uitt',
           knopid: id,
         });
+        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
       }
     });
   }
   const gewensteTemp = document.querySelector('.js-gewensteTemp');
   const gewensteTempKnop = document.querySelector('.js-sendTemp');
   let htmlTemp = '';
-  const errorMelding = document.querySelector('.js-errorMelding');
+  const errorMelding = document.querySelector('.js-meldingVent');
   gewensteTempKnop.addEventListener('click', function () {
     let gewensteTempWaarde = gewensteTemp.value;
     if (gewensteTempWaarde > 100 || gewensteTempWaarde < 0) {
@@ -307,14 +309,17 @@ const listenToUI = function () {
       });
       htmlTemp = `Huidige setpoint: <b>${gewensteTempWaarde} °C</b>`;
     }
-    errorMelding.innerHTML = htmlTemp;
+    // errorMelding.innerHTML = htmlTemp;
   });
   gewensteTemp.addEventListener('keypress', function (event) {
     htmlTemp = 'Huidige setpoint: <b> °C';
     let gewensteTempWaarde = gewensteTemp.value;
     if (event.key == 'Enter') {
       if (gewensteTempWaarde > 100 || gewensteTempWaarde < 0) {
-        htmlTemp = 'Error, geef waarde tussen 0 & 100';
+        socketio.emit('F2B_verander_ventilatorAuto', {
+          actie: 'auto',
+          temp: gewensteTempWaarde,
+        });
       } else {
         console.log(gewensteTempWaarde);
         socketio.emit('F2B_verander_ventilatorAuto', {
@@ -324,7 +329,7 @@ const listenToUI = function () {
         htmlTemp = `Huidige setpoint: <b>${gewensteTempWaarde} °C</b>`;
       }
     }
-    errorMelding.innerHTML = htmlTemp;
+    // errorMelding.innerHTML = htmlTemp;
   });
 };
 
@@ -350,6 +355,36 @@ const listenToSocket = function () {
   socketio.on('B2F_historiek_data', function (jsonObject) {
     console.log(jsonObject);
   });
+
+  socketio.on('B2F_verander_status_vent', function (jsonObject) {
+    console.log(jsonObject);
+    if (jsonObject.status == 1) {
+      const element = document.querySelector('.js-statusVent');
+      console.log(element);
+      element.classList.add('c-statusGroen');
+    } else {
+      const element = document.querySelector('.js-statusVent');
+      element.classList.remove('c-statusGroen');
+    }
+  });
+  socketio.on('B2F_verander_tempHtml', function (jsonObject) {
+    console.log(jsonObject);
+    let htmlTemp = '';
+    const errorMelding = document.querySelector('.js-meldingVent');
+    const gewensteTempWaarde = jsonObject.gewTemp;
+    if (gewensteTempWaarde == -1) {
+      errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
+    } else {
+      if (gewensteTempWaarde > 100 || gewensteTempWaarde < 0) {
+        htmlTemp = 'Error, geef waarde tussen 0 & 100';
+        console.log(htmlTemp);
+      } else {
+        console.log(gewensteTempWaarde);
+        htmlTemp = `Huidige setpoint: <b>${gewensteTempWaarde} °C</b>`;
+      }
+      errorMelding.innerHTML = htmlTemp;
+    }
+  });
 };
 
 const listenToSocketBericht = function () {
@@ -358,11 +393,14 @@ const listenToSocketBericht = function () {
     const bericht = document.querySelector('.js-bericht');
     let urlParams = new URLSearchParams(window.location.search);
     let idGebruiker = urlParams.get('id');
-    if (bericht.value != '')
+    if (bericht.value != '') {
       socketio.emit('F2B_verstuur_bericht', {
         berichtinhoud: bericht.value,
         id: idGebruiker,
       });
+      console.log('test');
+      getBerichten();
+    }
   });
 };
 //#endregion

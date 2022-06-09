@@ -745,6 +745,18 @@ input[type='text'] {
     padding-bottom: 3px;
     border-radius: 2px;
 }
+.c-status {
+    height: 12px;
+    width: 12px;
+    background-color: rgb(255, 50, 50);
+    border-radius: 50%;
+    display: inline-block;
+}
+.c-statusGroen{
+    background-color: rgb(46, 180, 46);
+
+}
+
 @media (min-width: 992px) {
 
     .c-loginbox {
@@ -839,6 +851,7 @@ input[type='text'] {
         }
 
 }
+
 
 .c-titel {
     font-size: 30px;
@@ -1294,7 +1307,6 @@ textarea button {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    border-bottom: 1px solid #F4A950;
     width: 100%;
 }
 

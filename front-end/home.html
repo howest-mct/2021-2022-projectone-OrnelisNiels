@@ -88,11 +88,45 @@
       <div class="o-container u-max-width-lg">
         <article class="o-section">
           <div class="o-layout o-layout--margin o-layout--gutter-lg o-layout--gutter o-layout--align-center">
-            <div class="c-errorMelding js-errorMelding">Huidige setpoint: <b> °C</b></div>
+            <div class="c-errorMelding js-meldingVent">Huidige setpoint: <b> °C</b></div>
             <div class="o-layout__item u-1-bp3">
               <div class="c-lead c-lead--custom c-lead--left">
                 <p>Ventilator</p>
               </div>
+              <span class="c-status js-statusVent"></span>
+              <button class="c-btn__link__aan c-tempBtn js-btn" knop-id="10"><p class="c-textBorderJa">Aan</p></button>
+              <button class="c-btn__link__uit c-tempBtn js-btn" knop-id="11"><p class="c-textBorderNee">Uit  </p></button>
+              <div class = "c-vertical"></div>
+              <div class="c-divider"></div>
+              <div class="c-gewensteTempForm">
+                <input
+                class="c-gewensteTemp js-gewensteTemp"
+                type="number"
+                name="temperatuur"
+                id="temp"
+                maxlength="3"
+                placeholder="Vul gewenste temp in..."
+                min="0"
+                max="100"
+                required
+                />
+                <button class="c-btn__link__temp c-tempBtn js-sendTemp"><p class="c-textBorder">Invullen</p></button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--margin o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="c-errorMelding js-meldingLeds">Huidige status: <b>Uit</b></div>
+            <div class="o-layout__item u-1-bp3">
+              <div class="c-lead c-lead--custom c-lead--left">
+                <p>Ledstatus</p>
+              </div>
+              <span class="c-status js-statusLeds"></span>
               <button class="c-btn__link__aan c-tempBtn js-btn" knop-id="10"><p class="c-textBorderJa">Aan</p></button>
               <button class="c-btn__link__uit c-tempBtn js-btn" knop-id="11"><p class="c-textBorderNee">Uit  </p></button>
               <div class = "c-vertical"></div>

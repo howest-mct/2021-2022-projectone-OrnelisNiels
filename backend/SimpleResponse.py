@@ -69,12 +69,15 @@ def get_berichten_by_id(id):
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
+    global var, gewensteTemp, globalStat
     # # Send to the client!
     # vraag de status op van de lampen uit de DB
     status = DataRepository.read_device()
     emit('B2F_device', {'device': status}, broadcast=True)
     emit('B2F_temperatuur_uitlezen', {'temperatuur': round(resul, 2)})
     emit('B2F_licht_uitlezen', {'licht': round(licht, 2)})
+    emit('B2F_verander_tempHtml', {'gewTemp': var})
+    emit('B2F_verander_status_vent', {'status': globalStat})
 
 
 @socketio.on('F2B_gebruiker')
@@ -156,7 +159,7 @@ def verander_kleur(data):
 
 @socketio.on('F2B_verander_ventilator')
 def verander_ventilator(data):
-    global motorpwm, gewensteTemp, draaien, controleVentilator
+    global motorpwm, gewensteTemp, draaien, controleVentilator, var
     print(data)
     actie = data['actie']
     if actie == "aan":
@@ -165,24 +168,30 @@ def verander_ventilator(data):
         draaien = True
         DataRepository.create_historiek(
             9, 7, datum, actie, "Ventilator aan")
-        motorpwm.start(0)
-        motorpwm.ChangeDutyCycle(100)
+        # motorpwm.start(0)
+        # motorpwm.ChangeDutyCycle(100)
+        socketio.emit('B2F_verander_tempHtml', {'gewTemp': -1})
+        var = -1
 
     elif actie == "uitt":
         controleVentilator = "manueel"
         draaien = False
         DataRepository.create_historiek(
             9, 8, datum, actie, "Ventilator uit")
-        motorpwm.ChangeDutyCycle(0)
-        motorpwm.stop()
+        # motorpwm.ChangeDutyCycle(0)
+        # motorpwm.stop()
+        socketio.emit('B2F_verander_tempHtml', {'gewTemp': -1})
+        var = -1
 
 
 @socketio.on('F2B_verander_ventilatorAuto')
 def verander_ventilatorAuto(data):
     print(data)
-    global gewensteTemp, draaien, controleVentilator
+    global gewensteTemp, draaien, controleVentilator, var
     gewensteTemp = float(data['temp'])
     controleVentilator = ""
+    socketio.emit('B2F_verander_tempHtml', {'gewTemp': gewensteTemp})
+    var = gewensteTemp
 
 
 @socketio.on('F2B_verstuur_bericht')
@@ -327,9 +336,13 @@ rainbowTask = None
 
 melding = False
 
-gewensteTemp = 0
+gewensteTemp = 1000
 draaien = False
 controleVentilator = ""
+stat = 0
+vorigeStat = 0
+var = 0
+globalStat = 0
 
 
 class RainbowTask:
@@ -479,7 +492,7 @@ def setup():
 
 
 def programma():
-    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator
+    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -553,18 +566,40 @@ def programma():
                 2, 2, datum, round(licht, 2), "Ldr inlezen")
             print("emit")
             socketio.emit('B2F_refresh_chart')
+
+        # Ventilator besturen
         if controleVentilator == "manueel":
             if draaien == True:
+                stat = 1
+                if vorigeStat != stat:
+                    socketio.emit('B2F_verander_status_vent', {'status': 1})
+                    vorigeStat = stat
+                    globalStat = 1
                 motorpwm.start(0)
                 motorpwm.ChangeDutyCycle(100)
             elif draaien == False:
+                stat = 0
+                if vorigeStat != stat:
+                    socketio.emit('B2F_verander_status_vent', {'status': 0})
+                    vorigeStat = stat
+                    globalStat = 0
                 motorpwm.ChangeDutyCycle(0)
                 motorpwm.stop(0)
         elif controleVentilator == "":
             if resul > gewensteTemp:
+                stat = 1
+                if vorigeStat != stat:
+                    socketio.emit('B2F_verander_status_vent', {'status': 1})
+                    vorigeStat = stat
+                    globalStat = 1
                 motorpwm.start(0)
                 motorpwm.ChangeDutyCycle(100)
             elif resul < gewensteTemp:
+                stat = 0
+                if vorigeStat != stat:
+                    socketio.emit('B2F_verander_status_vent', {'status': 0})
+                    vorigeStat = stat
+                    globalStat = 0
                 motorpwm.ChangeDutyCycle(0)
                 motorpwm.stop(0)
 
