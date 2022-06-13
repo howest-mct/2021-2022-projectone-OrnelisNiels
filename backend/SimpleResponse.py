@@ -284,14 +284,19 @@ prevColor = ""
 
 def callback(knop):
     print("joystick")
-    global status, reset
+    global status, reset, vorigeOpties, optie, tijd
     if status == 3:
         status += 1
         lcdObject.send_instruction(0b00001111)
         reset = True
     elif status == 4:
-        status = 3
+        status += 1
         lcdObject.send_instruction(0b00001100)
+        # reset = True
+    elif status == 5:
+        status = 0
+        vorigeOpties = ""
+        tijd = "gggggggg"
         reset = True
 
 
@@ -355,6 +360,15 @@ stat = 0
 vorigeStat = 0
 var = 0
 globalStat = 0
+vorigeAdressen = ""
+vorigeOpties = ""
+opties = []
+lcdTeller = 0x0
+positieTeller = 0
+joyTimer = 0
+vorigeJoyTimer = 0
+optie = ""
+vorigeOptie = ""
 
 
 class RainbowTask:
@@ -506,7 +520,7 @@ def setup():
 
 
 def programma():
-    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat
+    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat, vorigeAdressen, vorigeOpties, opties, lcdTeller, positieTeller, joyTimer, vorigeJoyTimer, optie, vorigeOptie
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -652,10 +666,14 @@ def programma():
             # print(abs(hysterese))
         elif status == 1:
             # lcdObject.reset_cursor()
+            # if vorigeAdressen != adressen and status == 1:
+            # print("vorige")
             lcdObject.eerste_rij()
             lcdObject.send_message(adressen[0])
             lcdObject.tweede_rij()
             lcdObject.send_message(adressen[1])
+            vorigeAdressen = adressen
+
         elif status == 3:
             lcdObject.eerste_rij()
             lcdObject.send_message(inhoud)
@@ -691,12 +709,103 @@ def programma():
                 vorige_kleur()
                 melding = False
         elif status == 4:
-            lcdObject.tweede_rij()
-            lcdObject.set_cursor(0x40)
-            lcdObject.send_message("Nee")
-            lcdObject.set_cursor(0x49)
-            lcdObject.send_message("Ja")
-        # print(status)
+            opties = ["Nee", "Ja", "Oke", "Ik kom zo"]
+            joyTimer = time.time()
+
+            # positie bepalen
+            if xWaarde >= 700:
+                if joyTimer - vorigeJoyTimer > 0.5:
+                    positieTeller += 1
+                    vorigeJoyTimer = joyTimer
+                    if positieTeller > 3:
+                        positieTeller = 0
+                        lcdTeller = 0x0
+            elif xWaarde <= 50:
+                if joyTimer - vorigeJoyTimer > 0.5:
+                    positieTeller -= 1
+                    vorigeJoyTimer = joyTimer
+                    if positieTeller == -1:
+                        positieTeller = 3
+                        lcdTeller = 0x40
+                    if positieTeller == 0:
+                        lcdTeller = 0x0
+                    elif positieTeller == 1:
+                        lcdTeller = 0x0
+                    elif positieTeller == 2:
+                        lcdTeller = 0x40
+                    elif positieTeller == 3:
+                        lcdTeller = 0x040
+            if yWaarde >= 700:
+                if joyTimer - vorigeJoyTimer > 0.5:
+                    positieTeller += 2
+                    vorigeJoyTimer = joyTimer
+                    if positieTeller == 2:
+                        lcdTeller = 0x40
+                    elif positieTeller == 3:
+                        lcdTeller = 0x40
+            elif yWaarde <= 50:
+                if joyTimer - vorigeJoyTimer > 0.5:
+                    positieTeller -= 2
+                    vorigeJoyTimer = joyTimer
+                    if positieTeller == 0:
+                        lcdTeller = 0x0
+                    elif positieTeller == 1:
+                        lcdTeller = 0x0
+
+            if lcdTeller == 0x0 and positieTeller == 0:
+                lcdObject.set_cursor(lcdTeller)
+                optie = opties[3]
+            elif lcdTeller == 0x0 and positieTeller == 1:
+                lengteOptie4 = len(opties[3])
+                # print(lengteOptie4)
+                lengteOptie3 = len(opties[2])
+                # print(lengteOptie3)
+                lengteTussen = 16 - lengteOptie3 - lengteOptie4
+                lcdTeller = lcdTeller + lengteOptie4 + lengteTussen
+                # print(str(xWaarde) + " " + str(yWaarde))
+                lcdObject.set_cursor(lcdTeller)
+                print('POSITIE 2')
+                optie = opties[2]
+            elif lcdTeller > 0x0 and positieTeller == 2:
+                lcdTeller = 0x40
+                print(str(xWaarde) + " " + str(yWaarde))
+                lcdObject.set_cursor(lcdTeller)
+                print('POSITIE 3')
+                optie = opties[0]
+            elif lcdTeller == 0x40 and positieTeller == 3:
+                lengteOptie1 = len(opties[0])
+                print(lengteOptie1)
+                lengteOptie2 = len(opties[1])
+                print(lengteOptie2)
+                lengteTussen = 16 - lengteOptie2 - lengteOptie1
+                print(lengteTussen)
+                print(lcdTeller)
+                lcdTeller = lcdTeller + lengteOptie1 + lengteTussen
+                print("KEZA RLKJZEAROLPMAZE RMKORJKLO AE " + str(lcdTeller))
+                print(str(xWaarde) + " " + str(yWaarde))
+                lcdObject.set_cursor(lcdTeller)
+                optie = opties[1]
+
+            # opties schrijven
+            if vorigeOpties != opties:
+                lcdObject.send_message(opties[3])
+                lcdObject.set_cursor(0xD)
+                lcdObject.send_message(opties[2])
+                lcdObject.set_cursor(0x40)
+                lcdObject.send_message(opties[0])
+                lcdObject.set_cursor(0x4E)
+                lcdObject.send_message(opties[1])
+                lcdObject.set_cursor(lcdTeller)
+                vorigeOpties = opties
+        elif status == 5:
+            if vorigeOptie != optie:
+                lcdObject.reset_lcd()
+                print("hallo")
+                lcdObject.eerste_rij()
+                lcdObject.send_message(f"U verstuurde:")
+                lcdObject.tweede_rij()
+                lcdObject.send_message(optie)
+                vorigeOptie = optie
 
 
 if __name__ == '__main__':
