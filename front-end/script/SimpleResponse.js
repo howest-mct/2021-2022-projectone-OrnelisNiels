@@ -411,7 +411,14 @@ const listenToSocketBericht = function () {
       });
       console.log('test');
       getBerichten();
+      bericht.innerHTML = 'Typ hier een bericht';
     }
+  });
+  socketio.on('B2F_nieuw_bericht', function (jsonObject) {
+    console.log(
+      'karletje azkjrehlkeazhzerklj hrzeaqlkejr lkjmfgd,n; dfdfsq<jk lmfdlqs mkjjk dfqswmklj dfvswmklj dsqfjk smlkjqfdshlmkjqfsdklmskqlfdsfqjmlkkljhmfdkljsfdllfjdmsdsfqljfljkljsdfkqmljkdsfqlmkjdfskmjfsqlkmljksdfqmlkjqsdflkjqsdsjdf'
+    );
+    getBerichten();
   });
 };
 //#endregion

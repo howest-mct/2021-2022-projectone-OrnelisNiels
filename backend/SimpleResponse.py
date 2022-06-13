@@ -83,8 +83,10 @@ def initial_connection():
 
 @socketio.on('F2B_gebruiker')
 def initial_connection(data):
+    global gebruikersid
     id = data['gebruiker']
     controle = DataRepository.read_gebruikers_by_id(id)
+    gebruikersid = id
     if controle:
         emit('B2F_bestaande_gebruiker', {'message': "bestaand"})
     else:
@@ -227,9 +229,10 @@ def bericht_ontvangen(data):
         print(historiekdatum)
         # emit('B2F_toon_berichten', {
         #  'berichten': berichten, "datum": historiekdatum})
+        socketio.emit('B2F_nieuw_bericht')
         status = 3
         melding = True
-        reset = True
+        # reset = True
     else:
         print("Controle niet geslaagd")
 
@@ -288,14 +291,14 @@ def callback(knop):
     if status == 3:
         status += 1
         lcdObject.send_instruction(0b00001111)
-        reset = True
+        # reset = True
     elif status == 4:
         status += 1
         lcdObject.send_instruction(0b00001100)
+        vorigeOpties = ""
         # reset = True
     elif status == 5:
         status = 0
-        vorigeOpties = ""
         tijd = "gggggggg"
         reset = True
 
@@ -369,6 +372,8 @@ joyTimer = 0
 vorigeJoyTimer = 0
 optie = ""
 vorigeOptie = ""
+gebruikersid = 0
+vorigeInhoud = ""
 
 
 class RainbowTask:
@@ -520,7 +525,7 @@ def setup():
 
 
 def programma():
-    global start, minimum, maximum, tijd, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat, vorigeAdressen, vorigeOpties, opties, lcdTeller, positieTeller, joyTimer, vorigeJoyTimer, optie, vorigeOptie
+    global start, minimum, maximum, gebruikersid, tijd, vorigeInhoud, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat, vorigeAdressen, vorigeOpties, opties, lcdTeller, positieTeller, joyTimer, vorigeJoyTimer, optie, vorigeOptie
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -640,6 +645,7 @@ def programma():
         if status == 0:
             # lcdObject.reset_cursor()
             # lcdObject.send_message(a)
+            tijd = "gggggggg"
             if tijd != cur_time:
                 positie = 0
                 for (a, b) in zip(cur_time, tijd):
@@ -675,8 +681,11 @@ def programma():
             vorigeAdressen = adressen
 
         elif status == 3:
-            lcdObject.eerste_rij()
-            lcdObject.send_message(inhoud)
+            if inhoud != vorigeInhoud:
+                lcdObject.reset_lcd()
+                lcdObject.eerste_rij()
+                lcdObject.send_message(inhoud)
+                vorigeInhoud = inhoud
             if melding == True:
                 Led1.RGB_set(0, 100, 100)
                 Led2.RGB_set(0, 100, 100)
@@ -788,6 +797,7 @@ def programma():
 
             # opties schrijven
             if vorigeOpties != opties:
+                lcdObject.reset_lcd()
                 lcdObject.send_message(opties[3])
                 lcdObject.set_cursor(0xD)
                 lcdObject.send_message(opties[2])
@@ -805,7 +815,14 @@ def programma():
                 lcdObject.send_message(f"U verstuurde:")
                 lcdObject.tweede_rij()
                 lcdObject.send_message(optie)
+                DataRepository.create_bericht(optie, 9, gebruikersid)
+                bericht = DataRepository.read_id_laatste_bericht()
+                berichtid = int(bericht[0]['max(berichtid)'])
+                DataRepository.create_historiek_bij_bericht(
+                    10, berichtid, datum, "bericht verstuurd")
                 vorigeOptie = optie
+                socketio.emit('B2F_nieuw_bericht')
+        # print(gebruikersid)
 
 
 if __name__ == '__main__':
