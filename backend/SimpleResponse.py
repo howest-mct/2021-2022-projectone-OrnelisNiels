@@ -601,6 +601,10 @@ def programma():
             print("emit")
             socketio.emit('B2F_refresh_chart')
             lcdObject.init_LCD()
+            lcdObject.set_cursor(0xD)
+            lcdObject.send_message("   ")
+            lcdObject.set_cursor(0x49)
+            lcdObject.send_message(" ")
 
         # Ventilator besturen
         if controleVentilator == "manueel":

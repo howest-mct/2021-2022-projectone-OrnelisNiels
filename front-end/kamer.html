@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SimpleResponse | Bericht</title>
+    <title>SimpleResponse | Kamer</title>
 
     <link rel="icon" href="Favicon2.png" />
 
@@ -24,7 +24,8 @@
     <script src="script/SimpleResponse.js"></script>
   </head>
   <body>
-    <header class="o-row o-row--border o-row--primary">
+    <div class="c-page">
+      <header class="o-row o-row--border o-row--primary">
       <div class="o-container u-max-width-xl">
         <div class="c-header">
           <div class="c-header__logo">
@@ -35,7 +36,7 @@
           <div class="c-header__nav">
             <div class="c-header__test">
               <nav class="c-nav">
-               <ul class="o-list c-nav__list">
+              <ul class="o-list c-nav__list">
                 <li class="c-nav__item js-navHome">
                   <a href="home.html" class="c-nav__link ">Home</a>
                 </li>
@@ -50,7 +51,7 @@
             </div>
           </div>
           <p class="c-header__link">
-            <a href="index.html" class="c-btn__link c-link-cta--white c-remove">Log out</a>
+            <a href="index.html" class="c-btn__link c-remove c-link-cta--white">Log out</a>
           </p>
           <div class="c-header__mobile-nav-trigger">
             <button class="o-button-reset c-nav-trigger js-toggle-nav">
@@ -63,47 +64,88 @@
       </div>
     </header>
     </section>
-    <section class="o-row o-row--lg">
+    <div class="c-color">
+      <section class="o-row o-row--lg js-home">
       <div class="o-container u-max-width-lg">
         <article class="o-section">
-          <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
-          </div>
-          <h2 class="c-titel c-lead c-lead--lg c-padding__left">Berichten</h2>
-          <div class="c-chatbox">
-            <div class="c-chat">
-            <div class="js-berichten">
-
+          <h2 class="c-lead c-lead--lg c-lead--center">Kamer</h2>
+          <div class="o-layout o-layout--margin o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="o-layout__item u-1-of-3-bp3">
+              <div class="c-lead c-lead--custom c-lead--left">
+                <p>Temperatuur</p>
+              </div>
+              <div class="c-lead c-lead--custom js-temp"></div>
             </div>
-            <p class="js-error"></p>
-          </div>
-            <!-- <div class="container">
-            <p class="c-bericht "></p>
-            <span class="time-right js-tijd">11:00</span>
-            </div>
-
-            <div class="container darker">
-              <p class="c-bericht__darker js-berichten">Hey! I'm fine. Thanks for asking!</p>
-              <span class="time-left">11:01</span>
-            </div> -->
-            <div class="container">
-              <form method="POST">
-              <input
-                class="c-lead c-lead--lg c-titel js-bericht"
-                type="text"
-                name="voornaam"
-                id="vn"
-                maxlength="128"
-                placeholder="Typ hier een bericht"
-                required
-              />
-              <button class="c-btn__link c-verstuur js-send">Versturen</button>
-              </form>
-          </div>
+            <div class="o-layout__item u-1-of-3-bp3">
+              <h2 class="c-lead c-lead--custom c-lead--left">Licht</h2>
+              <div class="c-lead c-lead--custom js-ldr"></div>
             </div>
           </div>
         </article>
+      </div>
     </section>
-     <aside class="c-mobile-nav">
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--margin o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="c-errorMelding js-meldingVent">Huidige setpoint: <b> °C</b></div>
+            <div class="o-layout__item u-1-bp3">
+              <div class="c-lead c-lead--custom c-lead--left">
+                <p>Ventilator</p>
+              </div>
+              <span class="c-status js-statusVent"></span>
+              <button class="c-btn__link__aan c-tempBtn js-btn" knop-id="10"><p class="c-textBorderJa">Aan</p></button>
+              <button class="c-btn__link__uit c-tempBtn js-btn" knop-id="11"><p class="c-textBorderNee">Uit  </p></button>
+              <div class = "c-vertical"></div>
+              <div class="c-divider"></div>
+              <div class="c-gewensteTempForm">
+                <input
+                class="c-gewensteTemp js-gewensteTemp"
+                type="number"
+                name="temperatuur"
+                id="temp"
+                maxlength="3"
+                placeholder="Vul gewenste temp in..."
+                min="0"
+                max="100"
+                required
+                />
+                <button class="c-btn__link__temp c-tempBtn js-sendTemp"><p>Invullen</p></button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="o-row o-row--lg">
+      <div class="o-container u-max-width-lg">
+        <article class="o-section">
+          <div class="o-layout o-layout--margin o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+            <div class="c-errorMelding js-meldingLeds">Huidige status: <b>Uit</b></div>
+            <div class="o-layout__item u-1-bp3">
+              <div class="c-lead c-lead--custom c-lead--left">
+                <p>Ledstatus</p>
+              </div>
+              <span class="c-statusLeds js-statusLeds"></span>
+              <button class="c-btn__link__aan c-tempBtn js-btn" knop-id="8"><p class="c-textBorderJa">Aan</p></button>
+              <button class="c-btn__link__uit c-tempBtn js-btn" knop-id="9"><p class="c-textBorderNee">Uit  </p></button>
+              <div class = "c-vertical"></div>
+              <div class="c-divider"></div>
+              <button class="c-btn__link__temp c-tempBtn js-btn" knop-id="4"><p>Rood</p></button>
+              <button class="c-btn__link__temp c-tempBtn js-btn" knop-id="5"><p>Groen</p></button>
+              <button class="c-btn__link__temp c-tempBtn js-btn" knop-id="6"><p>Blauw</p></button>
+              <button class="c-btn__link__temp c-tempBtn js-btn" knop-id="7"><p>Party</p></button>
+              </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    </div>
+    </div>
+
+    <aside class="c-mobile-nav">
         <div class="c-mobile-nav__bg"></div>
         <div class="c-mobile-nav__body">
             <div class="c-mobile-nav__header">
