@@ -76,14 +76,22 @@ body{
 .container {
     /* border: 3px solid #f1f1f1; */
     background-color: #161B20;
-    border-radius: 15px;
+    border-radius: 65px 65px 0px 65px;
     padding: 10px;
     margin: 10px 0;
+    word-break: normal;
 }
 
 
 .darker {
     background-color: #f1f1f1;
+    border-radius: 65px 65px 65px 0px;
+}
+
+.send{
+    background-color: white;
+    border-top: 1px solid #161B20;
+    border-radius: 0px;
 }
 
 .container::after {
@@ -95,6 +103,7 @@ body{
 .time-right {
     float: right;
     color: #F4A950;
+    padding-right: 20px;
 }
 .time-right__dark {
     float: right;
@@ -104,10 +113,12 @@ body{
 .time-left {
     float: left;
     color: #F4A950;
+    padding-left: 20px;
 }
 .time-left__dark {
     float: left;
     color: #161B20;
+    padding-left: 20px;
 }
 *,
 *:before,
@@ -266,7 +277,7 @@ a:focus {
 /* size modifiers */
 @media (min-width: 768px) {
   .o-row--lg {
-    padding: 48px 48px 24px;
+    padding: 30px 48px 24px;
   }
 }
 
@@ -828,7 +839,7 @@ input[type='text'] {
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
-            border: 1px solid #ccc;
+            border: 2px solid #161B20;
             box-sizing: border-box;
             border-radius: 15px;
             font-size: 24px;
@@ -854,14 +865,6 @@ input[type='text'] {
             box-sizing: border-box;
             border-radius: 15px;
             font-size: 24px;
-        }
-        input[type='number'].c-gewensteTemp {
-            margin: 0px 20px 0px 100px;
-            width: 50%;
-            height: 55px;
-            font-size: 18px;
-            border: 1px solid #161B20;
-            border-radius: 15px;
         }
         .c-gewensteTempForm {
             width: 50%;
@@ -900,12 +903,14 @@ input[type='text'] {
 .c-bericht {
   font-size: 30px;
   margin-bottom: 15px;
-  color: #F4A950
+  color: #F4A950;
+  padding-left: 20px;
 }
 .c-bericht__darker{
     font-size: 30px;
     margin-bottom: 15px;
-    color: black
+    color: black;
+    padding-left: 20px;
 }
 input,
 textarea button {
@@ -935,7 +940,7 @@ textarea button {
 */
 
 .c-nav {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px;
 }
 
@@ -1069,7 +1074,7 @@ textarea button {
     text-decoration: none;
     font-weight: 600;
     display: block;
-    padding: 8px 0;
+    padding: 0px 0;
 }
 
 .c-nav__link,
@@ -1158,6 +1163,7 @@ textarea button {
   color: #161B20;
   padding: 4px;
   margin-bottom: 15px;
+  border: 2px solid #161B20;
 }
 
 .c-btn__link {
@@ -1367,6 +1373,124 @@ textarea button {
         line-height: 48px;
         font-weight: 700;
     }
+    .c-lead--custom {
+        font-size: 18px;
+        line-height: 5px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        /* border-bottom: 1px solid #F4A950; */
+        /* width: 100%; */
+    }
+    .c-lead--left{
+        height: 0px;
+    }
+    .u-1-of-3-bp3 {
+        flex-basis: calc(100% /1) !important;
+    }
+
+    .o-layout--gutter-lg>.o-layout__item {
+        padding: 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 15px;
+        background-color: white;
+        margin-right: 10%;
+        align-items: baseline;
+        box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+        flex-wrap: wrap;
+        height: 85px;
+        margin-top: 10px;
+    }
+
+    .o-layout--align-custom {
+        align-items: center;
+        margin-left: -3.5%;
+    }
+
+    .o-layout--gutter-custom>.o-layout__item {
+        padding: 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 15px;
+        background-color: white;
+        margin-right: 0%;
+        align-items: baseline;
+        box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+        flex-wrap: wrap;
+        height: 140px;
+        margin-top: 10px;
+        align-content: space-between;
+    }
+    .c-vertical{
+        display: none;
+    }
+
+    .c-btn__link__temp {
+        text-decoration: none;
+        background-color: white;
+        font-size: 10px;
+        color: #161B20;
+        line-height: 0px;
+        /* margin-bottom: 15px; */
+    }
+    .c-tempBtn {
+        border-radius: 10px;
+        /* min-width: 50px; */
+        margin: 0;
+        display: inline;
+        height: 30px;
+        font-size: 16px;
+        border: none;
+        box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+        /* height: 55px; */
+    }
+    .c-btn__link__aan ,.c-btn__link__uit{
+        line-height: 0px;
+    }
+    .c-textBorderJa,
+    .c-textBorderNee {
+        border-bottom: 0px;
+        padding-bottom: 0px;
+        border-radius: 0px;
+    }
+    input[type='number'].c-gewensteTemp {
+        /* margin: 0px 20px 0px 100px; */
+        width: 180px;
+        margin-right: 20px;
+        height: 30px;
+        font-size: 16px;
+        border: 1px solid #161B20;
+        border-radius: 15px;
+    }
+    .c-status {
+        margin: 0px 20px;
+    }
+    .c-statusLeds {
+        margin: 0px 27px;
+    }
+    .u-margin-btm{
+        margin-bottom: 50px;
+    }
+    .c-errorMelding {
+        padding: 0;
+        margin-right: -7px;
+    }
+    .u-margin-right-sm {
+        margin-right: 5px;
+    }
+}
+
+@media (min-width: 630px) {
+    .o-layout--gutter-custom>.o-layout__item {
+           height: 85px;
+        }
+    .o-layout--align-custom {
+        margin-left: -1.5%;
+    }
 }
 
 @media (min-width: 762px) {
@@ -1381,6 +1505,74 @@ textarea button {
         line-height: 56px;
         font-weight: 700;
     }
+    .c-lead--custom {
+        font-size: 26px;
+        line-height: 40px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        /* border-bottom: 1px solid #F4A950; */
+        /* width: 100%; */
+
+    }
+
+        .o-layout--gutter-lg>.o-layout__item {
+            padding: 24px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            border-radius: 15px;
+            background-color: white;
+            margin-right: 100px;
+            align-items: baseline;
+            box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+            flex-wrap: wrap;
+            height: 140px;
+            margin-top: 10px
+        }
+    
+        .o-layout--gutter-custom>.o-layout__item {
+            padding: 24px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            border-radius: 15px;
+            background-color: white;
+            margin-right: 2px;
+            align-items: baseline;
+            box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+            flex-wrap: wrap;
+            height: 140px;
+            margin-top: 10px;
+        }
+    
+        .c-vertical {
+            display: block;
+        }
+
+        .c-status {
+            margin: 0px -15px;
+        }
+
+        .c-statusLeds {
+            margin: 0px -8px;
+    }
+        .u-margin-right{
+            margin-right: 5px;
+        }
+        .u-margin-right-sm {
+            margin-right:5px;
+        }
+        input[type='number'].c-gewensteTemp {
+            /* margin: 0px 20px 0px 100px; */
+            width: 200px;
+            margin-right: 20px;
+            height: 30px;
+            font-size: 20 px;
+            border: 1px solid #161B20;
+            border-radius: 15px;
+        }
 }
 
 @media (min-width: 992px) {
@@ -1395,6 +1587,100 @@ textarea button {
         line-height: 72px;
         font-weight: 700;
     }
+    .c-lead--custom {
+        font-size: 22px;
+        line-height: 55px;
+        font-weight: 700;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        /* border-bottom: 1px solid #F4A950; */
+        /* width: 100%; */
+
+    }
+    .o-layout--gutter-lg>.o-layout__item {
+        padding: 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 15px;
+        background-color: white;
+        margin-right: 100px;
+        align-items: baseline;
+        box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+        flex-wrap: wrap;
+        height: 140px;
+        margin-top: 10px
+    }
+    .o-layout--gutter-custom>.o-layout__item {
+        padding: 24px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-radius: 15px;
+        background-color: white;
+        margin-right: 95px;
+        align-items: baseline;
+        box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+        flex-wrap: wrap;
+        height: 140px;
+        margin-top: 10px;
+    }
+    .c-vertical {
+        display: block;
+    }
+    .o-layout--align-custom {
+        margin-left: 8.5%;
+    }
+    .c-tempBtn {
+        border-radius: 10px;
+        /* min-width: 50px; */
+        margin: 0;
+        display: inline;
+        height: 45px;
+        font-size: 16px;
+        border: none;
+        box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+        /* height: 55px; */
+    }
+    .c-btn__link__aan,
+    .c-btn__link__uit {
+        line-height: 15px;
+    }
+    .c-status {
+        margin: 0px 15px;
+    }
+    input[type='number'].c-gewensteTemp {
+        margin: 0px 20px 0px 35px;
+        width: 200px;
+        height: 45px;
+        font-size: 20px;
+        border: 1px solid #161B20;
+        border-radius: 15px;
+    }
+    .c-errorMelding {
+        padding: 0;
+        margin-right: 85px;
+    }
+    .c-btn__link__temp {
+        line-height: 15px;
+        /* margin-bottom: 15px; */
+    }
+    .c-textBorderJa {
+        border-bottom: 2px solid rgb(46, 180, 46);
+        padding-bottom: 3px;
+        border-radius: 2px;
+    }
+    .c-textBorderNee {
+        border-bottom: 2px solid rgb(255, 50, 50);
+        padding-bottom: 3px;
+        border-radius: 2px;
+    }
+    
+    .u-margin-left-right{
+        margin-left: 15px;
+        margin-right: -15px;
+    }
 }
 
 @media (min-width: 1200px) {
@@ -1408,6 +1694,52 @@ textarea button {
         line-height: 72px;
         font-weight: 700;
     }
+    .c-lead--custom {
+        font-size: 28px;
+        line-height: 40px;
+    }
+    .u-1-of-3-bp3 {
+        flex-basis: calc(100% /2.5) !important;
+    }
+    .o-layout--align-center {
+        margin-left: 4.5%;
+    }
+    .o-layout--gutter-custom>.o-layout__item {
+        margin-right: 123px;
+    }
+    .c-tempBtn {
+        height: 45px;
+        font-size: 20px;
+        border: none;
+        box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+        /* height: 55px; */
+    }
+    .c-textBorderJa {
+        border-bottom: 2px solid rgb(46, 180, 46);
+        padding-bottom: 10px;
+        border-radius: 2px;
+    }
+    .c-textBorderNee {
+        border-bottom: 2px solid rgb(255, 50, 50);
+        padding-bottom: 10px;
+        border-radius: 2px;
+    }
+    .c-btn__link__aan,
+    .c-btn__link__uit {
+        line-height: 5px;
+    }
+    input[type='number'].c-gewensteTemp {
+        margin: 0px 20px 0px 40px;
+        width: 270px;
+        height: 45px;
+        font-size: 20px;
+        border: 1px solid #161B20;
+        border-radius: 15px;
+    }
+    .c-btn__link__temp {
+        line-height: 7px;
+    }
+
 }
 
 /* .c-color{
@@ -1650,7 +1982,7 @@ textarea button {
         flex-basis: calc(100% / 2) !important;
     }
     .u-1-of-3-bp3 {
-        flex-basis: calc(100% /2.5) !important;
+        flex-basis: calc(100% /2.7) !important;
     }
     .u-2-of-3-bp3 {
         flex-basis: calc(100% / 3 * 2) !important;
