@@ -603,8 +603,8 @@ def programma():
             lcdObject.init_LCD()
             lcdObject.set_cursor(0xD)
             lcdObject.send_message("    ")
-            lcdObject.set_cursor(0x49)
-            lcdObject.send_message("  ")
+            lcdObject.set_cursor(0x48)
+            lcdObject.send_message(" ")
 
         # Ventilator besturen
         if controleVentilator == "manueel":
