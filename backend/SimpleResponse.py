@@ -316,8 +316,19 @@ def callback_knop(pin):
     print("Status: " + str(status))
 
 
+def callback_shutdown(pin):
+    print("shutdown")
+    lcdObject.reset_lcd()
+    motorpwm.stop()
+    GPIO.cleanup()
+    slaapwel = check_output(["sudo", "shutdown", "-h", "now"])
+
+
 knop = Button(27)
 knop.on_press(callback_knop)
+
+shutdownknop = Button(18)
+shutdownknop.on_press(callback_shutdown)
 
 # IP inlezen en decoderen
 ips = check_output(['hostname', '--all-ip-addresses'])

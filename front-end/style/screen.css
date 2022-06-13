@@ -103,11 +103,11 @@ body{
 .time-right {
     float: right;
     color: #F4A950;
-    padding-right: 20px;
 }
 .time-right__dark {
     float: right;
     color: #161B20;
+    padding-right: 20px;
 }
 
 .time-left {
@@ -1741,9 +1741,9 @@ textarea button {
     }
 
 }
-
-/* .c-color{
-    background-color: #333c44;
+/* 
+.c-color{
+    background-color: #F47550;
 } */
 
 /*------------------------------------*\
