@@ -231,7 +231,8 @@ def bericht_ontvangen(data):
         #  'berichten': berichten, "datum": historiekdatum})
         socketio.emit('B2F_nieuw_bericht')
         status = 3
-        melding = True
+        if len(inhoud) > 16:
+            melding = True
         # reset = True
     else:
         print("Controle niet geslaagd")
@@ -246,7 +247,7 @@ def maak_gebruiker(data):
         emit('B2F_toon_error', {
             'error': "Error: Gebruiker bestaat al!"})
     else:
-        if gebruiker != "":
+        if gebruiker != "" and len(gebruiker) <= 15:
             DataRepository.create_user(gebruiker)
             user = DataRepository.read_user_by_naam(gebruiker)
             id = int(user['gebruikerid'])
@@ -254,7 +255,7 @@ def maak_gebruiker(data):
                 'message': "Gebruiker toegevoegd. Dag ", "gebruiker": gebruiker, "id": id})
         else:
             emit('B2F_toon_error', {
-                'error': "Error: Gebruiker moet een naam hebben en mag niet leeg zijn!"})
+                'error': "Error: Gebruiker moet een naam hebben en mag niet leeg zijn! (max 15 characters)"})
 
 
 @ socketio.on('F2B_login')
@@ -681,11 +682,6 @@ def programma():
             vorigeAdressen = adressen
 
         elif status == 3:
-            if inhoud != vorigeInhoud:
-                lcdObject.reset_lcd()
-                lcdObject.eerste_rij()
-                lcdObject.send_message(inhoud)
-                vorigeInhoud = inhoud
             if melding == True:
                 Led1.RGB_set(0, 100, 100)
                 Led2.RGB_set(0, 100, 100)
@@ -717,7 +713,58 @@ def programma():
                 time.sleep(1)
                 vorige_kleur()
                 melding = False
+            if inhoud != vorigeInhoud:
+                melding = True
+                gebruiker = DataRepository.read_gebruikers_by_id(gebruikersid)
+                gebruikernaam = (gebruiker[0]["naam"])
+                lcdObject.reset_lcd()
+                lcdObject.eerste_rij()
+                lcdObject.send_message(f"{gebruikernaam}:")
+                lcdObject.tweede_rij()
+                if len(inhoud) > 16:
+                    lcdObject.send_message(inhoud[0:16])
+                    interval = len(inhoud) - 16
+                    time.sleep(1)
+
+                    for i in range(interval):
+                        i = i + 1
+                        positieTeller += 1
+                        lcdObject.tweede_rij()
+                        lcdObject.send_message(inhoud[i:16+i])
+                        print(inhoud[i+1:16+i+1])
+                        time.sleep(0.1)
+                        print(i)
+                    positieTeller = len(inhoud)
+                else:
+                    lcdObject.send_message(inhoud)
+                vorigeInhoud = inhoud
+            joyTimer = time.time()
+            # print(xWaarde)
+            print(len(inhoud))
+            if xWaarde >= 700:
+                # print("karl")
+                if joyTimer - vorigeJoyTimer > 0.1:
+                    positieTeller += 1
+                    vorigeJoyTimer = joyTimer
+                    if positieTeller > len(inhoud):
+                        positieTeller = len(inhoud)
+                    lcdObject.tweede_rij()
+                    lcdObject.send_message(
+                        inhoud[positieTeller-16:positieTeller])
+            elif xWaarde <= 50:
+                if joyTimer - vorigeJoyTimer > 0.1:
+                    positieTeller -= 1
+                    vorigeJoyTimer = joyTimer
+                    if positieTeller < 16:
+                        positieTeller = 16
+                lcdObject.tweede_rij()
+                lcdObject.send_message(
+                    inhoud[positieTeller-16:positieTeller])
+            print(positieTeller)
+            # print(inhoud[positieTeller:16+positieTeller])
         elif status == 4:
+            lcdObject.send_instruction(0b00001111)
+            # positieTeller = 0
             opties = ["Nee", "Ja", "Oke", "Ik kom zo"]
             joyTimer = time.time()
 
@@ -752,6 +799,11 @@ def programma():
                         lcdTeller = 0x40
                     elif positieTeller == 3:
                         lcdTeller = 0x40
+                    elif positieTeller == 4:
+                        positieTeller = 2
+                    elif positieTeller == 5:
+                        positieTeller = 3
+
             elif yWaarde <= 50:
                 if joyTimer - vorigeJoyTimer > 0.5:
                     positieTeller -= 2
@@ -760,6 +812,10 @@ def programma():
                         lcdTeller = 0x0
                     elif positieTeller == 1:
                         lcdTeller = 0x0
+                    elif positieTeller < 0:
+                        positieTeller = 0
+                    elif positieTeller < 1:
+                        positieTeller = 1
 
             if lcdTeller == 0x0 and positieTeller == 0:
                 lcdObject.set_cursor(lcdTeller)
@@ -771,27 +827,17 @@ def programma():
                 # print(lengteOptie3)
                 lengteTussen = 16 - lengteOptie3 - lengteOptie4
                 lcdTeller = lcdTeller + lengteOptie4 + lengteTussen
-                # print(str(xWaarde) + " " + str(yWaarde))
                 lcdObject.set_cursor(lcdTeller)
-                print('POSITIE 2')
                 optie = opties[2]
             elif lcdTeller > 0x0 and positieTeller == 2:
                 lcdTeller = 0x40
-                print(str(xWaarde) + " " + str(yWaarde))
                 lcdObject.set_cursor(lcdTeller)
-                print('POSITIE 3')
                 optie = opties[0]
             elif lcdTeller == 0x40 and positieTeller == 3:
                 lengteOptie1 = len(opties[0])
-                print(lengteOptie1)
                 lengteOptie2 = len(opties[1])
-                print(lengteOptie2)
                 lengteTussen = 16 - lengteOptie2 - lengteOptie1
-                print(lengteTussen)
-                print(lcdTeller)
                 lcdTeller = lcdTeller + lengteOptie1 + lengteTussen
-                print("KEZA RLKJZEAROLPMAZE RMKORJKLO AE " + str(lcdTeller))
-                print(str(xWaarde) + " " + str(yWaarde))
                 lcdObject.set_cursor(lcdTeller)
                 optie = opties[1]
 
@@ -822,6 +868,7 @@ def programma():
                     10, berichtid, datum, "bericht verstuurd")
                 vorigeOptie = optie
                 socketio.emit('B2F_nieuw_bericht')
+                positieTeller = -1
         # print(gebruikersid)
 
 

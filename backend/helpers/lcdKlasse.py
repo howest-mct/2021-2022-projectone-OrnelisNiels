@@ -78,3 +78,9 @@ class lcdKlasse():
     def tweede_rij(self):
         self.teller = 0
         self.send_instruction(0b10000000 | 0x40)
+
+    def scrol_rechts(self):
+        self.send_instruction(0b00011000)
+
+    def scrol_links(self):
+        self.send_instruction(0b00011100)
