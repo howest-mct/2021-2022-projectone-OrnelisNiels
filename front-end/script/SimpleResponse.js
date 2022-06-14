@@ -10,7 +10,9 @@ let htmlInloggen,
   htmlNavHistoriek,
   htmlNavHomeMobile,
   htmlNavMessageMobile,
-  htmlNavHistoriekMobile;
+  htmlNavHistoriekMobile,
+  chartStat = false,
+  chart;
 
 //#region ***  Callback-Visualisation - show___         ***********
 function toggleNav() {
@@ -32,7 +34,21 @@ const showData = function (jsonObject) {
       converted_labels.push(data.datum);
       converted_data.push(data.waarde);
     }
-    drawChart(converted_labels, converted_data);
+    console.log('Data', converted_data, '\nLabels', converted_labels);
+    if (chartStat == false) {
+      drawChart(converted_labels, converted_data);
+      chartStat = true;
+    } else {
+      console.log('gtfyj');
+      chart.updateOptions({
+        labels: converted_labels,
+        series: [
+          {
+            data: converted_data,
+          },
+        ],
+      });
+    }
   } catch (error) {
     console.error(error);
   }
@@ -82,6 +98,12 @@ const drawChart = function (labels, data) {
       id: 'myChart',
       type: 'line',
       height: '550px',
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
     },
     stroke: {
       curve: 'straight',
@@ -91,6 +113,12 @@ const drawChart = function (labels, data) {
     },
     dataLabels: {
       enabled: false,
+    },
+    xaxis: {
+      type: 'datetime',
+      labels: {
+        format: 'dd/MM/yy HH:mm:ss',
+      },
     },
     series: [
       {
@@ -102,10 +130,81 @@ const drawChart = function (labels, data) {
     noData: {
       text: 'Loading...',
     },
+    tooltip: {
+      enabled: true,
+      formatter: 'HH:mm:ss',
+      offsetY: 0,
+      x: {
+        title: {
+          formatter: function () {
+            return 'kak';
+          },
+        },
+      },
+      style: {
+        fontSize: '16px',
+        fontFamily: 0,
+      },
+    },
   };
-  let chart = new ApexCharts(document.querySelector('.js-chart'), options);
+  chart = new ApexCharts(document.querySelector('.js-chart'), options);
   chart.render();
 };
+
+// const drawChart = function (labels, data) {
+//   var options = {
+//     series: [
+//       {
+//         name: 'Temp sensor',
+//         data: data,
+//       },
+//     ],
+//     labels: labels,
+//     chart: {
+//       id: 'realtime',
+//       height: 350,
+//       type: 'line',
+//       animations: {
+//         enabled: true,
+//         easing: 'linear',
+//         dynamicAnimation: {
+//           speed: 1000,
+//         },
+//       },
+//       toolbar: {
+//         show: false,
+//       },
+//       zoom: {
+//         enabled: false,
+//       },
+//     },
+//     dataLabels: {
+//       enabled: false,
+//     },
+//     stroke: {
+//       curve: 'smooth',
+//     },
+//     title: {
+//       text: 'Temperatuur',
+//       align: 'center',
+//     },
+//     markers: {
+//       size: 0,
+//     },
+//     legend: {
+//       show: false,
+//     },
+//   };
+
+//   var chart = new ApexCharts(document.querySelector('#chart'), options);
+//   chart.render();
+
+//   chart.updateSeries([
+//     {
+//       data: data,
+//     },
+//   ]);
+// };
 
 //#endregion
 
@@ -130,6 +229,11 @@ const getDataDag = function () {
   const url = `http://${lanIP}/api/v1/historiek/dag/`;
   handleData(url, showData, showError);
 };
+
+// const UpdateDataDag = function () {
+//   const url = `http://${lanIP}/api/v1/historiek/dag/`;
+//   handleData(url, showData, showError);
+// };
 
 const getDataWeek = function () {
   const url = `http://${lanIP}/api/v1/historiek/week/`;
@@ -166,11 +270,12 @@ const gebruiker = function () {
 
 //#region ***  Event Listeners - listenTo___            ***********
 
-// const listenToSocketHistoriek = function () {
-//   socketio.on('B2F_refresh_chart', function () {
-//     getData();
-//   });
-// };
+const listenToSocketHistoriek = function () {
+  socketio.on('B2F_refresh_chart', function () {
+    console.log('dfqsohdsfqoh');
+    getDataDag();
+  });
+};
 
 const listenToInloggen = function () {
   htmlInloggen.addEventListener('click', function () {
@@ -440,7 +545,6 @@ const listenToPeriode = function () {
     if (this.value == 'dag') {
       console.log('Dagkeee');
       getDataDag();
-      // listenToSocketHistoriek();
     } else if (this.value == 'week') {
       console.log('Weekjeee');
       getDataWeek();
@@ -448,7 +552,6 @@ const listenToPeriode = function () {
     } else if (this.value == 'all') {
       console.log('ALLEMOALE');
       getDataAll();
-      // listenToSocketHistoriek();
     }
   });
 };
@@ -489,7 +592,7 @@ const init = function () {
         gebruiker();
         getDataDag();
         listenToPeriode();
-        // listenToSocketHistoriek();
+        listenToSocketHistoriek();
         toggleNav();
       } else if (htmlBericht) {
         console.log('Bericht');
