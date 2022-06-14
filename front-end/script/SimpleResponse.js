@@ -137,7 +137,7 @@ const gebruiker = function () {
   socketio.on('B2F_bestaande_gebruiker', function (jsonObject) {
     console.log(jsonObject.message);
     if (jsonObject.message == 'bestaand') {
-      nieuweHome = `<a href="home.html?id=${idGebruiker}" class="c-nav__link js-nav">Home</a>`;
+      nieuweHome = `<a href="home.html?id=${idGebruiker}" class="c-nav__link js-nav">Bericht</a>`;
       nieweMessage = `<a href="kamer.html?id=${idGebruiker}" class="c-nav__link js-nav">Kamer</a>`;
       nieuweHistoriek = `<a href="historiek.html?id=${idGebruiker}" class="c-nav__link js-nav">Historiek</a>`;
       htmlNavHome.innerHTML = nieuweHome;
