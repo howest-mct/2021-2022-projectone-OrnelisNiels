@@ -6,6 +6,8 @@ from helpers.klasseKnop import Button
 from helpers.spiKlasse import SpiClass
 from helpers.rgbKlasse import RGB
 
+import os
+import sys
 import spidev
 from RPi import GPIO
 import time
@@ -45,10 +47,30 @@ def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
 
-@app.route('/api/v1/historiek/')
-def get_historiek():
+@app.route('/api/v1/historiek/all/')
+def get_historiek_all():
     if request.method == "GET":
         data = DataRepository.read_historiek_temp()
+        if data is not None:
+            return jsonify(historiek=data), 200
+        else:
+            return jsonify(message="error"), 404
+
+
+@app.route('/api/v1/historiek/dag/')
+def get_historiek_dag():
+    if request.method == "GET":
+        data = DataRepository.read_historiek_temp_dag()
+        if data is not None:
+            return jsonify(historiek=data), 200
+        else:
+            return jsonify(message="error"), 404
+
+
+@app.route('/api/v1/historiek/week/')
+def get_historiek_week():
+    if request.method == "GET":
+        data = DataRepository.read_historiek_temp_week()
         if data is not None:
             return jsonify(historiek=data), 200
         else:
@@ -321,7 +343,9 @@ def callback_shutdown(pin):
     lcdObject.reset_lcd()
     motorpwm.stop()
     GPIO.cleanup()
-    slaapwel = check_output(["sudo", "shutdown", "-h", "now"])
+    time.sleep(5)
+    os.system("sudo shutdown -h now")
+    sys.exit()
 
 
 knop = Button(27)

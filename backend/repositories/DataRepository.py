@@ -101,3 +101,11 @@ class DataRepository:
         sql = "SELECT * FROM bericht c JOIN historiek h ON c.berichtid = h.bericht_berichtid JOIN gebruiker g ON c.gebruiker_gebruikerid = gebruikerid WHERE c.gebruiker_gebruikerid in(%s,%s) and c.ontvanger in(%s,%s) ORDER BY c.berichtid"
         params = [id, ontvanger, id2, ontvanger2]
         return Database.get_rows(sql, params)
+
+    def read_historiek_temp_dag():
+        sql = "select * from historiek where datum between date_sub(now(),INTERVAL 1 DAY) and now() and actie_actieid = 1"
+        return Database.get_rows(sql)
+
+    def read_historiek_temp_week():
+        sql = "select * from historiek where datum between date_sub(now(),INTERVAL 1 WEEK) and now() and actie_actieid = 1"
+        return Database.get_rows(sql)

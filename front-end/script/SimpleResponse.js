@@ -121,8 +121,18 @@ const getBerichten = function () {
   handleData(url, showBerichten, showError);
 };
 
-const getData = function () {
-  const url = `http://${lanIP}/api/v1/historiek/`;
+const getDataAll = function () {
+  const url = `http://${lanIP}/api/v1/historiek/all/`;
+  handleData(url, showData, showError);
+};
+
+const getDataDag = function () {
+  const url = `http://${lanIP}/api/v1/historiek/dag/`;
+  handleData(url, showData, showError);
+};
+
+const getDataWeek = function () {
+  const url = `http://${lanIP}/api/v1/historiek/week/`;
   handleData(url, showData, showError);
 };
 
@@ -156,11 +166,11 @@ const gebruiker = function () {
 
 //#region ***  Event Listeners - listenTo___            ***********
 
-const listenToSocketHistoriek = function () {
-  socketio.on('B2F_refresh_chart', function () {
-    getData();
-  });
-};
+// const listenToSocketHistoriek = function () {
+//   socketio.on('B2F_refresh_chart', function () {
+//     getData();
+//   });
+// };
 
 const listenToInloggen = function () {
   htmlInloggen.addEventListener('click', function () {
@@ -421,6 +431,27 @@ const listenToSocketBericht = function () {
     getBerichten();
   });
 };
+
+const listenToPeriode = function () {
+  const periodeSelect = document.querySelector('.js-periodeSelect');
+  periodeSelect.addEventListener('change', function () {
+    console.log('test');
+    console.log(this.value);
+    if (this.value == 'dag') {
+      console.log('Dagkeee');
+      getDataDag();
+      // listenToSocketHistoriek();
+    } else if (this.value == 'week') {
+      console.log('Weekjeee');
+      getDataWeek();
+      // listenToSocketHistoriek();
+    } else if (this.value == 'all') {
+      console.log('ALLEMOALE');
+      getDataAll();
+      // listenToSocketHistoriek();
+    }
+  });
+};
 //#endregion
 
 //#region ***  Init / DOMContentLoaded                  ***********
@@ -456,8 +487,9 @@ const init = function () {
       } else if (htmlHistoriek) {
         console.log('Historiek');
         gebruiker();
-        getData();
-        listenToSocketHistoriek();
+        getDataDag();
+        listenToPeriode();
+        // listenToSocketHistoriek();
         toggleNav();
       } else if (htmlBericht) {
         console.log('Bericht');
