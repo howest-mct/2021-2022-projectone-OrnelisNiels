@@ -107,5 +107,5 @@ class DataRepository:
         return Database.get_rows(sql)
 
     def read_historiek_temp_week():
-        sql = "select * from historiek where datum between date_sub(now(),INTERVAL 1 WEEK) and now() and actie_actieid = 1"
+        sql = "select round(avg(waarde),2) as waarde , datum from historiek where datum between date_sub(now(),INTERVAL 1 WEEK) and now() and actie_actieid = 1 group by day(datum)"
         return Database.get_rows(sql)

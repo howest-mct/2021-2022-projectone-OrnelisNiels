@@ -12,7 +12,10 @@ let htmlInloggen,
   htmlNavMessageMobile,
   htmlNavHistoriekMobile,
   chartStat = false,
-  chart;
+  chart,
+  dag = false,
+  week = false,
+  all = false;
 
 //#region ***  Callback-Visualisation - show___         ***********
 function toggleNav() {
@@ -39,15 +42,37 @@ const showData = function (jsonObject) {
       drawChart(converted_labels, converted_data);
       chartStat = true;
     } else {
-      console.log('gtfyj');
-      chart.updateOptions({
-        labels: converted_labels,
-        series: [
-          {
-            data: converted_data,
+      if (dag == true) {
+        chart.updateOptions({
+          labels: converted_labels,
+          series: [
+            {
+              data: converted_data,
+            },
+          ],
+        });
+      } else {
+        console.log('week');
+        chart.updateOptions({
+          labels: converted_labels,
+          series: [
+            {
+              data: converted_data,
+            },
+          ],
+          chart: {
+            id: 'myChart',
+            type: 'bar',
+            height: '550px',
+            toolbar: {
+              show: false,
+            },
+            zoom: {
+              enabled: false,
+            },
           },
-        ],
-      });
+        });
+      }
     }
   } catch (error) {
     console.error(error);
@@ -114,12 +139,17 @@ const drawChart = function (labels, data) {
     dataLabels: {
       enabled: false,
     },
-    xaxis: {
-      type: 'datetime',
-      labels: {
-        format: 'dd/MM/yy HH:mm:ss',
-      },
-    },
+    // xaxis: {
+    //   type: 'datetime',
+    //   labels: {
+    //     datetimeFormatter: {
+    //       year: 'yyyy',
+    //       month: "MMM 'yy",
+    //       day: 'dd MMM',
+    //       hour: 'HH:mm',
+    //     },
+    //   },
+    // },
     series: [
       {
         name: 'Temp sensor',
@@ -132,15 +162,13 @@ const drawChart = function (labels, data) {
     },
     tooltip: {
       enabled: true,
-      formatter: 'HH:mm:ss',
+      // formatter: 'HH:mm:ss',
       offsetY: 0,
-      x: {
-        title: {
-          formatter: function () {
-            return 'kak';
-          },
-        },
-      },
+      // x: {
+      //   // title: {
+      //   //   },
+      //   },
+      // },
       style: {
         fontSize: '16px',
         fontFamily: 0,
@@ -272,8 +300,13 @@ const gebruiker = function () {
 
 const listenToSocketHistoriek = function () {
   socketio.on('B2F_refresh_chart', function () {
-    console.log('dfqsohdsfqoh');
-    getDataDag();
+    if (dag == true) {
+      getDataDag();
+    } else if (week == true) {
+      getDataWeek();
+    } else if (all == true) {
+      getDataAll();
+    }
   });
 };
 
@@ -543,15 +576,21 @@ const listenToPeriode = function () {
     console.log('test');
     console.log(this.value);
     if (this.value == 'dag') {
-      console.log('Dagkeee');
       getDataDag();
+      week = false;
+      all = false;
+      dag = true;
     } else if (this.value == 'week') {
-      console.log('Weekjeee');
       getDataWeek();
+      dag = false;
+      all = false;
+      week = true;
       // listenToSocketHistoriek();
     } else if (this.value == 'all') {
-      console.log('ALLEMOALE');
       getDataAll();
+      week = false;
+      dag = false;
+      all = true;
     }
   });
 };
