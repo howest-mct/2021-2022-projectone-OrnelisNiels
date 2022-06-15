@@ -341,8 +341,8 @@ def callback_knop(pin):
 def callback_shutdown(pin):
     print("shutdown")
     lcdObject.reset_lcd()
+    lcdObject.send_message("Afgesloten")
     motorpwm.stop()
-    GPIO.cleanup()
     time.sleep(5)
     os.system("sudo shutdown -h now")
     sys.exit()
@@ -886,12 +886,16 @@ def programma():
             if vorigeOpties != opties:
                 lcdObject.reset_lcd()
                 lcdObject.send_message(opties[3])
+                print(opties[3])
                 lcdObject.set_cursor(0xD)
                 lcdObject.send_message(opties[2])
+                print(opties[2])
                 lcdObject.set_cursor(0x40)
                 lcdObject.send_message(opties[0])
+                print(opties[0])
                 lcdObject.set_cursor(0x4E)
                 lcdObject.send_message(opties[1])
+                print(opties[1])
                 lcdObject.set_cursor(lcdTeller)
                 vorigeOpties = opties
         elif status == 5:

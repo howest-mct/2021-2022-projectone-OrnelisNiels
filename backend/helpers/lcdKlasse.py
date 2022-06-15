@@ -51,7 +51,7 @@ class lcdKlasse():
         for letter in woord:
             self.teller += 1
             self.send_character(ord(letter))
-            if (self.teller == 16):
+            if (self.teller == 17):
                 self.send_instruction(0b10000000 | 0x40)
 
     def init_LCD(self):
@@ -64,6 +64,7 @@ class lcdKlasse():
     def reset_lcd(self):
         print('test')
         self.send_instruction(0b00000001)
+        self.teller = 0
 
     def set_cursor(self, value):
         self.send_instruction(0b10000000 | value)

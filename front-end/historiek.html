@@ -64,19 +64,27 @@
       </div>
     </header>
     </section>
-    <section class="o-row o-row--lg js-historiek">
+    <section class="o-row o-row--lg js-historiek c-color">
       <div class="o-container u-max-width-lg">
         <article class="o-section">
+          <button class="button-64" role="button"><span class="text">Berichten</span></button>
+          <button class="button-64" role="button"><span class="text">Temperatuur</span></button>
           <div class="o-layout1 o-layout--gutter-lg1 o-layout--gutter o-layout--align-center1">
             <div class="o-layout__item1 u-1-of-2-bp3">
               <h2 class="c-titel  c-lead c-lead--lg">Historiek</h2>
+
+              
+              <div class="c-periode">
+                <!-- <label class="c-periode u-bigger" for="periode">Periode</label> -->
+              <div class="c-select">
+                <select class="js-periodeSelect" name="periode" id="periode">
+                    <option value="dag">Dag</option>
+                    <option value="week">Week</option>
+                    <option value="all">All</option>
+                </select>
+              </div>
+              </div>
             </div>
-            <label for="periode">Periode</label>
-            <select class="js-periodeSelect" name="periode" id="periode">
-              <option value="dag">Dag</option>
-              <option value="week">Week</option>
-              <option value="all">All</option>
-            </select>
           </div>
           <div id="chart" class="js-chart"></div>
         </article>

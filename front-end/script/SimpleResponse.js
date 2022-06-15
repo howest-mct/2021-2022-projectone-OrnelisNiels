@@ -50,6 +50,30 @@ const showData = function (jsonObject) {
               data: converted_data,
             },
           ],
+          chart: {
+            id: 'myChart',
+            type: 'line',
+            height: '550px',
+            colors: 'F4A950',
+            forecolor: 'F4A950',
+            toolbar: {
+              show: false,
+            },
+            zoom: {
+              enabled: false,
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          title: {
+            text: 'Temperatuur laatste 24u',
+            align: 'center',
+            style: {
+              fontSize: '16px',
+              color: '#161B20',
+            },
+          },
         });
       } else {
         console.log('week');
@@ -70,6 +94,17 @@ const showData = function (jsonObject) {
             zoom: {
               enabled: false,
             },
+          },
+          title: {
+            text: 'Gemiddelde temperatuur per dag',
+            align: 'center',
+            style: {
+              fontSize: '16px',
+              color: '#161B20',
+            },
+          },
+          dataLabels: {
+            enabled: true,
           },
         });
       }
@@ -154,6 +189,7 @@ const drawChart = function (labels, data) {
       {
         name: 'Temp sensor',
         data: data,
+        color: '#F4A950',
       },
     ],
     labels: labels,
@@ -164,14 +200,28 @@ const drawChart = function (labels, data) {
       enabled: true,
       // formatter: 'HH:mm:ss',
       offsetY: 0,
-      // x: {
-      //   // title: {
-      //   //   },
-      //   },
-      // },
+      x: {
+        show: true,
+        format: 'dd MMM',
+      },
       style: {
         fontSize: '16px',
         fontFamily: 0,
+        color: '#161b20',
+      },
+    },
+    states: {
+      hover: {
+        filter: {
+          type: 'lighten',
+          value: 0.01,
+        },
+      },
+      active: {
+        allowMultipleDataPointsSelection: false,
+        filter: {
+          type: 'none',
+        },
       },
     },
   };
