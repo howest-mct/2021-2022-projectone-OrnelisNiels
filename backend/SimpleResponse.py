@@ -557,11 +557,13 @@ def setup():
     Led3.RGB_set(100, 100, 100)
     motor = 25
     GPIO.setup(motor, GPIO.OUT)
-    motorpwm = GPIO.PWM(motor, 1000)
+    motorpwm = GPIO.PWM(motor, 100)
+    motorpwm.start(0)
+    print("setup")
 
 
 def programma():
-    global start, minimum, maximum, gebruikersid, tijd, vorigeInhoud, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat, vorigeAdressen, vorigeOpties, opties, lcdTeller, positieTeller, joyTimer, vorigeJoyTimer, optie, vorigeOptie
+    global start, minimum, motorpwm, maximum, gebruikersid, tijd, vorigeInhoud, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat, vorigeAdressen, vorigeOpties, opties, lcdTeller, positieTeller, joyTimer, vorigeJoyTimer, optie, vorigeOptie
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -649,7 +651,7 @@ def programma():
                     socketio.emit('B2F_verander_status_vent', {'status': 1})
                     vorigeStat = stat
                     globalStat = 1
-                motorpwm.start(0)
+                # motorpwm.start(0)
                 motorpwm.ChangeDutyCycle(100)
             elif draaien == False:
                 stat = 0
@@ -658,7 +660,7 @@ def programma():
                     vorigeStat = stat
                     globalStat = 0
                 motorpwm.ChangeDutyCycle(0)
-                motorpwm.stop(0)
+                # motorpwm.stop(0)
         elif controleVentilator == "":
             if resul > gewensteTemp:
                 stat = 1
@@ -666,7 +668,7 @@ def programma():
                     socketio.emit('B2F_verander_status_vent', {'status': 1})
                     vorigeStat = stat
                     globalStat = 1
-                motorpwm.start(0)
+                # motorpwm.start(0)
                 motorpwm.ChangeDutyCycle(100)
             elif resul <= gewensteTemp:
                 stat = 0
@@ -675,7 +677,7 @@ def programma():
                     vorigeStat = stat
                     globalStat = 0
                 motorpwm.ChangeDutyCycle(0)
-                motorpwm.stop(0)
+                # motorpwm.stop(0)
 
         if reset == True:
             print("reset")
