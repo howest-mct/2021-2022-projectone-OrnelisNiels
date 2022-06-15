@@ -15,7 +15,9 @@ let htmlInloggen,
   chart,
   dag = false,
   week = false,
-  all = false;
+  all = false,
+  grafTemp = false,
+  grafBer = true;
 
 //#region ***  Callback-Visualisation - show___         ***********
 function toggleNav() {
@@ -31,6 +33,9 @@ function toggleNav() {
 const showData = function (jsonObject) {
   try {
     console.log(jsonObject);
+    console.log(grafBer);
+    console.log(grafTemp);
+    console.log(chartStat);
     let converted_labels = [];
     let converted_data = [];
     for (let data of jsonObject.historiek) {
@@ -75,8 +80,8 @@ const showData = function (jsonObject) {
             },
           },
         });
-      } else {
-        console.log('week');
+      } else if (week == true || (all == true && grafTemp == true)) {
+        console.log('week||all');
         chart.updateOptions({
           labels: converted_labels,
           series: [
@@ -229,61 +234,6 @@ const drawChart = function (labels, data) {
   chart.render();
 };
 
-// const drawChart = function (labels, data) {
-//   var options = {
-//     series: [
-//       {
-//         name: 'Temp sensor',
-//         data: data,
-//       },
-//     ],
-//     labels: labels,
-//     chart: {
-//       id: 'realtime',
-//       height: 350,
-//       type: 'line',
-//       animations: {
-//         enabled: true,
-//         easing: 'linear',
-//         dynamicAnimation: {
-//           speed: 1000,
-//         },
-//       },
-//       toolbar: {
-//         show: false,
-//       },
-//       zoom: {
-//         enabled: false,
-//       },
-//     },
-//     dataLabels: {
-//       enabled: false,
-//     },
-//     stroke: {
-//       curve: 'smooth',
-//     },
-//     title: {
-//       text: 'Temperatuur',
-//       align: 'center',
-//     },
-//     markers: {
-//       size: 0,
-//     },
-//     legend: {
-//       show: false,
-//     },
-//   };
-
-//   var chart = new ApexCharts(document.querySelector('#chart'), options);
-//   chart.render();
-
-//   chart.updateSeries([
-//     {
-//       data: data,
-//     },
-//   ]);
-// };
-
 //#endregion
 
 //#region ***  Callback-No Visualisation - callback___  ***********
@@ -298,23 +248,28 @@ const getBerichten = function () {
   handleData(url, showBerichten, showError);
 };
 
-const getDataAll = function () {
-  const url = `http://${lanIP}/api/v1/historiek/all/`;
+const getDataBerichtenWeek = function () {
+  const url = `http://${lanIP}/api/v1/historiek/berichten/week/`;
+  handleData(url, showData, showError);
+};
+
+const getDataBerichtenAll = function () {
+  const url = `http://${lanIP}/api/v1/historiek/berichten/all/`;
   handleData(url, showData, showError);
 };
 
 const getDataDag = function () {
-  const url = `http://${lanIP}/api/v1/historiek/dag/`;
+  const url = `http://${lanIP}/api/v1/historiek/temp/dag/`;
   handleData(url, showData, showError);
 };
 
-// const UpdateDataDag = function () {
-//   const url = `http://${lanIP}/api/v1/historiek/dag/`;
-//   handleData(url, showData, showError);
-// };
-
 const getDataWeek = function () {
-  const url = `http://${lanIP}/api/v1/historiek/week/`;
+  const url = `http://${lanIP}/api/v1/historiek/temp/week/`;
+  handleData(url, showData, showError);
+};
+
+const getDataAll = function () {
+  const url = `http://${lanIP}/api/v1/historiek/temp/all/`;
   handleData(url, showData, showError);
 };
 
@@ -626,21 +581,66 @@ const listenToPeriode = function () {
     console.log('test');
     console.log(this.value);
     if (this.value == 'dag') {
+      console.log('dag');
       getDataDag();
       week = false;
       all = false;
       dag = true;
     } else if (this.value == 'week') {
+      console.log('week');
       getDataWeek();
       dag = false;
       all = false;
       week = true;
       // listenToSocketHistoriek();
     } else if (this.value == 'all') {
+      console.log('all');
       getDataAll();
       week = false;
       dag = false;
       all = true;
+    }
+  });
+};
+
+const listenToKnoppen = function () {
+  let grafiekBerichten = document.querySelector('.js-grafiekBerichten');
+  let grafiekTemperatuur = document.querySelector('.js-grafiekTemperatuur');
+  let grafiekTempDisplay = document.querySelector('.js-tempDisplay');
+  let grafiekTempDisplayGraph = document.querySelector('.js-tempDisplayGraph');
+  let grafiekBerichtenDisplay = document.querySelector('.js-berDisplay');
+  let grafiekBerichtenDisplayGraph = document.querySelector(
+    '.js-berDisplayGraph'
+  );
+  console.log(grafiekTempDisplay);
+  grafiekBerichten.addEventListener('click', function () {
+    if (grafBer == false) {
+      console.log('Berichten');
+      grafiekBerichtenDisplay.classList.add('c-berichtenTonen');
+      grafiekBerichtenDisplay.classList.remove('c-berichtenVerwijderen');
+      grafiekBerichtenDisplayGraph.classList.add('c-berichtenTonen');
+      grafiekBerichtenDisplayGraph.classList.remove('c-berichtenVerwijderen');
+      grafiekTempDisplay.classList.add('c-temperatuurVerwijderen');
+      grafiekTempDisplay.classList.remove('c-temperatuurTonen');
+      grafiekTempDisplayGraph.classList.add('c-temperatuurVerwijderen');
+      grafiekTempDisplayGraph.classList.remove('c-temperatuurTonen');
+      grafTemp = false;
+      grafBer = true;
+    }
+  });
+  grafiekTemperatuur.addEventListener('click', function () {
+    if (grafTemp == false) {
+      console.log('Temperatuur');
+      grafiekTempDisplay.classList.add('c-temperatuurTonen');
+      grafiekTempDisplay.classList.remove('c-temperatuurVerwijderen');
+      grafiekTempDisplayGraph.classList.add('c-temperatuurTonen');
+      grafiekTempDisplayGraph.classList.remove('c-temperatuurVerwijderen');
+      grafiekBerichtenDisplay.classList.add('c-berichtenVerwijderen');
+      grafiekBerichtenDisplay.classList.remove('c-berichtenTonen');
+      grafiekBerichtenDisplayGraph.classList.add('c-berichtenVerwijderen');
+      grafiekBerichtenDisplayGraph.classList.remove('c-berichtenTonen');
+      grafBer = false;
+      grafTemp = true;
     }
   });
 };
@@ -679,7 +679,9 @@ const init = function () {
       } else if (htmlHistoriek) {
         console.log('Historiek');
         gebruiker();
+        listenToKnoppen();
         getDataDag();
+        // getDataBerichtenWeek();
         listenToPeriode();
         listenToSocketHistoriek();
         toggleNav();

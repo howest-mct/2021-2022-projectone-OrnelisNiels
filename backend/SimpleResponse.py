@@ -47,8 +47,8 @@ def hallo():
     return "Server is running, er zijn momenteel geen API endpoints beschikbaar."
 
 
-@app.route('/api/v1/historiek/all/')
-def get_historiek_all():
+@app.route('/api/v1/historiek/temp/all/')
+def get_historiek_temp_all():
     if request.method == "GET":
         data = DataRepository.read_historiek_temp()
         if data is not None:
@@ -57,8 +57,8 @@ def get_historiek_all():
             return jsonify(message="error"), 404
 
 
-@app.route('/api/v1/historiek/dag/')
-def get_historiek_dag():
+@app.route('/api/v1/historiek/temp/dag/')
+def get_historiek_temp_dag():
     if request.method == "GET":
         data = DataRepository.read_historiek_temp_dag()
         if data is not None:
@@ -67,10 +67,30 @@ def get_historiek_dag():
             return jsonify(message="error"), 404
 
 
-@app.route('/api/v1/historiek/week/')
-def get_historiek_week():
+@app.route('/api/v1/historiek/temp/week/')
+def get_historiek_temp_week():
     if request.method == "GET":
         data = DataRepository.read_historiek_temp_week()
+        if data is not None:
+            return jsonify(historiek=data), 200
+        else:
+            return jsonify(message="error"), 404
+
+
+@app.route('/api/v1/historiek/berichten/all/')
+def get_historiek_berichten_all():
+    if request.method == "GET":
+        data = DataRepository.read_historiek_berichten()
+        if data is not None:
+            return jsonify(historiek=data), 200
+        else:
+            return jsonify(message="error"), 404
+
+
+@app.route('/api/v1/historiek/berichten/week/')
+def get_historiek_berichten_week():
+    if request.method == "GET":
+        data = DataRepository.read_historiek_berichten_week()
         if data is not None:
             return jsonify(historiek=data), 200
         else:

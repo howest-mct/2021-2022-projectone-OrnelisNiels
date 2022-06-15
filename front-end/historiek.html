@@ -69,18 +69,34 @@
     <section class="o-row o-row--lg js-historiek c-color">
       <div class="o-container u-max-width-lg">
         <article class="o-section">
-          <div class="">
-
-          </div>
           <!-- <span class="material-icons">chat</span> -->
-          <button class="c-btn__link__temp u-margin-right c-tempBtn"><p>Berichten</p></button>
-          <button class="c-btn__link__temp u-margin-right c-tempBtn"><p>Temperatuur</p></button>
-          <div class="o-layout1 o-layout--gutter-lg1 o-layout--gutter o-layout--align-center1">
-            <div class="o-layout__item1 u-1-of-2-bp3">
-              <h2 class="c-titel  c-lead c-lead--lg">Historiek</h2>
-
+          <!-- <button class="c-btn__link__temp u-margin-right c-tempBtn"><p>Berichten</p></button>
+            <button class="c-btn__link__temp u-margin-right c-tempBtn"><p>Temperatuur</p></button> -->
+            
+            <div class="o-layout1 o-layout--gutter-lg1 o-layout--gutter o-layout--align-center1">
+              <div class="o-layout__item1 u-1-of-2-bp3">
+                
+                <div class="u-center">
+                  <h2 class="c-titel  c-lead c-lead--lg">Historiek</h2>
+                  <button class="button button1 js-grafiekBerichten">Berichten</button>
+                  <button class="button button2 js-grafiekTemperatuur">Temperatuur</button>
+                </div>
               
-              <div class="c-periode">
+
+
+                <div class="c-berichtenTonen js-berDisplay">
+                  <div class="c-periode  u-margin-btm-clear">
+                <!-- <label class="c-periode u-bigger" for="periode">Periode</label> -->
+              <div class="c-select">
+                <select class="" name="periode" id="periode">
+                    <option value="week">Week</option>
+                    <option value="all">All</option>
+                </select>
+              </div>
+              </div>
+                </div>
+                <div class="c-temperatuurVerwijderen js-tempDisplay">
+                  <div class="c-periode  u-margin-btm-clear">
                 <!-- <label class="c-periode u-bigger" for="periode">Periode</label> -->
               <div class="c-select">
                 <select class="js-periodeSelect" name="periode" id="periode">
@@ -90,9 +106,11 @@
                 </select>
               </div>
               </div>
+                </div>
             </div>
           </div>
-          <div id="chart" class="js-chart"></div>
+          <div id="chartje" class="c-berichtenTonen js-berDisplayGraph js-chartje"></div>
+          <div id="chart" class="c-temperatuurVerwijderen js-tempDisplayGraph js-chart"></div>
         </article>
       </div>
     </section>
