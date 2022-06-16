@@ -17,7 +17,9 @@ let htmlInloggen,
   week = false,
   all = false,
   grafTemp = false,
-  grafBer = true;
+  grafBer = true,
+  weekBer = true,
+  allBer = false;
 
 //#region ***  Callback-Visualisation - show___         ***********
 function toggleNav() {
@@ -38,80 +40,167 @@ const showData = function (jsonObject) {
     console.log(chartStat);
     let converted_labels = [];
     let converted_data = [];
-    for (let data of jsonObject.historiek) {
-      converted_labels.push(data.datum);
-      converted_data.push(data.waarde);
-    }
-    console.log('Data', converted_data, '\nLabels', converted_labels);
-    if (chartStat == false) {
-      drawChart(converted_labels, converted_data);
-      chartStat = true;
-    } else {
-      if (dag == true) {
-        chart.updateOptions({
-          labels: converted_labels,
-          series: [
-            {
-              data: converted_data,
+    if (grafBer == true) {
+      console.log('KRAKOTTENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN');
+      for (let data of jsonObject.historiek) {
+        converted_labels.push(data.datum);
+        converted_data.push(data.aantal);
+      }
+      console.log('Data', converted_data, '\nLabels', converted_labels);
+      if (chartStat == false) {
+        drawChart(converted_labels, converted_data);
+        chartStat = true;
+      } else {
+        if (weekBer == true) {
+          chart.updateOptions({
+            labels: converted_labels,
+            series: [
+              {
+                data: converted_data,
+              },
+            ],
+            chart: {
+              id: 'myChart',
+              type: 'bar',
+              height: '550px',
+              // colors: 'F4A950',
+              // forecolor: 'F4A950',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
             },
-          ],
-          chart: {
-            id: 'myChart',
-            type: 'line',
-            height: '550px',
-            colors: 'F4A950',
-            forecolor: 'F4A950',
-            toolbar: {
-              show: false,
-            },
-            zoom: {
+            dataLabels: {
               enabled: false,
             },
-          },
-          dataLabels: {
-            enabled: false,
-          },
-          title: {
-            text: 'Temperatuur laatste 24u',
-            align: 'center',
-            style: {
-              fontSize: '16px',
-              color: '#161B20',
+            title: {
+              text: 'Aantal berichten laatste week',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
             },
-          },
-        });
-      } else if (week == true || (all == true && grafTemp == true)) {
-        console.log('week||all');
-        chart.updateOptions({
-          labels: converted_labels,
-          series: [
-            {
-              data: converted_data,
+          });
+        } else if (allBer == true) {
+          console.log('all ber');
+          chart.updateOptions({
+            labels: converted_labels,
+            series: [
+              {
+                data: converted_data,
+              },
+            ],
+            chart: {
+              id: 'myChart',
+              type: 'bar',
+              height: '550px',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
             },
-          ],
-          chart: {
-            id: 'myChart',
-            type: 'bar',
-            height: '550px',
-            toolbar: {
-              show: false,
+            title: {
+              text: 'Aantal berichten all time',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
             },
-            zoom: {
+            dataLabels: {
+              enabled: true,
+            },
+          });
+        }
+      }
+    } else if (grafTemp == true) {
+      console.log('TABEL VLEEEEEEEEEEEEEEEEEEEEEEEEEES');
+      for (let data of jsonObject.historiek) {
+        converted_labels.push(data.datum);
+        converted_data.push(data.waarde);
+      }
+      console.log('Data', converted_data, '\nLabels', converted_labels);
+      if (chartStat == false) {
+        drawChart(converted_labels, converted_data);
+        chartStat = true;
+      } else {
+        if (dag == true) {
+          chart.updateOptions({
+            title: {
+              text: 'Aantal berichten laatste kak',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
+            },
+            chart: {
+              id: 'myChart',
+              type: 'line',
+              height: '550px',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
+            },
+            stroke: {
+              curve: 'straight',
+            },
+            grid: {
+              borderColor: '#f1f1f1',
+            },
+            dataLabels: {
               enabled: false,
             },
-          },
-          title: {
-            text: 'Gemiddelde temperatuur per dag',
-            align: 'center',
-            style: {
-              fontSize: '16px',
-              color: '#161B20',
+            series: [
+              {
+                name: 'Aantal berichten',
+                data: converted_data,
+                color: '#F4A950',
+              },
+            ],
+            labels: converted_labels,
+          });
+        } else if (week == true || (all == true && grafTemp == true)) {
+          console.log('week||all');
+          chart.updateOptions({
+            labels: converted_labels,
+            series: [
+              {
+                data: converted_data,
+              },
+            ],
+            chart: {
+              id: 'myChart',
+              type: 'bar',
+              height: '550px',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
             },
-          },
-          dataLabels: {
-            enabled: true,
-          },
-        });
+            title: {
+              text: 'Gemiddelde temperatuur per dag',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
+            },
+            dataLabels: {
+              enabled: true,
+            },
+          });
+        }
       }
     }
   } catch (error) {
@@ -152,7 +241,7 @@ const showError = function (err) {
 const drawChart = function (labels, data) {
   let options = {
     title: {
-      text: 'Temperatuur',
+      text: 'Aantal berichten laatste week',
       align: 'center',
       style: {
         fontSize: '16px',
@@ -177,7 +266,7 @@ const drawChart = function (labels, data) {
       borderColor: '#f1f1f1',
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     // xaxis: {
     //   type: 'datetime',
@@ -192,7 +281,7 @@ const drawChart = function (labels, data) {
     // },
     series: [
       {
-        name: 'Temp sensor',
+        name: 'Aantal berichten',
         data: data,
         color: '#F4A950',
       },
@@ -607,25 +696,28 @@ const listenToKnoppen = function () {
   let grafiekBerichten = document.querySelector('.js-grafiekBerichten');
   let grafiekTemperatuur = document.querySelector('.js-grafiekTemperatuur');
   let grafiekTempDisplay = document.querySelector('.js-tempDisplay');
-  let grafiekTempDisplayGraph = document.querySelector('.js-tempDisplayGraph');
+  // let grafiekTempDisplayGraph = document.querySelector('.js-tempDisplayGraph');
   let grafiekBerichtenDisplay = document.querySelector('.js-berDisplay');
-  let grafiekBerichtenDisplayGraph = document.querySelector(
-    '.js-berDisplayGraph'
-  );
+  // let grafiekBerichtenDisplayGraph = document.querySelector(
+  //   '.js-berDisplayGraph'
+  // );
   console.log(grafiekTempDisplay);
   grafiekBerichten.addEventListener('click', function () {
     if (grafBer == false) {
       console.log('Berichten');
       grafiekBerichtenDisplay.classList.add('c-berichtenTonen');
       grafiekBerichtenDisplay.classList.remove('c-berichtenVerwijderen');
-      grafiekBerichtenDisplayGraph.classList.add('c-berichtenTonen');
-      grafiekBerichtenDisplayGraph.classList.remove('c-berichtenVerwijderen');
+      // grafiekBerichtenDisplayGraph.classList.add('c-berichtenTonen');
+      // grafiekBerichtenDisplayGraph.classList.remove('c-berichtenVerwijderen');
       grafiekTempDisplay.classList.add('c-temperatuurVerwijderen');
       grafiekTempDisplay.classList.remove('c-temperatuurTonen');
-      grafiekTempDisplayGraph.classList.add('c-temperatuurVerwijderen');
-      grafiekTempDisplayGraph.classList.remove('c-temperatuurTonen');
+      // grafiekTempDisplayGraph.classList.add('c-temperatuurVerwijderen');
+      // grafiekTempDisplayGraph.classList.remove('c-temperatuurTonen');
       grafTemp = false;
       grafBer = true;
+      dag = false;
+      weekBer = true;
+      getDataBerichtenWeek();
     }
   });
   grafiekTemperatuur.addEventListener('click', function () {
@@ -633,14 +725,35 @@ const listenToKnoppen = function () {
       console.log('Temperatuur');
       grafiekTempDisplay.classList.add('c-temperatuurTonen');
       grafiekTempDisplay.classList.remove('c-temperatuurVerwijderen');
-      grafiekTempDisplayGraph.classList.add('c-temperatuurTonen');
-      grafiekTempDisplayGraph.classList.remove('c-temperatuurVerwijderen');
+      // grafiekTempDisplayGraph.classList.add('c-temperatuurTonen');
+      // grafiekTempDisplayGraph.classList.remove('c-temperatuurVerwijderen');
       grafiekBerichtenDisplay.classList.add('c-berichtenVerwijderen');
       grafiekBerichtenDisplay.classList.remove('c-berichtenTonen');
-      grafiekBerichtenDisplayGraph.classList.add('c-berichtenVerwijderen');
-      grafiekBerichtenDisplayGraph.classList.remove('c-berichtenTonen');
+      // grafiekBerichtenDisplayGraph.classList.add('c-berichtenVerwijderen');
+      // grafiekBerichtenDisplayGraph.classList.remove('c-berichtenTonen');
       grafBer = false;
       grafTemp = true;
+      dag = true;
+      getDataDag();
+    }
+  });
+};
+
+const listenToPeriode1 = function () {
+  const periodeSelect = document.querySelector('.js-periodeSelectBer');
+  periodeSelect.addEventListener('change', function () {
+    console.log('test');
+    console.log(this.value);
+    if (this.value == 'week') {
+      console.log('week');
+      getDataBerichtenWeek();
+      allBer = false;
+      weekBer = true;
+    } else if (this.value == 'all') {
+      console.log('week');
+      getDataBerichtenAll();
+      weekBer = false;
+      allBer = true;
     }
   });
 };
@@ -680,9 +793,9 @@ const init = function () {
         console.log('Historiek');
         gebruiker();
         listenToKnoppen();
-        getDataDag();
-        // getDataBerichtenWeek();
+        getDataBerichtenWeek();
         listenToPeriode();
+        listenToPeriode1();
         listenToSocketHistoriek();
         toggleNav();
       } else if (htmlBericht) {
