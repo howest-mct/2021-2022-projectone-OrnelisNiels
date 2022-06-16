@@ -770,6 +770,10 @@ select::-ms-expand {
     margin-right: 2px;
 }
 
+.c-h1{
+    font-size: 32px;
+}
+
 
 @media (min-width: 992px) {
 
@@ -1859,6 +1863,10 @@ textarea button {
         margin: 0px;
         font-size: 16px;
     }
+    .u-center-line {
+        text-align: center;
+        margin-bottom: 10px;
+    }
 }
 
 @media (min-width: 630px) {
@@ -2105,6 +2113,10 @@ textarea button {
         margin: 0px;
         font-size: 24px;
     }
+    .u-center-line {
+        text-align: center;
+        margin-bottom: 50px;
+    }
     
 }
 
@@ -2182,10 +2194,6 @@ textarea button {
 */
 .u-center {
     text-align: center;
-}
-.u-center-line{
-text-align: center;
-margin-bottom: 50px;
 }
 .u-kleur{
     color:#F4A950;
