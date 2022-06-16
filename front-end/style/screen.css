@@ -1710,6 +1710,13 @@ textarea button {
 }
 
 @media (min-width: 375px) {
+    .c-line--rechts {
+        display: none;
+    }
+    
+    .c-line--links {
+        display: none;
+    }
     .c-lead--lg {
         font-size: 32px;
         line-height: 40px;
@@ -2057,6 +2064,24 @@ textarea button {
         border-radius: 2px;
     }
     
+    .c-line--rechts{
+        display:inline;
+        color: #f4a950;
+        margin: 1em;
+        letter-spacing: -0.2em;
+        font-size: 25px;
+        margin-left: 50px
+    }
+
+    .c-line--links {
+        display:inline;
+        color: #f4a950;
+        margin: 1em;
+        letter-spacing: -0.2em;
+        font-size: 25px;
+        margin-right: 50px;
+    }
+
     .u-margin-left-right{
         margin-left: 15px;
         margin-right: -15px;
@@ -2157,6 +2182,10 @@ textarea button {
 */
 .u-center {
     text-align: center;
+}
+.u-center-line{
+text-align: center;
+margin-bottom: 50px;
 }
 .u-kleur{
     color:#F4A950;
