@@ -857,11 +857,12 @@ select::-ms-expand {
     box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
     border-radius: 1%;
     padding: 24px;
+    padding-bottom: 0px;
 }
 
 .c-chat{
     max-width: 1108px;
-    max-height:300px;
+    max-height:280px;
     display: flex;
     flex-direction: column-reverse;
     overflow: hidden;
@@ -1969,6 +1970,17 @@ textarea button {
         justify-content: center;
         display:none;
     }
+    .c-popup3 {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        display: none;
+    }
     .c-pointer{
         cursor: pointer;
     }
@@ -1984,6 +1996,16 @@ textarea button {
         
     }
 
+    .c-popup-content2 {
+        width: 82%;
+        height: 350px;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+    }
+
     .c-popup-flex{
         display: flex;
         height: 60%;
@@ -1997,6 +2019,12 @@ textarea button {
     .c-popup-containerLed {
         width: 25%
     }
+    .c-popup-containerReplies {
+        width: 50%
+    }
+        .c-popup-containerRepliesFull{
+            width: 50%
+        }
     .test{
         position: relative;
         display: flex;
@@ -2454,7 +2482,13 @@ textarea button {
 .u-margin-bottom{
     margin-bottom: 25px;
 }
-
+.u-height{
+    height: 40px;
+}
+.u-100{
+    width: 100%;
+    margin-top: 10px;
+}
 .u-margin-rightt {
     margin-right: 100%;
 }

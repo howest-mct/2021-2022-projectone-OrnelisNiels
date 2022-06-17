@@ -822,6 +822,16 @@ const listenToPeriode1 = function () {
     }
   });
 };
+const listenToWijzigen = function () {
+  const quickReplies = document.querySelector('.js-quickReplies');
+  quickReplies.addEventListener('click', function () {
+    document.querySelector('.js-replyTab').style.display = 'flex';
+  });
+  const replyCross = document.querySelector('.js-crossReplies');
+  replyCross.addEventListener('click', function () {
+    document.querySelector('.js-replyTab').style.display = 'none';
+  });
+};
 //#endregion
 
 //#region ***  Init / DOMContentLoaded                  ***********
@@ -866,6 +876,7 @@ const init = function () {
       } else if (htmlBericht) {
         console.log('Bericht');
         listenToSocketBericht();
+        listenToWijzigen();
         getBerichten();
         gebruiker();
         toggleNav();
