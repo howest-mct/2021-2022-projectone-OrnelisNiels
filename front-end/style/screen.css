@@ -786,6 +786,9 @@ select::-ms-expand {
     margin-top: 25px;
     color:#f1f1f1;
 }
+.c-optie::placeholder{
+    color:#161b20
+}
 
 .c-select::after {
     content: '\25BC';
@@ -870,7 +873,7 @@ select::-ms-expand {
     line-height: 30px;
     overflow-x: hidden;
     overflow-y: auto;
-    padding-right: 5px;
+    padding-right: 10px;
 }
 @media (min-width: 992px) {
 
@@ -956,7 +959,7 @@ input[type='text'] {
     padding: 12px 20px;
     margin: 8px 0px;
     display: inline-block;
-    border: 1px solid #ccc;
+    border: 2px solid #161B20;
     box-sizing: border-box;
     border-radius: 15px;
     font-size: 24px;
@@ -2086,6 +2089,9 @@ textarea button {
     .c-popup-content {
             width: 65%;
         }
+    .c-popup-content2 {
+        width: 65%;
+    }
     .u-breedte {
             width: 80%;
 
@@ -2123,6 +2129,9 @@ textarea button {
         text-align: center;
         padding: 10px;
         position: relative;
+    }
+    .c-popup-content2 {
+        width: 82%;
     }
     .buttonAan {
         font-size: 24px;
@@ -2225,6 +2234,9 @@ textarea button {
 .c-popup-content {
         width: 45%;
     }
+        .c-popup-content2 {
+            width: 45%;
+        }
     .testje {
             height: 115px;
         }
@@ -2400,7 +2412,9 @@ textarea button {
     .c-popup-content {
             width: 30%;
         }
-    
+        .c-popup-content2 {
+            width: 30%;
+        }
     .testje {
             height: 130px;
         }

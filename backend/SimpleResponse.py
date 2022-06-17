@@ -108,6 +108,16 @@ def get_berichten_by_id(id):
             return jsonify(message="error"), 404
 
 
+@app.route('/api/v1/quickReplies/')
+def get_quickReplies():
+    if request.method == "GET":
+        replies = DataRepository.read_quickReplies()
+        if datum is not None:
+            return jsonify(quickreplies=replies), 200
+        else:
+            return jsonify(message="error"), 404
+
+
 @socketio.on('connect')
 def initial_connection():
     print('A new client connect')
@@ -829,9 +839,11 @@ def programma():
         elif status == 4:
             lcdObject.send_instruction(0b00001111)
             # positieTeller = 0
-            opties = ["Nee", "Ja", "Oke", "Ik kom zo"]
+            replies = DataRepository.read_quickReplies()
+            opties = [f"{replies[0]['berichtinhoud']}", f"{replies[1]['berichtinhoud']}",
+                      f"{replies[2]['berichtinhoud']}", f"{replies[3]['berichtinhoud']}"]
             joyTimer = time.time()
-
+            print(replies[0]['berichtinhoud'])
             # positie bepalen
             if xWaarde >= 700:
                 if joyTimer - vorigeJoyTimer > 0.5:
@@ -854,7 +866,7 @@ def programma():
                     elif positieTeller == 2:
                         lcdTeller = 0x40
                     elif positieTeller == 3:
-                        lcdTeller = 0x040
+                        lcdTeller = 0x40
             if yWaarde >= 700:
                 if joyTimer - vorigeJoyTimer > 0.5:
                     positieTeller += 2
@@ -883,41 +895,48 @@ def programma():
 
             if lcdTeller == 0x0 and positieTeller == 0:
                 lcdObject.set_cursor(lcdTeller)
-                optie = opties[3]
+                optie = opties[0]
             elif lcdTeller == 0x0 and positieTeller == 1:
-                lengteOptie4 = len(opties[3])
+                lengteOptie4 = len(opties[0])
                 # print(lengteOptie4)
-                lengteOptie3 = len(opties[2])
+                lengteOptie3 = len(opties[1])
                 # print(lengteOptie3)
                 lengteTussen = 16 - lengteOptie3 - lengteOptie4
                 lcdTeller = lcdTeller + lengteOptie4 + lengteTussen
                 lcdObject.set_cursor(lcdTeller)
-                optie = opties[2]
+                optie = opties[1]
             elif lcdTeller > 0x0 and positieTeller == 2:
                 lcdTeller = 0x40
                 lcdObject.set_cursor(lcdTeller)
-                optie = opties[0]
+                optie = opties[2]
             elif lcdTeller == 0x40 and positieTeller == 3:
-                lengteOptie1 = len(opties[0])
-                lengteOptie2 = len(opties[1])
+                lengteOptie1 = len(opties[2])
+                lengteOptie2 = len(opties[3])
                 lengteTussen = 16 - lengteOptie2 - lengteOptie1
                 lcdTeller = lcdTeller + lengteOptie1 + lengteTussen
                 lcdObject.set_cursor(lcdTeller)
-                optie = opties[1]
+                optie = opties[3]
 
             # opties schrijven
             if vorigeOpties != opties:
                 lcdObject.reset_lcd()
-                lcdObject.send_message(opties[3])
-                print(opties[3])
-                lcdObject.set_cursor(0xD)
-                lcdObject.send_message(opties[2])
-                print(opties[2])
-                lcdObject.set_cursor(0x40)
                 lcdObject.send_message(opties[0])
-                print(opties[0])
-                lcdObject.set_cursor(0x4E)
+                if (len(opties[1]) == 2):
+                    lcdObject.set_cursor(0xE)
+                elif (len(opties[1]) == 3):
+                    lcdObject.set_cursor(0xD)
+                elif (len(opties[1]) == 4):
+                    lcdObject.set_cursor(0xC)
                 lcdObject.send_message(opties[1])
+                lcdObject.tweede_rij()
+                lcdObject.send_message(opties[2])
+                if (len(opties[3]) == 2):
+                    lcdObject.set_cursor(0x4E)
+                elif (len(opties[3]) == 3):
+                    lcdObject.set_cursor(0x4D)
+                elif (len(opties[3]) == 4):
+                    lcdObject.set_cursor(0x4C)
+                lcdObject.send_message(opties[3])
                 print(opties[1])
                 lcdObject.set_cursor(lcdTeller)
                 vorigeOpties = opties

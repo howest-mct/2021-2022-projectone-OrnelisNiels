@@ -281,6 +281,21 @@ const showBerichten = function (jsonObject) {
     console.error(error);
   }
 };
+
+const showQuickReplies = function (jsonObject) {
+  try {
+    console.log(jsonObject.quickreplies);
+    let teller = 0;
+    for (let optie of jsonObject.quickreplies) {
+      teller = teller + 1;
+      waarde = optie.berichtinhoud;
+      document.querySelector(`.js-optie${teller}`).placeholder = waarde;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const showError = function (err) {
   console.error(err);
 };
@@ -383,6 +398,11 @@ const getBerichten = function () {
   let idGebruiker = urlParams.get('id');
   const url = `http://${lanIP}/api/v1/berichten/${idGebruiker}/`;
   handleData(url, showBerichten, showError);
+};
+
+const getQuickReplies = function () {
+  const url = `http://${lanIP}/api/v1/quickReplies/`;
+  handleData(url, showQuickReplies, showError);
 };
 
 const getDataBerichtenWeek = function () {
@@ -878,6 +898,7 @@ const init = function () {
         listenToSocketBericht();
         listenToWijzigen();
         getBerichten();
+        getQuickReplies();
         gebruiker();
         toggleNav();
       }
