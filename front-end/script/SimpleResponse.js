@@ -41,7 +41,6 @@ const showData = function (jsonObject) {
     let converted_labels = [];
     let converted_data = [];
     if (grafBer == true) {
-      console.log('KRAKOTTENNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN');
       for (let data of jsonObject.historiek) {
         converted_labels.push(data.datum);
         converted_data.push(data.aantal);
@@ -57,6 +56,8 @@ const showData = function (jsonObject) {
             series: [
               {
                 data: converted_data,
+                type: 'bar',
+                color: '#F4A950',
               },
             ],
             chart: {
@@ -73,7 +74,7 @@ const showData = function (jsonObject) {
               },
             },
             dataLabels: {
-              enabled: false,
+              enabled: true,
             },
             title: {
               text: 'Aantal berichten laatste week',
@@ -91,6 +92,8 @@ const showData = function (jsonObject) {
             series: [
               {
                 data: converted_data,
+                type: 'bar',
+                color: '#F4A950',
               },
             ],
             chart: {
@@ -119,7 +122,6 @@ const showData = function (jsonObject) {
         }
       }
     } else if (grafTemp == true) {
-      console.log('TABEL VLEEEEEEEEEEEEEEEEEEEEEEEEEES');
       for (let data of jsonObject.historiek) {
         converted_labels.push(data.datum);
         converted_data.push(data.waarde);
@@ -132,7 +134,7 @@ const showData = function (jsonObject) {
         if (dag == true) {
           chart.updateOptions({
             title: {
-              text: 'Aantal berichten laatste kak',
+              text: 'Temperatuur laatste 24u',
               align: 'center',
               style: {
                 fontSize: '16px',
@@ -159,14 +161,57 @@ const showData = function (jsonObject) {
             dataLabels: {
               enabled: false,
             },
+            // xaxis: {
+            //   type: 'datetime',
+            //   labels: {
+            //     datetimeFormatter: {
+            //       year: 'yyyy',
+            //       month: "MMM 'yy",
+            //       day: 'dd MMM',
+            //       hour: 'HH:mm',
+            //     },
+            //   },
+            // },
             series: [
               {
+                type: 'line',
                 name: 'Aantal berichten',
                 data: converted_data,
-                color: '#F4A950',
+                color: '#F47550',
               },
             ],
             labels: converted_labels,
+            // noData: {
+            //   text: 'Loading...',
+            // },
+            tooltip: {
+              enabled: true,
+              // formatter: 'HH:mm:ss',
+              offsetY: 0,
+              x: {
+                show: true,
+                format: 'dd MMM',
+              },
+              style: {
+                fontSize: '16px',
+                fontFamily: 0,
+                color: '#161b20',
+              },
+            },
+            // states: {
+            //   hover: {
+            //     filter: {
+            //       type: 'lighten',
+            //       value: 0.01,
+            //     },
+            //   },
+            //   active: {
+            //     allowMultipleDataPointsSelection: false,
+            //     filter: {
+            //       type: 'none',
+            //     },
+            //   },
+            // },
           });
         } else if (week == true || (all == true && grafTemp == true)) {
           console.log('week||all');
@@ -175,6 +220,8 @@ const showData = function (jsonObject) {
             series: [
               {
                 data: converted_data,
+                type: 'bar',
+                color: '#F47550',
               },
             ],
             chart: {
@@ -283,6 +330,7 @@ const drawChart = function (labels, data) {
       {
         name: 'Aantal berichten',
         data: data,
+        type: 'bar',
         color: '#F4A950',
       },
     ],
