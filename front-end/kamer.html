@@ -7,6 +7,8 @@
     <title>SimpleResponse | Kamer</title>
 
     <link rel="icon" href="Favicon2.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
     <link
       rel="stylesheet"
@@ -14,7 +16,7 @@
       media="screen"
       href="style/screen.css"
     />
-
+    
     <script
       src="https://cdn.socket.io/4.4.1/socket.io.min.js"
       integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
@@ -74,7 +76,46 @@
             <span class="c-h1">Kamer</span>
             <span class="c-line--rechts">――――――――――――――</span>
           </div>
-          <div class="o-layout o-layout--margin o-layout--gutter-lg o-layout--gutter o-layout--align-center">
+          <div class="o-layout--justify-center">
+            <div class="u-breedte">
+              <div class="test u-width2">
+              <div class="testje">
+                <div class="tester">
+                  <p class="c-lead c-lead--custom">Temperatuur</p>
+                  <div class="c-lead c-lead--custom  u-kleur js-temp"></div>
+                </div>
+              </div>
+            </div>
+            <div class="test u-width2">
+              <div class="testje">
+                <div class="tester">
+                  <p class="c-lead c-lead--custom">Lichtwaarde</p>
+                  <div class="c-lead c-lead--custom u-kleur js-ldr"></div>
+                </div>
+              </div>
+            </div>
+            <div class="test u-width js-showVentilator c-pointer">
+              <div class="testje">
+                <div class="tester">
+                  <span class="c-status js-statusVent"></span>
+                  <p class="c-lead c-lead--custom">Ventilator</p>
+                  <span class="material-icons">arrow_forward_ios</span>
+                </div>
+              </div>
+            </div>
+            <div class="test u-width js-showLeds c-pointer">
+              <div class="testje">
+                <div class="tester">
+                   <span class="c-statusLeds js-statusLeds"></span>
+                  <p class="c-lead c-lead--custom">Ledstatus</p>
+                  <span class="material-icons">arrow_forward_ios</span>
+                </div>
+              </div>
+            </div>
+            </div>
+
+          </div>
+          <!-- <div class="o-layout o-layout--margin o-layout--gutter-lg o-layout--gutter o-layout--align-center">
             <div class="o-layout__item u-1-of-3-bp3">
               <div class="c-lead c-lead--custom c-lead--left">
                 <p>Temperatuur</p>
@@ -85,11 +126,11 @@
               <h2 class="c-lead c-lead--custom c-lead--left">Lichtwaarde</h2>
               <div class="c-lead c-lead--custom u-kleur js-ldr"><p></p></div>
             </div>
-          </div>
+          </div> -->
         </article>
       </div>
     </section>
-    <section class="o-row o-row--lg">
+    <!-- <section class="o-row o-row--lg">
       <div class="o-container u-max-width-lg">
         <article class="o-section">
           <div class="o-layout o-layout--margin o-layout--gutter-custom o-layout--gutter o-layout--align-custom">
@@ -121,8 +162,8 @@
           </div>
         </article>
       </div>
-    </section>
-    <section class="o-row o-row--lg">
+    </section> -->
+    <!-- <section class="o-row o-row--lg">
       <div class="o-container u-max-width-lg">
         <article class="o-section">
           <div class="o-layout o-layout--margin o-layout--gutter-custom o-layout--gutter o-layout--align-custom u-margin-btm">
@@ -149,7 +190,7 @@
           </div>
         </article>
       </div>
-    </section>
+    </section> -->
     </div>
     </div>
 
@@ -187,5 +228,77 @@
             </div>
         </div>
     </aside>
+    <div class="c-popup js-ventTab">
+      <div class="c-popup-content">
+        <span class="material-icons c-cross js-crossVent">close</span>
+        <p class="c-lead c-lead--custom u-margin-bottom">Ventilator</p>
+        <div class="c-errorMelding u-kleur js-meldingVent u-margin-bottom">Huidige setpoint: <b> °C</b></div>
+        <div class="c-popup-flex">
+          <div class="c-popup-container">
+            <p class="c-lead c-lead--customPop u-margin-rightt">Manueel</p>
+          </div>
+          <div class="c-popup-container">
+            <button class="button buttonAan js-btn" knop-id="10">Aan</button>
+          </div>
+          <div class="c-popup-container">
+            <button class="button buttonUit js-btn" knop-id="11">Uit</button>
+          </div>
+           <div class="c-popup-container">
+              <p class="c-lead c-lead--customPop u-margin-right2">Auto</p>
+          </div>
+           <div class="c-popup-container">
+                <input
+                class="c-gewensteTemp js-gewensteTemp"
+                type="number"
+                name="temperatuur"
+                id="temp"
+                maxlength="3"
+                placeholder=" Temp..."
+                min="0"
+                max="100"
+                required
+                />
+            </div>
+            <div class="c-popup-container">
+             <button class="button buttonAuto js-sendTemp">Set</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="c-popup2 js-ledTab">
+      <div class="c-popup-content">
+        <span class="material-icons c-cross js-crossLed">close</span>
+        <p class="c-lead c-lead--custom u-margin-bottom">Ledstatus</p>
+        <!-- <div class="c-errorMelding u-kleur js-meldingVent u-margin-bottom">Huidige setpoint: <b> °C</b></div> -->
+        <div class="c-errorMelding u-kleur u-margin-bottom js-meldingLeds">Huidige status: <b>Uit</b></div>
+
+        <div class="c-popup-flex">
+          <div class="c-popup-containerLed">
+            <p class="c-lead c-lead--customPop u-margin-rightt">Status</p>
+          </div>
+          <div class="c-popup-containerLed">
+            <button class="button buttonAan js-btn" knop-id="8">Aan</button>
+          </div>
+          <div class="c-popup-containerLed">
+            <button class="button buttonUit js-btn" knop-id="9  ">Uit</button>
+          </div>
+          <div class="c-popup-containerLed">
+            <button class="button buttonAuto js-btn">Auto</button>
+          </div>
+           <div class="c-popup-containerLed">
+              <p class="c-lead c-lead--customPop u-margin-right2">Kleur</p>
+          </div>
+           <div class="c-popup-containerLed">
+            <button class="button buttonAuto js-btn" knop-id="4">Rood</button>
+          </div>
+          <div class="c-popup-containerLed">
+            <button class="button buttonAuto js-btn" knop-id="5">Groen</button>
+          </div>
+          <div class="c-popup-containerLed">
+            <button class="button buttonAuto js-btn" knop-id="6">Blauw</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

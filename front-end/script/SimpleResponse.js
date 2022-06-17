@@ -621,6 +621,23 @@ const listenToUI = function () {
     }
     // errorMelding.innerHTML = htmlTemp;
   });
+  const vent = document.querySelector('.js-showVentilator');
+  vent.addEventListener('click', function () {
+    document.querySelector('.js-ventTab').style.display = 'flex';
+  });
+  const ventCross = document.querySelector('.js-crossVent');
+  ventCross.addEventListener('click', function () {
+    document.querySelector('.js-ventTab').style.display = 'none';
+  });
+
+  const leds = document.querySelector('.js-showLeds');
+  leds.addEventListener('click', function () {
+    document.querySelector('.js-ledTab').style.display = 'flex';
+  });
+  const ledCross = document.querySelector('.js-crossLed');
+  ledCross.addEventListener('click', function () {
+    document.querySelector('.js-ledTab').style.display = 'none';
+  });
 };
 
 const listenToSocket = function () {
@@ -832,7 +849,7 @@ const init = function () {
   } else {
     if (idGebruiker) {
       if (htmlHome) {
-        console.log('Home');
+        console.log('Dashboard');
         listenToUI();
         listenToSocket();
         gebruiker();

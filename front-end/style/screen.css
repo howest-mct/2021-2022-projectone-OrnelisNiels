@@ -113,6 +113,56 @@
     color: #161B20;
 }
 
+.buttonAan {
+    background-color: white;
+    color: black;
+    border: 2px solid #27ae60;
+    font-size: 18px;
+    border-radius: 10px;
+    /* padding:3px 20px; */
+    padding:3px;
+    width: 90%;
+}
+
+.buttonAan:hover {
+    background-color: #27ae60;
+    color: white;
+}
+
+.buttonUit {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(255, 50, 50);
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 4px;
+    min-width: 50px;
+    padding: 3px 20px;
+    width: 90%;
+}
+
+.buttonUit:hover {
+    background-color: rgb(255, 50, 50);
+    color: white;
+}
+
+.buttonAuto {
+    background-color: white;
+    color: black;
+    border: 2px solid #161B20;
+    font-size: 18px;
+    border-radius: 10px;
+    padding: 3px;
+    min-width: 50px;
+    /* padding: 3px 20px; */
+    width: 90%;
+}
+
+.buttonAuto:hover {
+    background-color: #161B20;
+    color: white;
+}
+
 
 /* TEST */
 
@@ -564,6 +614,7 @@ a:focus {
 
 .o-layout--justify-center {
     justify-content: center;
+    display: flex;
 }
 
 .o-layout--justify-space-around {
@@ -842,7 +893,9 @@ select::-ms-expand {
     }
 }
 
-
+.material-icons{
+    font-size: 20px;
+}
 .c-verstuur{
     border-radius: 10px;
     width: 100%;
@@ -925,7 +978,7 @@ input[type='text'] {
 }
 .c-errorMelding{
     padding:0;
-    margin-right: 100px;
+    /* margin-right: 100px; */
 }
 .c-textBorder {
     border-bottom: 2px solid #F4A950;
@@ -947,8 +1000,11 @@ input[type='text'] {
     border-radius: 2px;
 }
 .c-status {
-    height: 12px;
-    width: 12px;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    height: 10px;
+    width: 10px;
     background-color: rgb(255, 50, 50);
     border-radius: 50%;
     display: inline-block;
@@ -959,8 +1015,11 @@ input[type='text'] {
 }
 
 .c-statusLeds {
-    height: 12px;
-    width: 12px;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    height: 10px;
+    width: 10px;
     background-color: rgb(255, 50, 50);
     border-radius: 50%;
     display: inline-block;
@@ -1223,6 +1282,7 @@ input[type='text'] {
         }
 
 }
+
 
 
 .c-titel {
@@ -1694,7 +1754,7 @@ textarea button {
 
 .c-lead--custom {
     font-size: 26px;
-    line-height: 40px;
+    /* line-height: 40px; */
     font-weight: 700;
     display: flex;
     flex-direction: row;
@@ -1703,6 +1763,8 @@ textarea button {
     /* width: 100%; */
 
 }
+
+
 
 .c-lead--left {
     /* border-left: 2px solid #F4A950; */
@@ -1733,14 +1795,20 @@ textarea button {
         font-weight: 700;
     }
     .c-lead--custom {
-        font-size: 18px;
-        line-height: 5px;
+        font-size: 20px;
+        line-height: 0px;
         font-weight: 700;
         display: flex;
         flex-direction: row;
         justify-content: center;
         /* border-bottom: 1px solid #F4A950; */
         /* width: 100%; */
+    }
+    .c-lead--customPop {
+        font-size: 18px;
+        line-height: 0px;
+        font-weight: 700;
+        height: 0%;
     }
     .c-lead--left{
         height: 0px;
@@ -1816,21 +1884,25 @@ textarea button {
         padding-bottom: 0px;
         border-radius: 0px;
     }
+
+        .c-gewensteTempForm{
+            width: 100%;
+        }
     input[type='number'].c-gewensteTemp {
         /* margin: 0px 20px 0px 100px; */
-        width: 180px;
-        margin-right: 20px;
+        width: 90%;
+        /* margin-right: 20px; */
         height: 30px;
         font-size: 16px;
         border: 1px solid #161B20;
         border-radius: 15px;
     }
-    .c-status {
+    /* .c-status {
         margin: 0px 20px;
-    }
-    .c-statusLeds {
+    } */
+    /* .c-statusLeds {
         margin: 0px 27px;
-    }
+    } */
     .u-margin-btm{
         margin-bottom: 50px;
     }
@@ -1838,10 +1910,11 @@ textarea button {
         margin-bottom: -38px;
         margin-top: 50px;
     }
-    .c-errorMelding {
-        padding: 0;
-        margin-right: -7px;
-    }
+    /* .c-errorMelding {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    } */
     .u-margin-right-sm {
         margin-right: 5px;
     }
@@ -1867,9 +1940,128 @@ textarea button {
         text-align: center;
         margin-bottom: 10px;
     }
+    .c-cross{
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 25px;
+        cursor: pointer;
+    }
+    .c-popup {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        display:none;
+    }
+    .c-popup2 {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        display:none;
+    }
+    .c-pointer{
+        cursor: pointer;
+    }
+
+    .c-popup-content {
+        width: 82%;
+        height: 225px;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        
+    }
+
+    .c-popup-flex{
+        display: flex;
+        height: 60%;
+        flex-direction: row;
+        align-items: baseline;
+        flex-wrap: wrap;
+    }
+    .c-popup-container{
+        width: 33.33333333333333%
+    }
+    .c-popup-containerLed {
+        width: 25%
+    }
+    .test{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 10px 
+    }
+    .testje{
+        box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .20);
+        width: 100%;
+        height: 85px;
+        border-radius: 15px;
+    }
+    .tester{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+    .u-fs{
+        font-size: 18px;
+        font-weight: 700;
+    }
+    .u-fs--color{
+        color:#F4A950
+    }
+    .u-breedte{
+        display: flex;
+        width: 90%;
+        justify-content: space-evenly;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .u-width{
+        width: 50%;
+    }
+    .container {
+        /* border: 3px solid #f1f1f1; */
+        background-color: #161B20;
+        border-radius: 65px 65px 0px 65px;
+        padding: 10px;
+        margin: 10px 0;
+        word-break:break-all;
+    }
+    .darker {
+        background-color: #f1f1f1;
+        border-radius: 65px 65px 65px 0px;
+    }
+    .send {
+        background-color: white;
+        border-top: 1px solid #161B20;
+        border-radius: 0px;
+    }
 }
 
 @media (min-width: 630px) {
+    .c-popup-content {
+            width: 65%;
+        }
+    .u-breedte {
+            width: 80%;
+
+        }
     .o-layout--gutter-custom>.o-layout__item {
            height: 85px;
         }
@@ -1889,6 +2081,37 @@ textarea button {
 }
 
 @media (min-width: 762px) {
+.c-lead--customPop {
+        font-size: 24px;
+        line-height: 0px;
+        font-weight: 700;
+        height: 0%;
+    }
+    .c-popup-content {
+        width: 82%;
+        height: 250px;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+    }
+    .buttonAan {
+        font-size: 24px;
+    }
+    .buttonUit {
+        font-size: 24px;
+    }
+    .buttonAuto {
+        font-size: 24px;
+    }
+    .c-popup-content {
+            width: 65%;
+        }
+    .u-breedte {
+            width: 85%;
+    
+        }
     .c-lead--lg {
         font-size: 32px;
         line-height: 40px;
@@ -1902,7 +2125,7 @@ textarea button {
     }
     .c-lead--custom {
         font-size: 26px;
-        line-height: 40px;
+        line-height: 0px;
         font-weight: 700;
         display: flex;
         flex-direction: row;
@@ -1945,14 +2168,14 @@ textarea button {
         .c-vertical {
             display: block;
         }
-
+/* 
         .c-status {
             margin: 0px -15px;
-        }
+        } */
 
-        .c-statusLeds {
+        /* .c-statusLeds {
             margin: 0px -8px;
-    }
+    } */
         .u-margin-right{
             margin-right: 5px;
         }
@@ -1961,16 +2184,29 @@ textarea button {
         }
         input[type='number'].c-gewensteTemp {
             /* margin: 0px 20px 0px 100px; */
-            width: 200px;
-            margin-right: 20px;
+            /* width: 200px; */
+            /* margin-right: 20px; */
             height: 30px;
-            font-size: 20 px;
+            font-size: 20px;
             border: 1px solid #161B20;
             border-radius: 15px;
         }
 }
 
 @media (min-width: 992px) {
+.c-popup-content {
+        width: 45%;
+    }
+    .testje {
+            height: 115px;
+        }
+    .u-width2 {
+            width: 50%;
+            padding-bottom: 30px;
+    }
+    .u-width2 {
+        padding-bottom: 30px;
+    }
     .c-lead--lg {
         font-size: 32px;
         line-height: 40px;
@@ -1984,7 +2220,7 @@ textarea button {
     }
     .c-lead--custom {
         font-size: 22px;
-        line-height: 55px;
+        /* line-height: 55px; */
         font-weight: 700;
         display: flex;
         flex-direction: row;
@@ -2042,20 +2278,20 @@ textarea button {
     .c-btn__link__uit {
         line-height: 15px;
     }
-    .c-status {
+    /* .c-status {
         margin: 0px 15px;
-    }
+    } */
     input[type='number'].c-gewensteTemp {
-        margin: 0px 20px 0px 35px;
-        width: 200px;
-        height: 45px;
+        /* margin: 0px 20px 0px 35px; */
+        /* width: 200px; */
+        /* height: 45px; */
         font-size: 20px;
         border: 1px solid #161B20;
         border-radius: 15px;
     }
     .c-errorMelding {
         padding: 0;
-        margin-right: 85px;
+        /* margin-right: 85px; */
     }
     .c-btn__link__temp {
         line-height: 15px;
@@ -2117,10 +2353,33 @@ textarea button {
         text-align: center;
         margin-bottom: 50px;
     }
+        .c-status {
+            top: 20px;
+            right: 20px;
+            height: 15px;
+            width: 15px;
+        }
     
+        .c-statusLeds {
+            top: 20px;
+            right: 20px;
+            height: 15px;
+            width: 15px;
+        }
 }
 
 @media (min-width: 1200px) {
+    .c-popup-content {
+            width: 30%;
+        }
+    
+    .testje {
+            height: 130px;
+        }
+    .u-breedte {
+            width: 75%;
+    
+        }
     .c-lead--lg {
             font-size: 32px;
             line-height: 40px;
@@ -2133,7 +2392,7 @@ textarea button {
     }
     .c-lead--custom {
         font-size: 28px;
-        line-height: 40px;
+        /* line-height: 40px; */
     }
     .u-1-of-3-bp3 {
         flex-basis: calc(100% /2.5) !important;
@@ -2166,9 +2425,9 @@ textarea button {
         line-height: 5px;
     }
     input[type='number'].c-gewensteTemp {
-        margin: 0px 20px 0px 40px;
+        /* margin: 0px 20px 0px 40px;
         width: 270px;
-        height: 45px;
+        height: 45px; */
         font-size: 20px;
         border: 1px solid #161B20;
         border-radius: 15px;
@@ -2192,6 +2451,17 @@ textarea button {
     ---
     Utility classes to put specific margins and paddings onto elements
 */
+.u-margin-bottom{
+    margin-bottom: 25px;
+}
+
+.u-margin-rightt {
+    margin-right: 100%;
+}
+.u-margin-right2 {
+    margin-right: 100%;
+}
+
 .u-center {
     text-align: center;
 }
