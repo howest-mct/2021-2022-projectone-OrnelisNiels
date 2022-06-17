@@ -243,11 +243,14 @@ def verander_ventilator(data):
 @socketio.on('F2B_verander_ventilatorAuto')
 def verander_ventilatorAuto(data):
     print(data)
+    actie = data['actie']
     global gewensteTemp, draaien, controleVentilator, var
     gewensteTemp = float(data['temp'])
     controleVentilator = ""
     socketio.emit('B2F_verander_tempHtml', {'gewTemp': gewensteTemp})
     var = gewensteTemp
+    DataRepository.create_historiek(
+        9, 12, datum, actie, "Ventilator auto")
 
 
 @socketio.on('F2B_verstuur_bericht')
