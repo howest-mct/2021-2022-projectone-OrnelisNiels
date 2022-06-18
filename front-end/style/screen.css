@@ -1779,7 +1779,7 @@ textarea button {
 
 }
 
-@media (min-width: 375px) {
+@media (min-width: 280px) {
     .c-line--rechts {
         display: none;
     }
@@ -2391,7 +2391,7 @@ textarea button {
     }
     .u-center-line {
         text-align: center;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
     }
         .c-status {
             top: 20px;
