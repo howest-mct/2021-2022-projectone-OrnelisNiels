@@ -171,9 +171,9 @@ def toon_sensorwaarde(data):
 
 @socketio.on('F2B_verander_led')
 def verander_kleur(data):
-    global cyclus, prevColor, globalStatled
+    global cyclus, prevColor, globalStatled, auto, isAan
     actie = data['actie']
-    # print(kleur)
+    print(actie)
     if cyclus == True:
         stop_rainbow()
         cyclus = False
@@ -184,12 +184,14 @@ def verander_kleur(data):
         Led2.RGB_set(0, 100, 100)
         Led3.RGB_set(0, 100, 100)
         prevColor = "rood"
+        isAan = True
     elif actie == "groen":
         socketio.emit('B2F_verander_status_leds', {'status': 1})
         Led1.RGB_set(100, 0, 100)
         Led2.RGB_set(100, 0, 100)
         Led3.RGB_set(100, 0, 100)
         prevColor = "groen"
+        isAan = True
     elif actie == "blauw":
         socketio.emit('B2F_verander_status_leds', {'status': 1})
         globalStatled = 1
@@ -197,6 +199,7 @@ def verander_kleur(data):
         Led2.RGB_set(100, 100, 0)
         Led3.RGB_set(100, 100, 0)
         prevColor = "blauw"
+        isAan = True
     elif actie == "cycle":
         socketio.emit('B2F_verander_status_leds', {'status': 1})
         globalStatled = 1
@@ -210,6 +213,7 @@ def verander_kleur(data):
         DataRepository.create_historiek(4, 4, datum, actie, "Leds aan")
         print("aan")
         print(prevColor)
+        isAan = True
         vorige_kleur()
     elif actie == "uit":
         socketio.emit('B2F_verander_status_leds', {'status': 0})
@@ -218,6 +222,13 @@ def verander_kleur(data):
         Led1.RGB_set(100, 100, 100)
         Led2.RGB_set(100, 100, 100)
         Led3.RGB_set(100, 100, 100)
+        isAan = False
+    elif actie == "auto":
+        print("autooooo")
+        isAan = True
+        auto = True
+        DataRepository.create_historiek(
+            4, 13, datum, actie, "Leds automatisch")
     if actie != "aan" or "uit":
         DataRepository.create_historiek(
             4, 6, datum, actie, "Ledkleur veranderen")
@@ -473,6 +484,8 @@ optie = ""
 vorigeOptie = ""
 gebruikersid = 0
 vorigeInhoud = ""
+auto = False
+isAan = False
 
 
 class RainbowTask:
@@ -588,26 +601,31 @@ def vorige_kleur():
     print(prevColor)
     globalStatled = 1
     socketio.emit('B2F_verander_status_leds', {'status': 1})
-    if prevColor == "rood":
-        Led1.RGB_set(0, 100, 100)
-        Led2.RGB_set(0, 100, 100)
-        Led3.RGB_set(0, 100, 100)
-    elif prevColor == "groen":
-        Led1.RGB_set(100, 0, 100)
-        Led2.RGB_set(100, 0, 100)
-        Led3.RGB_set(100, 0, 100)
-    elif prevColor == "blauw":
-        Led1.RGB_set(100, 100, 0)
-        Led2.RGB_set(100, 100, 0)
-        Led3.RGB_set(100, 100, 0)
-    elif prevColor == "cycle":
-        cyclus = True
-        print("start_rainbow")
-        start_rainbow()
-    elif prevColor == "":
-        Led1.RGB_set(0, 0, 0)
-        Led2.RGB_set(0, 0, 0)
-        Led3.RGB_set(0, 0, 0)
+    if isAan == True:
+        if prevColor == "rood":
+            Led1.RGB_set(0, 100, 100)
+            Led2.RGB_set(0, 100, 100)
+            Led3.RGB_set(0, 100, 100)
+        elif prevColor == "groen":
+            Led1.RGB_set(100, 0, 100)
+            Led2.RGB_set(100, 0, 100)
+            Led3.RGB_set(100, 0, 100)
+        elif prevColor == "blauw":
+            Led1.RGB_set(100, 100, 0)
+            Led2.RGB_set(100, 100, 0)
+            Led3.RGB_set(100, 100, 0)
+        elif prevColor == "cycle":
+            cyclus = True
+            print("start_rainbow")
+            start_rainbow()
+        elif prevColor == "":
+            Led1.RGB_set(0, 100, 100)
+            Led2.RGB_set(0, 100, 100)
+            Led3.RGB_set(0, 100, 100)
+    else:
+        Led1.RGB_set(100, 100, 100)
+        Led2.RGB_set(100, 100, 100)
+        Led3.RGB_set(100, 100, 100)
 
 
 def setup():
@@ -626,7 +644,7 @@ def setup():
 
 
 def programma():
-    global start, minimum, motorpwm, maximum, gebruikersid, tijd, vorigeInhoud, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat, vorigeAdressen, vorigeOpties, opties, lcdTeller, positieTeller, joyTimer, vorigeJoyTimer, optie, vorigeOptie
+    global start, minimum, auto, motorpwm, maximum, gebruikersid, tijd, vorigeInhoud, ldrWaarde, reset, hysterese, resul, licht, datum, melding, gewensteTemp, draaien, controleVentilator, stat, vorigeStat, globalStat, vorigeAdressen, vorigeOpties, opties, lcdTeller, positieTeller, joyTimer, vorigeJoyTimer, optie, vorigeOptie
     lcdObject.reset_lcd()
     while True:
         # datum + tijd
@@ -647,9 +665,18 @@ def programma():
             maximum = resultaat
         if(maximum != minimum):
             licht = 100-(100*((resultaat-minimum)/(maximum-minimum)))
-        # print("Ldr waarde: ", str(round(licht, 2)), " %")
+        if auto == True:
+            if licht < 20:
+                vorige_kleur()
+            elif licht > 30:
+                print("uit")
+                Led1.RGB_set(100, 100, 100)
+                Led2.RGB_set(100, 100, 100)
+                Led3.RGB_set(100, 100, 100)
 
-        # One wire uitlezen
+                # print("Ldr waarde: ", str(round(licht, 2)), " %")
+
+                # One wire uitlezen
         if start == True:
             begintijd = time.time()
             sensor_file = open(sensor_file_name, 'r')

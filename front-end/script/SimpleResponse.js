@@ -600,6 +600,12 @@ const listenToUI = function () {
           knopid: id,
         });
         // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
+      } else if (id == 12) {
+        socketio.emit('F2B_verander_led', {
+          knopid: id,
+          actie: 'auto',
+        });
+        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
       }
     });
   }
@@ -822,6 +828,9 @@ const listenToKnoppen = function () {
       grafiekTempDisplay.classList.remove('c-temperatuurTonen');
       // grafiekTempDisplayGraph.classList.add('c-temperatuurVerwijderen');
       // grafiekTempDisplayGraph.classList.remove('c-temperatuurTonen');
+      const periodeSelect = document.querySelector('.js-periodeSelect');
+      periodeSelect.innerHTML =
+        '<option value="dag" selected>Dag</option> <option value="week">Week</option> <option value="all">All</option>';
       grafTemp = false;
       grafBer = true;
       dag = false;
@@ -840,6 +849,9 @@ const listenToKnoppen = function () {
       grafiekBerichtenDisplay.classList.remove('c-berichtenTonen');
       // grafiekBerichtenDisplayGraph.classList.add('c-berichtenVerwijderen');
       // grafiekBerichtenDisplayGraph.classList.remove('c-berichtenTonen');
+      const periodeSelect = document.querySelector('.js-periodeSelectBer');
+      periodeSelect.innerHTML =
+        '<option value="week" selected>Week</option> <option value="all">All</option>';
       grafBer = false;
       grafTemp = true;
       dag = true;
