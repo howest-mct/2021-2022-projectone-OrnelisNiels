@@ -23,7 +23,7 @@ On the website you are also able to see the history of some data. You can see th
 
 ### Connecting Visual Studio Code to Raspberry Pi
 
-In order to connect Visual Studio Code to your Raspberry Pi you need to know the IP address of your Pi. After that you need to change your ethernet port settings in windows and make sure you are in range of your Pi. In my case the IP address of the Pi was '192.168.168.169' so i changed my port settings to a static IP address: **192.168.168.170**
+In order to connect Visual Studio Code to your Raspberry Pi you need to know the IP address of your Pi. After that you need to change your ethernet port settings in windows and make sure you are in range of your Pi. In my case the IP address of the Pi was `192.168.168.169` so i changed my port settings to a static IP address: `192.168.168.170`
 
 Now that you are able to find your Raspberry Pi, you need to open Visual Studio Code go to extensions, and download Remote SSH.
 When it's installed you can click on the green icon on the bottom left corner. There you will need to fill in the IP address of your Raspberry Pi and you will need to enter the password of your Pi.
@@ -36,7 +36,7 @@ In my github you press the green Code button and there you copy the url and past
 
 First you need to install/open MySQLWorkbench, once opened you need to make a new connection. Follow these steps:
 
-- **Connection Method:** Standard TCP/Ip over SSH
+- `**Connection Method:**` Standard TCP/Ip over SSH
 - **SSH Hostname:** The ip of your Raspberry Pi, in my case 192.168.168.169
 - **SSH Username:** The username of your Raspberry Pi
 - **SSH Password:** The password of your Raspberry Pi
