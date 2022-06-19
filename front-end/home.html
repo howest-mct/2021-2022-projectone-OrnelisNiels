@@ -80,7 +80,7 @@
               <button class="button button1 u-margin-bottom js-quickReplies">Snelle antwoorden wijzigen</button>
             </div>
           <div class="c-chatbox">
-            <div class="c-chat">
+            <div class="c-chat js-scrollToBottom">
             <div class="js-berichten">
 
             </div>
@@ -96,7 +96,7 @@
               <span class="time-left">11:01</span>
             </div> -->
             <div class="container send">
-              <form method="POST">
+              <!-- <form method="POST"> -->
               <input
                 class="c-lead c-lead--lg c-titel js-bericht"
                 type="text"
@@ -107,7 +107,7 @@
                 required
               />
               <button class="c-btn__link c-verstuur js-send">Versturen</button>
-              </form>
+              <!-- </form> -->
           </div>
             </div>
           </div>
@@ -151,9 +151,10 @@
       <div class="c-popup-content2">
         <span class="material-icons c-cross js-crossReplies">close</span>
         <p class="c-lead c-lead--custom u-margin-bottom">Korte antwoorden</p>
+        <div class="js-errorQuick"></div>
         <div class="c-popup-flex">
           <div class="c-popup-containerReplies">
-            <p class="c-lead c-lead--customPop">Optie 1 (10)</p>
+            <p class="c-lead c-lead--customPop">Optie 1 (10 char)</p>
           </div>
           <div class="c-popup-containerReplies">
              <input
@@ -167,7 +168,7 @@
               />
           </div>
           <div class="c-popup-containerReplies">
-            <p class="c-lead c-lead--customPop">Optie 2 (4)</p>
+            <p class="c-lead c-lead--customPop">Optie 2 (4 char)</p>
           </div>
           <div class="c-popup-containerReplies">
              <input
@@ -181,7 +182,7 @@
               />
           </div>
           <div class="c-popup-containerReplies">
-            <p class="c-lead c-lead--customPop">Optie 3 (10)</p>
+            <p class="c-lead c-lead--customPop">Optie 3 (10 char)</p>
           </div>
           <div class="c-popup-containerReplies">
              <input
@@ -195,7 +196,7 @@
               />
           </div>
           <div class="c-popup-containerReplies">
-            <p class="c-lead c-lead--customPop">Optie 4 (4)</p>
+            <p class="c-lead c-lead--customPop">Optie 4 (4 char)</p>
           </div>
           <div class="c-popup-containerReplies">
              <input
@@ -208,7 +209,7 @@
                 required
               />
           </div>
-             <button class="button button1 u-margin-bottom u-100 js-quickReplies">Wijzigen</button>
+             <button class="button button1 u-margin-bottom u-100 js-change">Wijzigen</button>
         </div>
       </div>
     </div>

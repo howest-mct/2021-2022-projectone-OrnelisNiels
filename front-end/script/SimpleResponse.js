@@ -19,7 +19,8 @@ let htmlInloggen,
   grafTemp = false,
   grafBer = true,
   weekBer = true,
-  allBer = false;
+  allBer = false,
+  vorigeBer = '';
 
 //#region ***  Callback-Visualisation - show___         ***********
 function toggleNav() {
@@ -732,20 +733,43 @@ const listenToSocketBericht = function () {
     let urlParams = new URLSearchParams(window.location.search);
     let idGebruiker = urlParams.get('id');
     if (bericht.value != '') {
-      socketio.emit('F2B_verstuur_bericht', {
-        berichtinhoud: bericht.value,
-        id: idGebruiker,
-      });
-      console.log('test');
-      getBerichten();
-      bericht.innerHTML = 'Typ hier een bericht';
+      if (bericht.value != vorigeBer) {
+        socketio.emit('F2B_verstuur_bericht', {
+          berichtinhoud: bericht.value,
+          id: idGebruiker,
+        });
+        console.log('test');
+        getBerichten();
+        vorigeBer = bericht.value;
+        bericht.value = '';
+        window.location.reload();
+      }
+    }
+  });
+  let ber = document.querySelector('.js-bericht');
+  ber.addEventListener('keypress', function (event) {
+    if (event.key == 'Enter') {
+      const bericht = document.querySelector('.js-bericht');
+      let urlParams = new URLSearchParams(window.location.search);
+      let idGebruiker = urlParams.get('id');
+      if (bericht.value != '') {
+        if (bericht.value != vorigeBer) {
+          socketio.emit('F2B_verstuur_bericht', {
+            berichtinhoud: bericht.value,
+            id: idGebruiker,
+          });
+          console.log('test');
+          getBerichten();
+          vorigeBer = bericht.value;
+          bericht.value = '';
+          window.location.reload();
+        }
+      }
     }
   });
   socketio.on('B2F_nieuw_bericht', function (jsonObject) {
-    console.log(
-      'karletje azkjrehlkeazhzerklj hrzeaqlkejr lkjmfgd,n; dfdfsq<jk lmfdlqs mkjjk dfqswmklj dfvswmklj dsqfjk smlkjqfdshlmkjqfsdklmskqlfdsfqjmlkkljhmfdkljsfdllfjdmsdsfqljfljkljsdfkqmljkdsfqlmkjdfskmjfsqlkmljksdfqmlkjqsdflkjqsdsjdf'
-    );
     getBerichten();
+    window.location.reload();
   });
 };
 
@@ -850,6 +874,61 @@ const listenToWijzigen = function () {
   const replyCross = document.querySelector('.js-crossReplies');
   replyCross.addEventListener('click', function () {
     document.querySelector('.js-replyTab').style.display = 'none';
+    const optie1 = (document.querySelector('.js-optie1').value = '');
+    const optie2 = (document.querySelector('.js-optie2').value = '');
+    const optie3 = (document.querySelector('.js-optie3').value = '');
+    const optie4 = (document.querySelector('.js-optie4').value = '');
+    errorquick = document.querySelector('.js-errorQuick');
+    errorquick.innerHTML = '';
+    getQuickReplies();
+  });
+  const veranderQuick = document.querySelector('.js-change');
+  veranderQuick.addEventListener('click', function () {
+    const optie1 = document.querySelector('.js-optie1').value;
+    const optie2 = document.querySelector('.js-optie2').value;
+    const optie3 = document.querySelector('.js-optie3').value;
+    const optie4 = document.querySelector('.js-optie4').value;
+    if (
+      optie1.length < 11 &&
+      optie2.length < 5 &&
+      optie3.length < 11 &&
+      optie4.length < 5
+    ) {
+      socketio.emit(
+        'F2B_verander_quickReplies',
+        [
+          {
+            id: 1,
+            inhoud: optie1,
+          },
+        ],
+        [
+          {
+            id: 2,
+            inhoud: optie2,
+          },
+        ],
+        [
+          {
+            id: 3,
+            inhoud: optie3,
+          },
+        ],
+        [
+          {
+            id: 4,
+            inhoud: optie4,
+          },
+        ]
+      );
+    } else {
+      errorquick = document.querySelector('.js-errorQuick');
+      errorquick.innerHTML = 'Error';
+    }
+    socketio.on('B2F_gewijzigd', function (jsonObject) {
+      errorquick = document.querySelector('.js-errorQuick');
+      errorquick.innerHTML = 'Gewijzigd';
+    });
   });
 };
 //#endregion

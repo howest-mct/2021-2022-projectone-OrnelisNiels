@@ -128,7 +128,7 @@ class DataRepository:
         return Database.get_rows(sql)
 
     @staticmethod
-    def update_status_alle_lampen(inhoud, id):
+    def update_quickReplies(inhoud, id):
         sql = "UPDATE bericht SET berichtinhoud = %s WHERE berichtid = %s"
         params = [inhoud, id]
         return Database.execute_sql(sql, params)

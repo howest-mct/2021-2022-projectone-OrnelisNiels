@@ -874,6 +874,7 @@ select::-ms-expand {
     overflow-x: hidden;
     overflow-y: auto;
     padding-right: 10px;
+    overflow-y: scroll;
 }
 @media (min-width: 992px) {
 
@@ -2001,7 +2002,7 @@ textarea button {
 
     .c-popup-content2 {
         width: 82%;
-        height: 350px;
+        height: 370px;
         background-color: white;
         border-radius: 10px;
         text-align: center;

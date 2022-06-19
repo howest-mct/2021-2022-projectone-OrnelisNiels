@@ -326,6 +326,36 @@ def log_in(data):
             'message': "Gebruiker bestaat niet, gelieve een gebruiker aan te maken."})
 
 
+@socketio.on('F2B_verander_quickReplies')
+def quickReplies(data, data2, data3, data4):
+    optie1 = data[0]['inhoud']
+    optie2 = data2[0]['inhoud']
+    optie3 = data3[0]['inhoud']
+    optie4 = data4[0]['inhoud']
+    current = DataRepository.read_quickReplies()
+    currentOptie1 = current[0]['berichtinhoud']
+    currentOptie2 = current[1]['berichtinhoud']
+    currentOptie3 = current[2]['berichtinhoud']
+    currentOptie4 = current[3]['berichtinhoud']
+
+    if currentOptie1 != optie1:
+        if optie1 != "":
+            DataRepository.update_quickReplies(optie1, 1)
+            emit('B2F_gewijzigd')
+    if currentOptie2 != optie2:
+        if optie2 != "":
+            DataRepository.update_quickReplies(optie2, 2)
+            emit('B2F_gewijzigd')
+    if currentOptie3 != optie3:
+        if optie3 != "":
+            DataRepository.update_quickReplies(optie3, 3)
+            emit('B2F_gewijzigd')
+    if currentOptie4 != optie4:
+        if optie4 != "":
+            DataRepository.update_quickReplies(optie4, 4)
+            emit('B2F_gewijzigd')
+
+
 # lcd object
 rs = 21
 e = 20
