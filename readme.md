@@ -55,12 +55,12 @@ Once you connected Visual Studio Code to your pi, follow these steps:
    ```sh
    sudo raspi-config
    ```
-2. Open Interface Settings and enable One-Wire, I2C and SPI
+2. Open Interface Settings and enable `One-Wire`, `I2C` and `SPI`
 3. Reboot the Raspberry Pi
 
 ### Making the back-end run automatically
 
-1. Make a file with the name _simpleresponse.service_
+1. Make a file with the name `simpleresponse.service`
 2. Put the following code inside of the file:
    ```sh
    [Unit]
@@ -76,7 +76,7 @@ Once you connected Visual Studio Code to your pi, follow these steps:
    [Install]
    WantedBy=multi-user.target
    ```
-3. Copy this file to /etc/systemd/system with this command:
+3. Copy this file to `/etc/systemd/system` with this command:
    ```sh
     sudo cp simpleresponse.service /etc/systemd/system/simpleresponse.service
    ```
@@ -97,8 +97,8 @@ In order to see the correct front-end you need to follow these steps:
    ```sh
    nano /etc/apache2/sites-available/000-default.conf
    ```
-3. Change DocumentRoot /var/www/html to DocumentRoot/home/student/<name_of_the_repo>/front-end
-4. Save the document: Ctrl + x then Y and enter
+3. Change `DocumentRoot /var/www/html` to `DocumentRoot/home/student/<name_of_the_repo>/front-end`
+4. Save the document: `Ctrl + x` then `Y and enter`
 5. Then type
    ```sh
    service apache2 restart
