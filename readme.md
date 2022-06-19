@@ -11,7 +11,7 @@ On the website you are able to see the values of the sensors but you can also co
 
 On the website you are also able to see the history of some data. You can see the amount of messages that are sent per day and you can check the temperature the last 24 hours, week or all time.
 
-## Getting started
+## Installation
 
 ### Steps
 
