@@ -732,7 +732,7 @@ const listenToSocketBericht = function () {
     const bericht = document.querySelector('.js-bericht');
     let urlParams = new URLSearchParams(window.location.search);
     let idGebruiker = urlParams.get('id');
-    if (bericht.value != '') {
+    if (bericht.value != '' && bericht.value.length < 129) {
       if (bericht.value != vorigeBer) {
         socketio.emit('F2B_verstuur_bericht', {
           berichtinhoud: bericht.value,
@@ -752,7 +752,7 @@ const listenToSocketBericht = function () {
       const bericht = document.querySelector('.js-bericht');
       let urlParams = new URLSearchParams(window.location.search);
       let idGebruiker = urlParams.get('id');
-      if (bericht.value != '') {
+      if (bericht.value != '' && bericht.value.length < 129) {
         if (bericht.value != vorigeBer) {
           socketio.emit('F2B_verstuur_bericht', {
             berichtinhoud: bericht.value,
