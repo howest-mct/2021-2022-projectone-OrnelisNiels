@@ -263,7 +263,7 @@ const showBerichten = function (jsonObject) {
     console.log(jsonObject.berichten);
     let html = '';
     for (let bericht of jsonObject.berichten) {
-      if (bericht.gebruiker_gebruikerid != 9) {
+      if (bericht.gebruiker_gebruikerid != 1) {
         html += `<div class="container">
           <span class="time-left">${bericht.naam}</span>
             <p class="c-bericht js-berichten">${bericht.berichtinhoud}</p>
