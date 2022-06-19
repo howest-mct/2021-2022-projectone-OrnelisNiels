@@ -67,8 +67,8 @@ Once you connected Visual Studio Code to your pi, follow these steps:
    Description=ProjectOne Project
    After=network.target
    [Service]
-   ExecStart=/usr/bin/python3 -u /home/student/<naam_van_je_repo>/backend/app.py
-   WorkingDirectory=/home/student/<naam_van_je_repo>/backend
+   ExecStart=/usr/bin/python3 -u /home/student/<name_of_the_repo>/backend/app.py
+   WorkingDirectory=/home/student/<name_of_the_repo>/backend
    StandardOutput=inherit
    StandardError=inherit
    Restart=always
@@ -78,11 +78,11 @@ Once you connected Visual Studio Code to your pi, follow these steps:
    ```
 3. Copy this file to /etc/systemd/system with this command:
    ```sh
-    sudo cpmijnproject.service /etc/systemd/system/mijnproject.service
+    sudo cp simpleresponse.service /etc/systemd/system/simpleresponse.service
    ```
 4. Enable the service
    ```sh
-   sudosystemctl enable myproject.service
+   sudosystemctl enable simpleresponse.service
    ```
 
 ### Changing settings for front-end
@@ -97,7 +97,7 @@ In order to see the correct front-end you need to follow these steps:
    ```sh
    nano /etc/apache2/sites-available/000-default.conf
    ```
-3. Change DocumentRoot /var/www/html to DocumentRoot/home/student/<naam_of_the_repo>/front-end
+3. Change DocumentRoot /var/www/html to DocumentRoot/home/student/<name_of_the_repo>/front-end
 4. Save the document: Ctrl + x then Y and enter
 5. Then type
    ```sh
@@ -137,6 +137,4 @@ In order to see the correct front-end you need to follow these steps:
 
 ## Instructables
 
-```
 For more details make sure to check out my instructables: https://www.instructables.com/preview/E6RU81QL2ATLD47/
-```
