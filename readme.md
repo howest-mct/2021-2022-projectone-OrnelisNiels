@@ -16,10 +16,10 @@ On the website you are also able to see the history of some data. You can see th
 ### Steps
 
 - <a href="#Connecting-Visual-Studio-Code-to-Raspberry-Pi">Connecting Visual Studio Code with SSH to the Raspberry Pi</a>
-- Cloning the repository to Visual Studio Code
-- Setting up the database
-- Change some of the settings of the Pi
-- Changing settings for front-end
+- <a href="#Cloning-the-Repository">Cloning the repository to Visual Studio Code</a>
+- <a href="#Setting-up-the-database">Setting up the database</a>
+- <a href="#Change-some-of-the-settings-of-the-pi">Change some of the settings of the Pi</a>
+- <a href="#Changing-settings-for-front-end">Changing settings for front-end</a>
 
 ### Connecting Visual Studio Code to Raspberry Pi
 
