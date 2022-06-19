@@ -15,7 +15,7 @@ On the website you are also able to see the history of some data. You can see th
 
 ### Steps
 
-- Connecting Visual Studio Code with SSH to the Raspberry Pi
+- <a href="#Connecting-Visual-Studio-Code-to-Raspberry-Pi">Connecting Visual Studio Code with SSH to the Raspberry Pi</a>
 - Cloning the repository to Visual Studio Code
 - Setting up the database
 - Change some of the settings of the Pi
@@ -128,12 +128,6 @@ In order to see the correct front-end you need to follow these steps:
    ```sh
    service apache2 restart
    ```
-
-- Wat is de structuur van het project?
-- Wat moet er gebeuren met de database? Hoe krijgt de persoon dit up and running?
-- Moeten er settings worden veranderd in de backend code voor de database?
-- Runt de back- en front-end code direct? Of moeten er nog commando's worden ingegeven?
-- Zijn er poorten die extra aandacht vereisen in de back- en/of front-end code?
 
 ## Instructables
 
