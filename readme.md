@@ -36,14 +36,14 @@ In my github you press the green Code button and there you copy the url and past
 
 First you need to install/open MySQLWorkbench, once opened you need to make a new connection. Follow these steps:
 
-- `**Connection Method:**` Standard TCP/Ip over SSH
-- **SSH Hostname:** The ip of your Raspberry Pi, in my case 192.168.168.169
-- **SSH Username:** The username of your Raspberry Pi
-- **SSH Password:** The password of your Raspberry Pi
-- **MySQL Hostname:** 127.0.0.1
-- **MySQL Server Port:** 3306
-- **Username:** The username of your Raspberry Pi
-- **Password:** The password of your Raspberry Pi
+- `Connection Method:` Standard TCP/Ip over SSH
+- `SSH Hostname:` The ip of your Raspberry Pi, in my case 192.168.168.169
+- `SSH Username:` The username of your Raspberry Pi
+- `SSH Password:` The password of your Raspberry Pi
+- `MySQL Hostname:` 127.0.0.1
+- `MySQL Server Port:` 3306
+- `Username:` The username of your Raspberry Pi
+- `Password:` The password of your Raspberry Pi
 
 Then connect to your SSH database, open the MySQL dump file in MySQL workbench and run it. Now you've created the database.
 
