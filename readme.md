@@ -85,6 +85,28 @@ Once you connected Visual Studio Code to your pi, follow these steps:
    sudosystemctl enable simpleresponse.service
    ```
 
+If you haven't installed `flask`, `socket`, `gevent` make sure to run the following commands:
+
+```sh
+pip install flask-cors
+```
+
+```sh
+pip install flask-socketio
+```
+
+```sh
+pip install mysql-connector-python
+```
+
+```sh
+pip install gevent
+```
+
+```sh
+pip install gevent-websocket
+```
+
 ### Changing settings for front-end
 
 In order to see the correct front-end you need to follow these steps:
