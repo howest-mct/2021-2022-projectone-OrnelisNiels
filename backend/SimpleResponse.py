@@ -201,6 +201,7 @@ def verander_kleur(data):
         prevColor = "blauw"
         isAan = True
     elif actie == "cycle":
+        auto = False
         socketio.emit('B2F_verander_status_leds', {'status': 1})
         globalStatled = 1
         cyclus = True
@@ -213,6 +214,7 @@ def verander_kleur(data):
         DataRepository.create_historiek(4, 4, datum, actie, "Leds aan")
         print("aan")
         print(prevColor)
+        auto = False
         isAan = True
         vorige_kleur()
     elif actie == "uit":
@@ -872,7 +874,7 @@ def programma():
             joyTimer = time.time()
             # print(xWaarde)
             print(len(inhoud))
-            if xWaarde >= 700:
+            if xWaarde <= 50:
                 # print("karl")
                 if joyTimer - vorigeJoyTimer > 0.1:
                     positieTeller += 1
@@ -882,7 +884,7 @@ def programma():
                     lcdObject.tweede_rij()
                     lcdObject.send_message(
                         inhoud[positieTeller-16:positieTeller])
-            elif xWaarde <= 50:
+            elif xWaarde > 700:
                 if joyTimer - vorigeJoyTimer > 0.1:
                     positieTeller -= 1
                     vorigeJoyTimer = joyTimer
@@ -902,14 +904,14 @@ def programma():
             joyTimer = time.time()
             print(replies[0]['berichtinhoud'])
             # positie bepalen
-            if xWaarde >= 700:
+            if xWaarde <= 50:
                 if joyTimer - vorigeJoyTimer > 0.5:
                     positieTeller += 1
                     vorigeJoyTimer = joyTimer
                     if positieTeller > 3:
                         positieTeller = 0
                         lcdTeller = 0x0
-            elif xWaarde <= 50:
+            elif xWaarde >= 700:
                 if joyTimer - vorigeJoyTimer > 0.5:
                     positieTeller -= 1
                     vorigeJoyTimer = joyTimer
@@ -924,7 +926,7 @@ def programma():
                         lcdTeller = 0x40
                     elif positieTeller == 3:
                         lcdTeller = 0x40
-            if yWaarde >= 700:
+            if yWaarde <= 500:
                 if joyTimer - vorigeJoyTimer > 0.5:
                     positieTeller += 2
                     vorigeJoyTimer = joyTimer
@@ -937,7 +939,7 @@ def programma():
                     elif positieTeller == 5:
                         positieTeller = 3
 
-            elif yWaarde <= 50:
+            elif yWaarde >= 700:
                 if joyTimer - vorigeJoyTimer > 0.5:
                     positieTeller -= 2
                     vorigeJoyTimer = joyTimer
