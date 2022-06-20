@@ -1781,6 +1781,9 @@ textarea button {
 }
 
 @media (min-width: 280px) {
+input[type='text'] {
+        padding: 0px 20px;
+    }
 .c-chat {
     line-height: 20px;
 }
@@ -2313,6 +2316,9 @@ textarea button {
 }
 
 @media (min-width: 992px) {
+input[type='text'] {
+        padding: 10px 20px;
+    }
 .c-nav__link {
         text-decoration: none;
         font-weight: 600;
