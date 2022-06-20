@@ -22,7 +22,7 @@ from repositories.DataRepository import DataRepository
 
 from selenium import webdriver
 
-
+time.sleep(15)
 # Code voor Flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'geheim!'
@@ -422,14 +422,19 @@ def callback_knop(pin):
 
 
 def callback_shutdown(pin):
-    global lcdObject, motorpwm
+    global lcdObject, motorpwm, status
+    status = -1
     print("shutdown")
     lcdObject.reset_lcd()
-    lcdObject.send_message("Afgesloten")
+    lcdObject.reset_cursor()
+    time.sleep(0.5)
+    lcdObject.send_message("Afsluiten")
     motorpwm.stop()
-    time.sleep(3)
-    os.system("sudo shutdown -h now")
-    sys.exit()
+    time.sleep(2)
+    # os.system("sudo shutdown -h now")
+    # sys.exit()
+    lcdObject.reset_lcd()
+    check_output(["sudo", "shutdown", "-h", "now"])
 
 
 knop = Button(27)
