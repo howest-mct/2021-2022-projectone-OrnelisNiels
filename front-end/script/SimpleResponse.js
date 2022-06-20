@@ -265,15 +265,15 @@ const showBerichten = function (jsonObject) {
     for (let bericht of jsonObject.berichten) {
       if (bericht.gebruiker_gebruikerid != 1) {
         html += `<div class="container">
-          <span class="time-left">${bericht.naam}</span>
+          <span class="time-left u-fz">${bericht.naam}</span>
             <p class="c-bericht js-berichten">${bericht.berichtinhoud}</p>
-            <span class="time-right js-tijd">${bericht.datum}</span>
+            <span class="time-right js-tijd u-fz">${bericht.datum}</span>
             </div>`;
       } else {
         html += `<div class="container darker">
-              <span class="time-left__dark">${bericht.naam}</span>
+              <span class="time-left__dark u-fz">${bericht.naam}</span>
               <p class="c-bericht__darker js-berichten">${bericht.berichtinhoud}</p>
-              <span class="time-right__dark js-tijd">${bericht.datum}</span>
+              <span class="time-right__dark js-tijd u-fz">${bericht.datum}</span>
             </div>`;
       }
     }
@@ -473,13 +473,10 @@ const listenToSocketHistoriek = function () {
   });
   socketio.on('B2F_refreshBerichtenChart', function () {
     if (weekBer == true) {
-      console.log('weekberrrr');
       getDataBerichtenWeek();
     } else if (allBer == true) {
-      console.log('allber');
       getDataBerichtenAll();
     } else {
-      console.log('NIKS');
     }
   });
 };
@@ -494,7 +491,6 @@ const listenToInloggen = function () {
   const htmlGebruiker = document.querySelector('.js-gebruiker');
   htmlGebruiker.addEventListener('keypress', function (event) {
     if (event.key == 'Enter') {
-      console.log('test');
       console.log(htmlGebruiker.value);
       bestaandeGebruiker = htmlGebruiker.value;
       socketio.emit('F2B_login', { gebruikersnaam: bestaandeGebruiker });
@@ -504,6 +500,13 @@ const listenToInloggen = function () {
   socketio.on('B2F_log_in_succes', function (jsonObject) {
     console.log(jsonObject.id);
     window.location.href = `home.html?id=${jsonObject.id}`;
+  });
+
+  socketio.on('B2F_log_in_error', function () {
+    const htmlMessageIndex = document.querySelector('.js-messageIndex');
+    console.log(htmlMessageIndex);
+    htmlMessageIndex.innerHTML =
+      '<p class="u-colorFont js-messageIndex">Error gebruiker bestaat niet.</p>';
   });
 
   const htmlRegistratie = document.querySelector('.js-registratie');
@@ -523,7 +526,6 @@ const listenToRegistreren = function () {
   const htmlNieuweGebruiker = document.querySelector('.js-nieuweGebruiker');
   htmlNieuweGebruiker.addEventListener('keypress', function (event) {
     if (event.key == 'Enter') {
-      console.log('test');
       console.log(htmlNieuweGebruiker.value);
       nieuweGebruiker = htmlNieuweGebruiker.value;
       socketio.emit('F2B_maak_gebruiker', {
@@ -541,6 +543,10 @@ const listenToRegistreren = function () {
 
   socketio.on('B2F_toon_succes', function (jsonObject) {
     window.location.href = `home.html?id=${jsonObject.id}`;
+  });
+  const terug = document.querySelector('.js-terug');
+  terug.addEventListener('click', function () {
+    window.location.href = `index.html`;
   });
 };
 
@@ -742,7 +748,6 @@ const listenToSocket = function () {
     }
   });
   socketio.on('B2F_verander_status_leds', function (jsonObject) {
-    console.log('karl' + jsonObject);
     if (jsonObject.status == 1) {
       const element = document.querySelector('.js-statusLeds');
       console.log(element);

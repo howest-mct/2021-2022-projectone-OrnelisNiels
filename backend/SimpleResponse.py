@@ -1,6 +1,3 @@
-from itertools import cycle
-from pickle import TRUE
-from h11 import Data
 from helpers.lcdKlasse import lcdKlasse
 from helpers.klasseKnop import Button
 from helpers.spiKlasse import SpiClass
@@ -248,7 +245,6 @@ def verander_ventilator(data):
     actie = data['actie']
     if actie == "aan":
         controleVentilator = "manueel"
-        print("karl" + controleVentilator)
         draaien = True
         DataRepository.create_historiek(
             9, 7, datum, actie, "Ventilator aan")
@@ -336,13 +332,12 @@ def maak_gebruiker(data):
 def log_in(data):
     gebruiker = str(data['gebruikersnaam'])
     controle = DataRepository.read_user_by_naam(gebruiker)
-    id = int(controle['gebruikerid'])
     if(controle):
+        id = int(controle['gebruikerid'])
         emit('B2F_log_in_succes', {
             'id': id})
     else:
-        emit('B2F_log_in_error', {
-            'message': "Gebruiker bestaat niet, gelieve een gebruiker aan te maken."})
+        emit('B2F_log_in_error')
 
 
 @socketio.on('F2B_verander_quickReplies')
@@ -392,15 +387,21 @@ prevColor = ""
 
 def callback(knop):
     print("joystick")
-    global status, reset, vorigeOpties, optie, tijd
+    global status, reset, vorigeOpties, optie, tijd, positieTeller, lcdTeller, vorigeOptie
+    vorigeOpties = ""
+    vorigeOptie = ""
+    lcdTeller = 0x0
     if status == 3:
-        status += 1
         lcdObject.send_instruction(0b00001111)
+        positieTeller = 0
+        lcdTeller = 0x0
+        status += 1
         # reset = True
     elif status == 4:
-        status += 1
         lcdObject.send_instruction(0b00001100)
         vorigeOpties = ""
+        vorigeOptie = ""
+        status += 1
         # reset = True
     elif status == 5:
         status = 0
@@ -606,23 +607,24 @@ def start_chrome_thread():
 
 def vorige_kleur():
     global cyclus, prevColor, globalStatled
-    print("karl")
-    print(prevColor)
     globalStatled = 1
-    socketio.emit('B2F_verander_status_leds', {'status': 1})
     if isAan == True:
         if prevColor == "rood":
             Led1.RGB_set(0, 100, 100)
             Led2.RGB_set(0, 100, 100)
             Led3.RGB_set(0, 100, 100)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
         elif prevColor == "groen":
             Led1.RGB_set(100, 0, 100)
             Led2.RGB_set(100, 0, 100)
             Led3.RGB_set(100, 0, 100)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
+
         elif prevColor == "blauw":
             Led1.RGB_set(100, 100, 0)
             Led2.RGB_set(100, 100, 0)
             Led3.RGB_set(100, 100, 0)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
         elif prevColor == "cycle":
             cyclus = True
             print("start_rainbow")
@@ -631,10 +633,12 @@ def vorige_kleur():
             Led1.RGB_set(0, 100, 100)
             Led2.RGB_set(0, 100, 100)
             Led3.RGB_set(0, 100, 100)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
     else:
         Led1.RGB_set(100, 100, 100)
         Led2.RGB_set(100, 100, 100)
         Led3.RGB_set(100, 100, 100)
+        socketio.emit('B2F_verander_status_leds', {'status': 0})
 
 
 def setup():
@@ -681,6 +685,7 @@ def programma():
                 Led1.RGB_set(100, 100, 100)
                 Led2.RGB_set(100, 100, 100)
                 Led3.RGB_set(100, 100, 100)
+                socketio.emit('B2F_verander_status_leds', {'status': 0})
 
                 # print("Ldr waarde: ", str(round(licht, 2)), " %")
 
@@ -735,11 +740,12 @@ def programma():
                 2, 2, datum, round(licht, 2), "Ldr inlezen")
             print("emit")
             socketio.emit('B2F_refresh_chart')
-            lcdObject.init_LCD()
-            lcdObject.set_cursor(0xC)
-            lcdObject.send_message("    ")
-            lcdObject.set_cursor(0x48)
-            lcdObject.send_message(" ")
+            if status == 0:
+                lcdObject.init_LCD()
+                lcdObject.set_cursor(0xC)
+                lcdObject.send_message("    ")
+                lcdObject.set_cursor(0x48)
+                lcdObject.send_message(" ")
 
         # Ventilator besturen
         if controleVentilator == "manueel":
@@ -809,6 +815,11 @@ def programma():
                     lcdObject.set_cursor(0x45)
                     lcdObject.send_message("  ")
                 hysterese = licht
+                lcdObject.init_LCD()
+                lcdObject.set_cursor(0xC)
+                lcdObject.send_message("    ")
+                lcdObject.set_cursor(0x48)
+                lcdObject.send_message(" ")
             # print(abs(hysterese))
         elif status == 1:
             # lcdObject.reset_cursor()
@@ -821,6 +832,7 @@ def programma():
             vorigeAdressen = adressen
 
         elif status == 3:
+            lcdObject.send_instruction(0b00001111)
             if melding == True:
                 Led1.RGB_set(0, 100, 100)
                 Led2.RGB_set(0, 100, 100)
@@ -850,6 +862,7 @@ def programma():
                 Led2.RGB_set(100, 100, 100)
                 Led3.RGB_set(100, 100, 100)
                 time.sleep(1)
+                print(prevColor)
                 vorige_kleur()
                 melding = False
             if inhoud != vorigeInhoud:
@@ -879,9 +892,9 @@ def programma():
                 vorigeInhoud = inhoud
             joyTimer = time.time()
             # print(xWaarde)
+            print(f"positieteller: {positieTeller}")
             print(len(inhoud))
             if xWaarde <= 50:
-                # print("karl")
                 if joyTimer - vorigeJoyTimer > 0.1:
                     positieTeller += 1
                     vorigeJoyTimer = joyTimer
@@ -899,17 +912,39 @@ def programma():
                 lcdObject.tweede_rij()
                 lcdObject.send_message(
                     inhoud[positieTeller-16:positieTeller])
-            print(positieTeller)
             # print(inhoud[positieTeller:16+positieTeller])
         elif status == 4:
             lcdObject.send_instruction(0b00001111)
-            # positieTeller = 0
+            print(f"positieteller: {positieTeller}")
             replies = DataRepository.read_quickReplies()
             opties = [f"{replies[0]['berichtinhoud']}", f"{replies[1]['berichtinhoud']}",
                       f"{replies[2]['berichtinhoud']}", f"{replies[3]['berichtinhoud']}"]
-            joyTimer = time.time()
-            print(replies[0]['berichtinhoud'])
+
+            # opties schrijven
+            if vorigeOpties != opties:
+                lcdObject.reset_lcd()
+                lcdObject.send_message(opties[0])
+                if (len(opties[1]) == 2):
+                    lcdObject.set_cursor(0xE)
+                elif (len(opties[1]) == 3):
+                    lcdObject.set_cursor(0xD)
+                elif (len(opties[1]) == 4):
+                    lcdObject.set_cursor(0xC)
+                lcdObject.send_message(opties[1])
+                lcdObject.tweede_rij()
+                lcdObject.send_message(opties[2])
+                if (len(opties[3]) == 2):
+                    lcdObject.set_cursor(0x4E)
+                elif (len(opties[3]) == 3):
+                    lcdObject.set_cursor(0x4D)
+                elif (len(opties[3]) == 4):
+                    lcdObject.set_cursor(0x4C)
+                lcdObject.send_message(opties[3])
+                lcdObject.set_cursor(lcdTeller)
+                vorigeOpties = opties
+
             # positie bepalen
+            joyTimer = time.time()
             if xWaarde <= 50:
                 if joyTimer - vorigeJoyTimer > 0.5:
                     positieTeller += 1
@@ -982,29 +1017,6 @@ def programma():
                 lcdObject.set_cursor(lcdTeller)
                 optie = opties[3]
 
-            # opties schrijven
-            if vorigeOpties != opties:
-                lcdObject.reset_lcd()
-                lcdObject.send_message(opties[0])
-                if (len(opties[1]) == 2):
-                    lcdObject.set_cursor(0xE)
-                elif (len(opties[1]) == 3):
-                    lcdObject.set_cursor(0xD)
-                elif (len(opties[1]) == 4):
-                    lcdObject.set_cursor(0xC)
-                lcdObject.send_message(opties[1])
-                lcdObject.tweede_rij()
-                lcdObject.send_message(opties[2])
-                if (len(opties[3]) == 2):
-                    lcdObject.set_cursor(0x4E)
-                elif (len(opties[3]) == 3):
-                    lcdObject.set_cursor(0x4D)
-                elif (len(opties[3]) == 4):
-                    lcdObject.set_cursor(0x4C)
-                lcdObject.send_message(opties[3])
-                print(opties[1])
-                lcdObject.set_cursor(lcdTeller)
-                vorigeOpties = opties
         elif status == 5:
             if vorigeOptie != optie:
                 lcdObject.reset_lcd()
@@ -1020,8 +1032,9 @@ def programma():
                     10, berichtid, datum, "bericht verstuurd")
                 socketio.emit('B2F_refreshBerichtenChart')
                 vorigeOptie = optie
+                vorigeInhoud = ""
                 socketio.emit('B2F_nieuw_bericht')
-                positieTeller = -1
+                positieTeller = 0
         # print(gebruikersid)
 
 

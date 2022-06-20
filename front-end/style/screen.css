@@ -921,7 +921,7 @@ select::-ms-expand {
     background-color: #161B20;
     border-radius: 1%;
     max-width: 1108px;
-    max-height: 550px;
+    max-height: 880px;
     /* display: flex;
     flex-direction: column; */
     word-break: break-all;
@@ -1215,7 +1215,7 @@ input[type='text'] {
             background-color: #161B20;
             border-radius: 1%;
             max-width: 1108px;
-            max-height: 650px;
+            max-height: 880px;
             display: flex;
             flex-direction: column;
             word-break: break-all;
@@ -1781,6 +1781,37 @@ textarea button {
 }
 
 @media (min-width: 280px) {
+input[type='text'] {
+        padding: 0px 20px;
+    }
+.c-chat {
+    line-height: 20px;
+}
+.c-bericht {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #F4A950;
+        padding-left: 20px;
+    }
+.u-fz{
+    font-size: 12px;
+    line-height: 20px;
+}
+.c-bericht__darker {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: black;
+    padding-left: 20px;
+}
+.c-popup-content4 {
+        width: 82%;
+        height: 175px;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+    }
 .c-nav__link {
         text-decoration: none;
         font-weight: 600;
@@ -2090,7 +2121,7 @@ textarea button {
         border-radius: 65px 65px 0px 65px;
         padding: 10px;
         margin: 10px 0;
-        word-break:break-all;
+        word-break: break-word;
     }
     .darker {
         background-color: #f1f1f1;
@@ -2104,15 +2135,20 @@ textarea button {
 }
 
 @media (min-width: 630px) {
+    
     .c-popup-content {
             width: 65%;
         }
+        
     .c-popup-content2 {
         width: 65%;
     }
     .c-popup-content3 {
         width: 65%;
         height: 120px;
+    }
+    .c-popup-content4 {
+        width: 65%;
     }
     .u-breedte {
             width: 80%;
@@ -2137,6 +2173,27 @@ textarea button {
 }
 
 @media (min-width: 762px) {
+.c-chat {
+        line-height: 30px;
+    }
+
+    .c-bericht {
+        font-size: 30px;
+        margin-bottom: 15px;
+        color: #F4A950;
+        padding-left: 20px;
+    }
+
+    .u-fz {
+        font-size: 16px;
+    }
+
+    .c-bericht__darker {
+        font-size: 30px;
+        margin-bottom: 15px;
+        color: black;
+        padding-left: 20px;
+    }
 .c-lead--customPop {
         font-size: 24px;
         line-height: 0px;
@@ -2170,6 +2227,9 @@ textarea button {
     .c-popup-content {
             width: 65%;
         }
+    .c-popup-content4 {
+        width: 65%;
+    }
     .u-breedte {
             width: 85%;
     
@@ -2256,6 +2316,9 @@ textarea button {
 }
 
 @media (min-width: 992px) {
+input[type='text'] {
+        padding: 10px 20px;
+    }
 .c-nav__link {
         text-decoration: none;
         font-weight: 600;
@@ -2270,6 +2333,9 @@ textarea button {
         width: 45%;
     }
     .c-popup-content3 {
+        width: 45%;
+    }
+    .c-popup-content4 {
         width: 45%;
     }
     .testje {
@@ -2453,6 +2519,9 @@ textarea button {
         .c-popup-content3 {
             width: 30%;
         }
+        .c-popup-content4 {
+            width: 30%;
+        }
     .testje {
             height: 130px;
         }
@@ -2585,6 +2654,9 @@ textarea button {
 
 .u-mb-xl {
     margin-bottom: 48px !important;
+}
+.u-colorFont{
+    color: #f4a950
 }
 
 /*
