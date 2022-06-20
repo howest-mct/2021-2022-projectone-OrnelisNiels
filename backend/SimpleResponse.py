@@ -248,7 +248,6 @@ def verander_ventilator(data):
     actie = data['actie']
     if actie == "aan":
         controleVentilator = "manueel"
-        print("karl" + controleVentilator)
         draaien = True
         DataRepository.create_historiek(
             9, 7, datum, actie, "Ventilator aan")
@@ -606,8 +605,6 @@ def start_chrome_thread():
 
 def vorige_kleur():
     global cyclus, prevColor, globalStatled
-    print("karl")
-    print(prevColor)
     globalStatled = 1
     socketio.emit('B2F_verander_status_leds', {'status': 1})
     if isAan == True:

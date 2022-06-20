@@ -473,13 +473,10 @@ const listenToSocketHistoriek = function () {
   });
   socketio.on('B2F_refreshBerichtenChart', function () {
     if (weekBer == true) {
-      console.log('weekberrrr');
       getDataBerichtenWeek();
     } else if (allBer == true) {
-      console.log('allber');
       getDataBerichtenAll();
     } else {
-      console.log('NIKS');
     }
   });
 };
@@ -494,7 +491,6 @@ const listenToInloggen = function () {
   const htmlGebruiker = document.querySelector('.js-gebruiker');
   htmlGebruiker.addEventListener('keypress', function (event) {
     if (event.key == 'Enter') {
-      console.log('test');
       console.log(htmlGebruiker.value);
       bestaandeGebruiker = htmlGebruiker.value;
       socketio.emit('F2B_login', { gebruikersnaam: bestaandeGebruiker });
@@ -523,7 +519,6 @@ const listenToRegistreren = function () {
   const htmlNieuweGebruiker = document.querySelector('.js-nieuweGebruiker');
   htmlNieuweGebruiker.addEventListener('keypress', function (event) {
     if (event.key == 'Enter') {
-      console.log('test');
       console.log(htmlNieuweGebruiker.value);
       nieuweGebruiker = htmlNieuweGebruiker.value;
       socketio.emit('F2B_maak_gebruiker', {
@@ -742,7 +737,6 @@ const listenToSocket = function () {
     }
   });
   socketio.on('B2F_verander_status_leds', function (jsonObject) {
-    console.log('karl' + jsonObject);
     if (jsonObject.status == 1) {
       const element = document.querySelector('.js-statusLeds');
       console.log(element);

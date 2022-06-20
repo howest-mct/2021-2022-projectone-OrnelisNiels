@@ -1781,6 +1781,15 @@ textarea button {
 }
 
 @media (min-width: 280px) {
+    .c-popup-content4 {
+            width: 82%;
+            height: 175px;
+            background-color: white;
+            border-radius: 10px;
+            text-align: center;
+            padding: 10px;
+            position: relative;
+        }
 .c-nav__link {
         text-decoration: none;
         font-weight: 600;
@@ -2107,12 +2116,16 @@ textarea button {
     .c-popup-content {
             width: 65%;
         }
+        
     .c-popup-content2 {
         width: 65%;
     }
     .c-popup-content3 {
         width: 65%;
         height: 120px;
+    }
+    .c-popup-content4 {
+        width: 65%;
     }
     .u-breedte {
             width: 80%;
@@ -2170,6 +2183,9 @@ textarea button {
     .c-popup-content {
             width: 65%;
         }
+    .c-popup-content4 {
+        width: 65%;
+    }
     .u-breedte {
             width: 85%;
     
@@ -2270,6 +2286,9 @@ textarea button {
         width: 45%;
     }
     .c-popup-content3 {
+        width: 45%;
+    }
+    .c-popup-content4 {
         width: 45%;
     }
     .testje {
@@ -2451,6 +2470,9 @@ textarea button {
             width: 30%;
         }
         .c-popup-content3 {
+            width: 30%;
+        }
+        .c-popup-content4 {
             width: 30%;
         }
     .testje {
