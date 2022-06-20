@@ -102,18 +102,33 @@ class DataRepository:
         params = [id, ontvanger, id2, ontvanger2]
         return Database.get_rows(sql, params)
 
+    @staticmethod
     def read_historiek_temp_dag():
         sql = "select * from historiek where datum between date_sub(now(),INTERVAL 1 DAY) and now() and actie_actieid = 1"
         return Database.get_rows(sql)
 
+    @staticmethod
     def read_historiek_temp_week():
         sql = "select round(avg(waarde),2) as waarde , concat(DAY(datum),' ',MONTHNAME(datum)) as datum from historiek where datum between date_sub(now(),INTERVAL 1 WEEK) and now() and actie_actieid = 1 group by day(datum)"
         return Database.get_rows(sql)
 
+    @staticmethod
     def read_historiek_berichten_week():
-        sql = "select count(datum) as 'aantal',datum from historiek where datum between date_sub(now(),INTERVAL 1 WEEK) and now() and actie_actieid = 10 group by day(datum)"
+        sql = "select count(datum) as 'aantal',concat(DAY(datum),' ',MONTHNAME(datum)) as 'datum' from historiek where datum between date_sub(now(),INTERVAL 1 WEEK) and now() and actie_actieid = 10 group by day(datum)"
         return Database.get_rows(sql)
 
+    @staticmethod
     def read_historiek_berichten():
-        sql = "select count(datum) as 'aantal', datum from historiek WHERE actie_actieid = 10 group by day(datum)"
+        sql = "select count(datum) as 'aantal', concat(DAY(datum),' ',MONTHNAME(datum)) as 'datum' from historiek WHERE actie_actieid = 10 group by day(datum)"
         return Database.get_rows(sql)
+
+    @staticmethod
+    def read_quickReplies():
+        sql = "SELECT * FROM bericht WHERE berichtid > 0 and berichtid <5"
+        return Database.get_rows(sql)
+
+    @staticmethod
+    def update_quickReplies(inhoud, id):
+        sql = "UPDATE bericht SET berichtinhoud = %s WHERE berichtid = %s"
+        params = [inhoud, id]
+        return Database.execute_sql(sql, params)

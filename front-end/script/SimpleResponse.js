@@ -17,7 +17,10 @@ let htmlInloggen,
   week = false,
   all = false,
   grafTemp = false,
-  grafBer = true;
+  grafBer = true,
+  weekBer = true,
+  allBer = false,
+  vorigeBer = '';
 
 //#region ***  Callback-Visualisation - show___         ***********
 function toggleNav() {
@@ -38,80 +41,214 @@ const showData = function (jsonObject) {
     console.log(chartStat);
     let converted_labels = [];
     let converted_data = [];
-    for (let data of jsonObject.historiek) {
-      converted_labels.push(data.datum);
-      converted_data.push(data.waarde);
-    }
-    console.log('Data', converted_data, '\nLabels', converted_labels);
-    if (chartStat == false) {
-      drawChart(converted_labels, converted_data);
-      chartStat = true;
-    } else {
-      if (dag == true) {
-        chart.updateOptions({
-          labels: converted_labels,
-          series: [
-            {
-              data: converted_data,
+    if (grafBer == true) {
+      for (let data of jsonObject.historiek) {
+        converted_labels.push(data.datum);
+        converted_data.push(data.aantal);
+      }
+      console.log('Data', converted_data, '\nLabels', converted_labels);
+      if (chartStat == false) {
+        drawChart(converted_labels, converted_data);
+        chartStat = true;
+      } else {
+        if (weekBer == true) {
+          chart.updateOptions({
+            labels: converted_labels,
+            series: [
+              {
+                data: converted_data,
+                type: 'bar',
+                color: '#F4A950',
+              },
+            ],
+            chart: {
+              id: 'myChart',
+              type: 'bar',
+              height: '550px',
+              // colors: 'F4A950',
+              // forecolor: 'F4A950',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
             },
-          ],
-          chart: {
-            id: 'myChart',
-            type: 'line',
-            height: '550px',
-            colors: 'F4A950',
-            forecolor: 'F4A950',
-            toolbar: {
-              show: false,
+            dataLabels: {
+              enabled: true,
             },
-            zoom: {
+            title: {
+              text: 'Aantal berichten laatste week',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
+            },
+          });
+        } else if (allBer == true) {
+          console.log('all ber');
+          chart.updateOptions({
+            labels: converted_labels,
+            series: [
+              {
+                data: converted_data,
+                type: 'bar',
+                color: '#F4A950',
+              },
+            ],
+            chart: {
+              id: 'myChart',
+              type: 'bar',
+              height: '550px',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
+            },
+            title: {
+              text: 'Aantal berichten all time',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
+            },
+            dataLabels: {
+              enabled: true,
+            },
+          });
+        }
+      }
+    } else if (grafTemp == true) {
+      for (let data of jsonObject.historiek) {
+        converted_labels.push(data.datum);
+        converted_data.push(data.waarde);
+      }
+      console.log('Data', converted_data, '\nLabels', converted_labels);
+      if (chartStat == false) {
+        drawChart(converted_labels, converted_data);
+        chartStat = true;
+      } else {
+        if (dag == true) {
+          chart.updateOptions({
+            title: {
+              text: 'Temperatuur laatste 24u',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
+            },
+            chart: {
+              id: 'myChart',
+              type: 'line',
+              height: '550px',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
+            },
+            stroke: {
+              curve: 'straight',
+            },
+            grid: {
+              borderColor: '#f1f1f1',
+            },
+            dataLabels: {
               enabled: false,
             },
-          },
-          dataLabels: {
-            enabled: false,
-          },
-          title: {
-            text: 'Temperatuur laatste 24u',
-            align: 'center',
-            style: {
-              fontSize: '16px',
-              color: '#161B20',
+            // xaxis: {
+            //   type: 'datetime',
+            //   labels: {
+            //     datetimeFormatter: {
+            //       year: 'yyyy',
+            //       month: "MMM 'yy",
+            //       day: 'dd MMM',
+            //       hour: 'HH:mm',
+            //     },
+            //   },
+            // },
+            series: [
+              {
+                type: 'line',
+                name: 'Aantal berichten',
+                data: converted_data,
+                color: '#F47550',
+              },
+            ],
+            labels: converted_labels,
+            // noData: {
+            //   text: 'Loading...',
+            // },
+            tooltip: {
+              enabled: true,
+              // formatter: 'HH:mm:ss',
+              offsetY: 0,
+              x: {
+                show: true,
+                format: 'dd MMM',
+              },
+              style: {
+                fontSize: '16px',
+                fontFamily: 0,
+                color: '#161b20',
+              },
             },
-          },
-        });
-      } else if (week == true || (all == true && grafTemp == true)) {
-        console.log('week||all');
-        chart.updateOptions({
-          labels: converted_labels,
-          series: [
-            {
-              data: converted_data,
+            // states: {
+            //   hover: {
+            //     filter: {
+            //       type: 'lighten',
+            //       value: 0.01,
+            //     },
+            //   },
+            //   active: {
+            //     allowMultipleDataPointsSelection: false,
+            //     filter: {
+            //       type: 'none',
+            //     },
+            //   },
+            // },
+          });
+        } else if (week == true || (all == true && grafTemp == true)) {
+          console.log('week||all');
+          chart.updateOptions({
+            labels: converted_labels,
+            series: [
+              {
+                data: converted_data,
+                type: 'bar',
+                color: '#F47550',
+              },
+            ],
+            chart: {
+              id: 'myChart',
+              type: 'bar',
+              height: '550px',
+              toolbar: {
+                show: false,
+              },
+              zoom: {
+                enabled: false,
+              },
             },
-          ],
-          chart: {
-            id: 'myChart',
-            type: 'bar',
-            height: '550px',
-            toolbar: {
-              show: false,
+            title: {
+              text: 'Gemiddelde temperatuur per dag',
+              align: 'center',
+              style: {
+                fontSize: '16px',
+                color: '#161B20',
+              },
             },
-            zoom: {
-              enabled: false,
+            dataLabels: {
+              enabled: true,
             },
-          },
-          title: {
-            text: 'Gemiddelde temperatuur per dag',
-            align: 'center',
-            style: {
-              fontSize: '16px',
-              color: '#161B20',
-            },
-          },
-          dataLabels: {
-            enabled: true,
-          },
-        });
+          });
+        }
       }
     }
   } catch (error) {
@@ -126,7 +263,7 @@ const showBerichten = function (jsonObject) {
     console.log(jsonObject.berichten);
     let html = '';
     for (let bericht of jsonObject.berichten) {
-      if (bericht.gebruiker_gebruikerid != 9) {
+      if (bericht.gebruiker_gebruikerid != 1) {
         html += `<div class="container">
           <span class="time-left">${bericht.naam}</span>
             <p class="c-bericht js-berichten">${bericht.berichtinhoud}</p>
@@ -145,6 +282,21 @@ const showBerichten = function (jsonObject) {
     console.error(error);
   }
 };
+
+const showQuickReplies = function (jsonObject) {
+  try {
+    console.log(jsonObject.quickreplies);
+    let teller = 0;
+    for (let optie of jsonObject.quickreplies) {
+      teller = teller + 1;
+      waarde = optie.berichtinhoud;
+      document.querySelector(`.js-optie${teller}`).placeholder = waarde;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const showError = function (err) {
   console.error(err);
 };
@@ -152,7 +304,7 @@ const showError = function (err) {
 const drawChart = function (labels, data) {
   let options = {
     title: {
-      text: 'Temperatuur',
+      text: 'Aantal berichten laatste week',
       align: 'center',
       style: {
         fontSize: '16px',
@@ -177,7 +329,7 @@ const drawChart = function (labels, data) {
       borderColor: '#f1f1f1',
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     // xaxis: {
     //   type: 'datetime',
@@ -192,8 +344,9 @@ const drawChart = function (labels, data) {
     // },
     series: [
       {
-        name: 'Temp sensor',
+        name: 'Aantal berichten',
         data: data,
+        type: 'bar',
         color: '#F4A950',
       },
     ],
@@ -246,6 +399,11 @@ const getBerichten = function () {
   let idGebruiker = urlParams.get('id');
   const url = `http://${lanIP}/api/v1/berichten/${idGebruiker}/`;
   handleData(url, showBerichten, showError);
+};
+
+const getQuickReplies = function () {
+  const url = `http://${lanIP}/api/v1/quickReplies/`;
+  handleData(url, showQuickReplies, showError);
 };
 
 const getDataBerichtenWeek = function () {
@@ -311,6 +469,17 @@ const listenToSocketHistoriek = function () {
       getDataWeek();
     } else if (all == true) {
       getDataAll();
+    }
+  });
+  socketio.on('B2F_refreshBerichtenChart', function () {
+    if (weekBer == true) {
+      console.log('weekberrrr');
+      getDataBerichtenWeek();
+    } else if (allBer == true) {
+      console.log('allber');
+      getDataBerichtenAll();
+    } else {
+      console.log('NIKS');
     }
   });
 };
@@ -435,13 +604,21 @@ const listenToUI = function () {
           actie: 'aan',
           knopid: id,
         });
-        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
       } else if (id == 11) {
         socketio.emit('F2B_verander_ventilator', {
           actie: 'uitt',
           knopid: id,
         });
-        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
+      } else if (id == 12) {
+        socketio.emit('F2B_verander_led', {
+          knopid: id,
+          actie: 'auto',
+        });
+      } else if (id == 13) {
+        document.querySelector('.js-shutdownTab').style.display = 'none';
+      } else if (id == 14) {
+        socketio.emit('F2B_shutdown');
+        document.querySelector('.js-shutdownTab').style.display = 'none';
       }
     });
   }
@@ -483,6 +660,32 @@ const listenToUI = function () {
       }
     }
     // errorMelding.innerHTML = htmlTemp;
+  });
+  const vent = document.querySelector('.js-showVentilator');
+  vent.addEventListener('click', function () {
+    document.querySelector('.js-ventTab').style.display = 'flex';
+  });
+  const ventCross = document.querySelector('.js-crossVent');
+  ventCross.addEventListener('click', function () {
+    document.querySelector('.js-ventTab').style.display = 'none';
+  });
+
+  const leds = document.querySelector('.js-showLeds');
+  leds.addEventListener('click', function () {
+    document.querySelector('.js-ledTab').style.display = 'flex';
+  });
+  const ledCross = document.querySelector('.js-crossLed');
+  ledCross.addEventListener('click', function () {
+    document.querySelector('.js-ledTab').style.display = 'none';
+  });
+
+  const shutdownPopup = document.querySelector('.js-showShutdown');
+  shutdownPopup.addEventListener('click', function () {
+    document.querySelector('.js-shutdownTab').style.display = 'flex';
+  });
+  const crossShutdown = document.querySelector('.js-crossShutdown');
+  crossShutdown.addEventListener('click', function () {
+    document.querySelector('.js-shutdownTab').style.display = 'none';
   });
 };
 
@@ -557,21 +760,44 @@ const listenToSocketBericht = function () {
     const bericht = document.querySelector('.js-bericht');
     let urlParams = new URLSearchParams(window.location.search);
     let idGebruiker = urlParams.get('id');
-    if (bericht.value != '') {
-      socketio.emit('F2B_verstuur_bericht', {
-        berichtinhoud: bericht.value,
-        id: idGebruiker,
-      });
-      console.log('test');
-      getBerichten();
-      bericht.innerHTML = 'Typ hier een bericht';
+    if (bericht.value != '' && bericht.value.length < 129) {
+      if (bericht.value != vorigeBer) {
+        socketio.emit('F2B_verstuur_bericht', {
+          berichtinhoud: bericht.value,
+          id: idGebruiker,
+        });
+        console.log('test');
+        getBerichten();
+        vorigeBer = bericht.value;
+        bericht.value = '';
+        window.location.reload();
+      }
+    }
+  });
+  let ber = document.querySelector('.js-bericht');
+  ber.addEventListener('keypress', function (event) {
+    if (event.key == 'Enter') {
+      const bericht = document.querySelector('.js-bericht');
+      let urlParams = new URLSearchParams(window.location.search);
+      let idGebruiker = urlParams.get('id');
+      if (bericht.value != '' && bericht.value.length < 129) {
+        if (bericht.value != vorigeBer) {
+          socketio.emit('F2B_verstuur_bericht', {
+            berichtinhoud: bericht.value,
+            id: idGebruiker,
+          });
+          console.log('test');
+          getBerichten();
+          vorigeBer = bericht.value;
+          bericht.value = '';
+          window.location.reload();
+        }
+      }
     }
   });
   socketio.on('B2F_nieuw_bericht', function (jsonObject) {
-    console.log(
-      'karletje azkjrehlkeazhzerklj hrzeaqlkejr lkjmfgd,n; dfdfsq<jk lmfdlqs mkjjk dfqswmklj dfvswmklj dsqfjk smlkjqfdshlmkjqfsdklmskqlfdsfqjmlkkljhmfdkljsfdllfjdmsdsfqljfljkljsdfkqmljkdsfqlmkjdfskmjfsqlkmljksdfqmlkjqsdflkjqsdsjdf'
-    );
     getBerichten();
+    window.location.reload();
   });
 };
 
@@ -607,25 +833,31 @@ const listenToKnoppen = function () {
   let grafiekBerichten = document.querySelector('.js-grafiekBerichten');
   let grafiekTemperatuur = document.querySelector('.js-grafiekTemperatuur');
   let grafiekTempDisplay = document.querySelector('.js-tempDisplay');
-  let grafiekTempDisplayGraph = document.querySelector('.js-tempDisplayGraph');
+  // let grafiekTempDisplayGraph = document.querySelector('.js-tempDisplayGraph');
   let grafiekBerichtenDisplay = document.querySelector('.js-berDisplay');
-  let grafiekBerichtenDisplayGraph = document.querySelector(
-    '.js-berDisplayGraph'
-  );
+  // let grafiekBerichtenDisplayGraph = document.querySelector(
+  //   '.js-berDisplayGraph'
+  // );
   console.log(grafiekTempDisplay);
   grafiekBerichten.addEventListener('click', function () {
     if (grafBer == false) {
       console.log('Berichten');
       grafiekBerichtenDisplay.classList.add('c-berichtenTonen');
       grafiekBerichtenDisplay.classList.remove('c-berichtenVerwijderen');
-      grafiekBerichtenDisplayGraph.classList.add('c-berichtenTonen');
-      grafiekBerichtenDisplayGraph.classList.remove('c-berichtenVerwijderen');
+      // grafiekBerichtenDisplayGraph.classList.add('c-berichtenTonen');
+      // grafiekBerichtenDisplayGraph.classList.remove('c-berichtenVerwijderen');
       grafiekTempDisplay.classList.add('c-temperatuurVerwijderen');
       grafiekTempDisplay.classList.remove('c-temperatuurTonen');
-      grafiekTempDisplayGraph.classList.add('c-temperatuurVerwijderen');
-      grafiekTempDisplayGraph.classList.remove('c-temperatuurTonen');
+      // grafiekTempDisplayGraph.classList.add('c-temperatuurVerwijderen');
+      // grafiekTempDisplayGraph.classList.remove('c-temperatuurTonen');
+      const periodeSelect = document.querySelector('.js-periodeSelect');
+      periodeSelect.innerHTML =
+        '<option value="dag" selected>Dag</option> <option value="week">Week</option> <option value="all">All</option>';
       grafTemp = false;
       grafBer = true;
+      dag = false;
+      weekBer = true;
+      getDataBerichtenWeek();
     }
   });
   grafiekTemperatuur.addEventListener('click', function () {
@@ -633,15 +865,104 @@ const listenToKnoppen = function () {
       console.log('Temperatuur');
       grafiekTempDisplay.classList.add('c-temperatuurTonen');
       grafiekTempDisplay.classList.remove('c-temperatuurVerwijderen');
-      grafiekTempDisplayGraph.classList.add('c-temperatuurTonen');
-      grafiekTempDisplayGraph.classList.remove('c-temperatuurVerwijderen');
+      // grafiekTempDisplayGraph.classList.add('c-temperatuurTonen');
+      // grafiekTempDisplayGraph.classList.remove('c-temperatuurVerwijderen');
       grafiekBerichtenDisplay.classList.add('c-berichtenVerwijderen');
       grafiekBerichtenDisplay.classList.remove('c-berichtenTonen');
-      grafiekBerichtenDisplayGraph.classList.add('c-berichtenVerwijderen');
-      grafiekBerichtenDisplayGraph.classList.remove('c-berichtenTonen');
+      // grafiekBerichtenDisplayGraph.classList.add('c-berichtenVerwijderen');
+      // grafiekBerichtenDisplayGraph.classList.remove('c-berichtenTonen');
+      const periodeSelect = document.querySelector('.js-periodeSelectBer');
+      periodeSelect.innerHTML =
+        '<option value="week" selected>Week</option> <option value="all">All</option>';
       grafBer = false;
       grafTemp = true;
+      dag = true;
+      getDataDag();
     }
+  });
+};
+
+const listenToPeriode1 = function () {
+  const periodeSelect = document.querySelector('.js-periodeSelectBer');
+  periodeSelect.addEventListener('change', function () {
+    console.log('test');
+    console.log(this.value);
+    if (this.value == 'week') {
+      console.log('week');
+      getDataBerichtenWeek();
+      allBer = false;
+      weekBer = true;
+    } else if (this.value == 'all') {
+      console.log('week');
+      getDataBerichtenAll();
+      weekBer = false;
+      allBer = true;
+    }
+  });
+};
+const listenToWijzigen = function () {
+  const quickReplies = document.querySelector('.js-quickReplies');
+  quickReplies.addEventListener('click', function () {
+    document.querySelector('.js-replyTab').style.display = 'flex';
+  });
+  const replyCross = document.querySelector('.js-crossReplies');
+  replyCross.addEventListener('click', function () {
+    document.querySelector('.js-replyTab').style.display = 'none';
+    const optie1 = (document.querySelector('.js-optie1').value = '');
+    const optie2 = (document.querySelector('.js-optie2').value = '');
+    const optie3 = (document.querySelector('.js-optie3').value = '');
+    const optie4 = (document.querySelector('.js-optie4').value = '');
+    errorquick = document.querySelector('.js-errorQuick');
+    errorquick.innerHTML = '';
+    getQuickReplies();
+  });
+  const veranderQuick = document.querySelector('.js-change');
+  veranderQuick.addEventListener('click', function () {
+    const optie1 = document.querySelector('.js-optie1').value;
+    const optie2 = document.querySelector('.js-optie2').value;
+    const optie3 = document.querySelector('.js-optie3').value;
+    const optie4 = document.querySelector('.js-optie4').value;
+    if (
+      optie1.length < 11 &&
+      optie2.length < 5 &&
+      optie3.length < 11 &&
+      optie4.length < 5
+    ) {
+      socketio.emit(
+        'F2B_verander_quickReplies',
+        [
+          {
+            id: 1,
+            inhoud: optie1,
+          },
+        ],
+        [
+          {
+            id: 2,
+            inhoud: optie2,
+          },
+        ],
+        [
+          {
+            id: 3,
+            inhoud: optie3,
+          },
+        ],
+        [
+          {
+            id: 4,
+            inhoud: optie4,
+          },
+        ]
+      );
+    } else {
+      errorquick = document.querySelector('.js-errorQuick');
+      errorquick.innerHTML = 'Error';
+    }
+    socketio.on('B2F_gewijzigd', function (jsonObject) {
+      errorquick = document.querySelector('.js-errorQuick');
+      errorquick.innerHTML = 'Gewijzigd';
+    });
   });
 };
 //#endregion
@@ -671,7 +992,7 @@ const init = function () {
   } else {
     if (idGebruiker) {
       if (htmlHome) {
-        console.log('Home');
+        console.log('Dashboard');
         listenToUI();
         listenToSocket();
         gebruiker();
@@ -680,15 +1001,17 @@ const init = function () {
         console.log('Historiek');
         gebruiker();
         listenToKnoppen();
-        getDataDag();
-        // getDataBerichtenWeek();
+        getDataBerichtenWeek();
         listenToPeriode();
+        listenToPeriode1();
         listenToSocketHistoriek();
         toggleNav();
       } else if (htmlBericht) {
         console.log('Bericht');
         listenToSocketBericht();
+        listenToWijzigen();
         getBerichten();
+        getQuickReplies();
         gebruiker();
         toggleNav();
       }

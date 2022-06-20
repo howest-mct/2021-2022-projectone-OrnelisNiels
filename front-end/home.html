@@ -7,6 +7,8 @@
     <title>SimpleResponse | Bericht</title>
 
     <link rel="icon" href="Favicon2.png" />
+     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
     <link
       rel="stylesheet"
@@ -69,13 +71,16 @@
           <div class="o-layout o-layout--gutter-lg o-layout--gutter o-layout--align-center">
           </div>
           <!-- <h2 class="c-titel c-lead c-lead--lg c-padding__left">Berichten</h2> -->
-          <div class="u-center-line">
-                  <span class="c-line--links">――――――――――――――</span>
-                  <span style="font-size: 32px;">Berichten</span>
-                  <span class="c-line--rechts">――――――――――――――</span>
-                </div>
+            <div class="u-center-line">
+                <span class="c-line--links">――――――――――――――</span>
+                <span style="font-size: 32px;">Berichten</span>
+                <span class="c-line--rechts">――――――――――――――</span>
+            </div>
+            <div class="u-center">
+              <button class="button button1 u-margin-bottom js-quickReplies">Snelle antwoorden wijzigen</button>
+            </div>
           <div class="c-chatbox">
-            <div class="c-chat">
+            <div class="c-chat js-scrollToBottom">
             <div class="js-berichten">
 
             </div>
@@ -91,7 +96,7 @@
               <span class="time-left">11:01</span>
             </div> -->
             <div class="container send">
-              <form method="POST">
+              <!-- <form method="POST"> -->
               <input
                 class="c-lead c-lead--lg c-titel js-bericht"
                 type="text"
@@ -102,7 +107,7 @@
                 required
               />
               <button class="c-btn__link c-verstuur js-send">Versturen</button>
-              </form>
+              <!-- </form> -->
           </div>
             </div>
           </div>
@@ -142,5 +147,71 @@
             </div>
         </div>
     </aside>
+    <div class="c-popup3 js-replyTab">
+      <div class="c-popup-content2">
+        <span class="material-icons c-cross js-crossReplies">close</span>
+        <p class="c-lead c-lead--custom u-margin-bottom">Korte antwoorden</p>
+        <div class="js-errorQuick"></div>
+        <div class="c-popup-flex">
+          <div class="c-popup-containerReplies">
+            <p class="c-lead c-lead--customPop">Optie 1 (10 char)</p>
+          </div>
+          <div class="c-popup-containerReplies">
+             <input
+                class="c-optie u-height js-optie1 "
+                type="text"
+                name="optie1"
+                id="optie1"
+                maxlength="10"
+                placeholder=""
+                required
+              />
+          </div>
+          <div class="c-popup-containerReplies">
+            <p class="c-lead c-lead--customPop">Optie 2 (4 char)</p>
+          </div>
+          <div class="c-popup-containerReplies">
+             <input
+                class="c-optie u-height js-optie2 "
+                type="text"
+                name="optie2"
+                id="optie2"
+                maxlength="4"
+                placeholder=""
+                required
+              />
+          </div>
+          <div class="c-popup-containerReplies">
+            <p class="c-lead c-lead--customPop">Optie 3 (10 char)</p>
+          </div>
+          <div class="c-popup-containerReplies">
+             <input
+                class="c-optie u-height js-optie3 "
+                type="text"
+                name="optie3"
+                id="optie3"
+                maxlength="10"
+                placeholder=""
+                required
+              />
+          </div>
+          <div class="c-popup-containerReplies">
+            <p class="c-lead c-lead--customPop">Optie 4 (4 char)</p>
+          </div>
+          <div class="c-popup-containerReplies">
+             <input
+                class="c-optie u-height js-optie4"
+                type="text"
+                name="optie4"
+                id="optie4"
+                maxlength="4"
+                placeholder=""
+                required
+              />
+          </div>
+             <button class="button button1 u-margin-bottom u-100 js-change">Wijzigen</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
