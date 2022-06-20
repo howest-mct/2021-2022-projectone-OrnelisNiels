@@ -606,20 +606,23 @@ def start_chrome_thread():
 def vorige_kleur():
     global cyclus, prevColor, globalStatled
     globalStatled = 1
-    socketio.emit('B2F_verander_status_leds', {'status': 1})
     if isAan == True:
         if prevColor == "rood":
             Led1.RGB_set(0, 100, 100)
             Led2.RGB_set(0, 100, 100)
             Led3.RGB_set(0, 100, 100)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
         elif prevColor == "groen":
             Led1.RGB_set(100, 0, 100)
             Led2.RGB_set(100, 0, 100)
             Led3.RGB_set(100, 0, 100)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
+
         elif prevColor == "blauw":
             Led1.RGB_set(100, 100, 0)
             Led2.RGB_set(100, 100, 0)
             Led3.RGB_set(100, 100, 0)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
         elif prevColor == "cycle":
             cyclus = True
             print("start_rainbow")
@@ -628,10 +631,12 @@ def vorige_kleur():
             Led1.RGB_set(0, 100, 100)
             Led2.RGB_set(0, 100, 100)
             Led3.RGB_set(0, 100, 100)
+            socketio.emit('B2F_verander_status_leds', {'status': 1})
     else:
         Led1.RGB_set(100, 100, 100)
         Led2.RGB_set(100, 100, 100)
         Led3.RGB_set(100, 100, 100)
+        socketio.emit('B2F_verander_status_leds', {'status': 0})
 
 
 def setup():
@@ -678,6 +683,7 @@ def programma():
                 Led1.RGB_set(100, 100, 100)
                 Led2.RGB_set(100, 100, 100)
                 Led3.RGB_set(100, 100, 100)
+                socketio.emit('B2F_verander_status_leds', {'status': 0})
 
                 # print("Ldr waarde: ", str(round(licht, 2)), " %")
 
