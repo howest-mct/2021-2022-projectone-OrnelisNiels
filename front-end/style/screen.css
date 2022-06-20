@@ -1781,6 +1781,13 @@ textarea button {
 }
 
 @media (min-width: 280px) {
+.c-nav__link {
+        text-decoration: none;
+        font-weight: 600;
+        display: block;
+        padding: 5px 0;
+        font-size: 20px;
+    }
     .c-line--rechts {
         display: none;
     }
@@ -2010,6 +2017,16 @@ textarea button {
         position: relative;
     }
 
+    .c-popup-content3 {
+        width: 82%;
+        height: 120px;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+    }
+
     .c-popup-flex{
         display: flex;
         height: 60%;
@@ -2093,6 +2110,10 @@ textarea button {
     .c-popup-content2 {
         width: 65%;
     }
+    .c-popup-content3 {
+        width: 65%;
+        height: 120px;
+    }
     .u-breedte {
             width: 80%;
 
@@ -2133,6 +2154,9 @@ textarea button {
     }
     .c-popup-content2 {
         width: 82%;
+}
+    .c-popup-content3 {
+        width: 65%;
     }
     .buttonAan {
         font-size: 24px;
@@ -2232,12 +2256,22 @@ textarea button {
 }
 
 @media (min-width: 992px) {
+.c-nav__link {
+        text-decoration: none;
+        font-weight: 600;
+        display: block;
+        padding: 0px 20px;
+        font-size: 18px;
+    }
 .c-popup-content {
         width: 45%;
     }
-        .c-popup-content2 {
-            width: 45%;
-        }
+    .c-popup-content2 {
+        width: 45%;
+    }
+    .c-popup-content3 {
+        width: 45%;
+    }
     .testje {
             height: 115px;
         }
@@ -2414,6 +2448,9 @@ textarea button {
             width: 30%;
         }
         .c-popup-content2 {
+            width: 30%;
+        }
+        .c-popup-content3 {
             width: 30%;
         }
     .testje {

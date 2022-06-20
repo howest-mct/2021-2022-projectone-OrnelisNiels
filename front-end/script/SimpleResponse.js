@@ -471,6 +471,17 @@ const listenToSocketHistoriek = function () {
       getDataAll();
     }
   });
+  socketio.on('B2F_refreshBerichtenChart', function () {
+    if (weekBer == true) {
+      console.log('weekberrrr');
+      getDataBerichtenWeek();
+    } else if (allBer == true) {
+      console.log('allber');
+      getDataBerichtenAll();
+    } else {
+      console.log('NIKS');
+    }
+  });
 };
 
 const listenToInloggen = function () {
@@ -593,19 +604,21 @@ const listenToUI = function () {
           actie: 'aan',
           knopid: id,
         });
-        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
       } else if (id == 11) {
         socketio.emit('F2B_verander_ventilator', {
           actie: 'uitt',
           knopid: id,
         });
-        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
       } else if (id == 12) {
         socketio.emit('F2B_verander_led', {
           knopid: id,
           actie: 'auto',
         });
-        // errorMelding.innerHTML = 'Huidige setpoint: <b> °C</b>';
+      } else if (id == 13) {
+        document.querySelector('.js-shutdownTab').style.display = 'none';
+      } else if (id == 14) {
+        socketio.emit('F2B_shutdown');
+        document.querySelector('.js-shutdownTab').style.display = 'none';
       }
     });
   }
@@ -664,6 +677,15 @@ const listenToUI = function () {
   const ledCross = document.querySelector('.js-crossLed');
   ledCross.addEventListener('click', function () {
     document.querySelector('.js-ledTab').style.display = 'none';
+  });
+
+  const shutdownPopup = document.querySelector('.js-showShutdown');
+  shutdownPopup.addEventListener('click', function () {
+    document.querySelector('.js-shutdownTab').style.display = 'flex';
+  });
+  const crossShutdown = document.querySelector('.js-crossShutdown');
+  crossShutdown.addEventListener('click', function () {
+    document.querySelector('.js-shutdownTab').style.display = 'none';
   });
 };
 

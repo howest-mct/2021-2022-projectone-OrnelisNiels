@@ -236,6 +236,11 @@ def verander_kleur(data):
             4, 6, datum, actie, "Ledkleur veranderen")
 
 
+@socketio.on('F2B_shutdown')
+def shutdownPi():
+    callback_shutdown(18)
+
+
 @socketio.on('F2B_verander_ventilator')
 def verander_ventilator(data):
     global motorpwm, gewensteTemp, draaien, controleVentilator, var
@@ -295,6 +300,7 @@ def bericht_ontvangen(data):
         historiekdatum = DataRepository.read_berichtdatum_historiek(
             id, 1, id, 1)
         print(historiekdatum)
+        socketio.emit('B2F_refreshBerichtenChart')
         # emit('B2F_toon_berichten', {
         #  'berichten': berichten, "datum": historiekdatum})
         socketio.emit('B2F_nieuw_bericht')
@@ -415,11 +421,12 @@ def callback_knop(pin):
 
 
 def callback_shutdown(pin):
+    global lcdObject, motorpwm
     print("shutdown")
     lcdObject.reset_lcd()
     lcdObject.send_message("Afgesloten")
     motorpwm.stop()
-    time.sleep(5)
+    time.sleep(3)
     os.system("sudo shutdown -h now")
     sys.exit()
 
@@ -671,7 +678,6 @@ def programma():
             if licht < 20:
                 vorige_kleur()
             elif licht > 30:
-                print("uit")
                 Led1.RGB_set(100, 100, 100)
                 Led2.RGB_set(100, 100, 100)
                 Led3.RGB_set(100, 100, 100)
@@ -1012,6 +1018,7 @@ def programma():
                 berichtid = int(bericht[0]['max(berichtid)'])
                 DataRepository.create_historiek_bij_bericht(
                     10, berichtid, datum, "bericht verstuurd")
+                socketio.emit('B2F_refreshBerichtenChart')
                 vorigeOptie = optie
                 socketio.emit('B2F_nieuw_bericht')
                 positieTeller = -1
