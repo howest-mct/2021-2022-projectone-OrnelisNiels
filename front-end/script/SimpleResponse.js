@@ -265,15 +265,15 @@ const showBerichten = function (jsonObject) {
     for (let bericht of jsonObject.berichten) {
       if (bericht.gebruiker_gebruikerid != 1) {
         html += `<div class="container">
-          <span class="time-left">${bericht.naam}</span>
+          <span class="time-left u-fz">${bericht.naam}</span>
             <p class="c-bericht js-berichten">${bericht.berichtinhoud}</p>
-            <span class="time-right js-tijd">${bericht.datum}</span>
+            <span class="time-right js-tijd u-fz">${bericht.datum}</span>
             </div>`;
       } else {
         html += `<div class="container darker">
-              <span class="time-left__dark">${bericht.naam}</span>
+              <span class="time-left__dark u-fz">${bericht.naam}</span>
               <p class="c-bericht__darker js-berichten">${bericht.berichtinhoud}</p>
-              <span class="time-right__dark js-tijd">${bericht.datum}</span>
+              <span class="time-right__dark js-tijd u-fz">${bericht.datum}</span>
             </div>`;
       }
     }
@@ -502,6 +502,13 @@ const listenToInloggen = function () {
     window.location.href = `home.html?id=${jsonObject.id}`;
   });
 
+  socketio.on('B2F_log_in_error', function () {
+    const htmlMessageIndex = document.querySelector('.js-messageIndex');
+    console.log(htmlMessageIndex);
+    htmlMessageIndex.innerHTML =
+      '<p class="u-colorFont js-messageIndex">Error gebruiker bestaat niet.</p>';
+  });
+
   const htmlRegistratie = document.querySelector('.js-registratie');
   htmlRegistratie.addEventListener('click', function () {
     window.location.href = `registreren.html`;
@@ -536,6 +543,10 @@ const listenToRegistreren = function () {
 
   socketio.on('B2F_toon_succes', function (jsonObject) {
     window.location.href = `home.html?id=${jsonObject.id}`;
+  });
+  const terug = document.querySelector('.js-terug');
+  terug.addEventListener('click', function () {
+    window.location.href = `index.html`;
   });
 };
 
